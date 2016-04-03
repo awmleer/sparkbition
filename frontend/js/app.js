@@ -1,10 +1,7 @@
 var myApp = angular.module('myApp', ['ui.router']);
-myApp.config(function($stateProvider, $urlRouterProvider) {
-    //
-    // For any unmatched url, redirect to /state1
+myApp.config(function($stateProvider, $urlRouterProvider){
+    /*路由模块*/
     $urlRouterProvider.otherwise("/state1");
-    //
-    // Now set up the states
     $stateProvider
         .state('login', {
             url: "/login",
@@ -30,4 +27,7 @@ myApp.config(function($stateProvider, $urlRouterProvider) {
                 $scope.things = ["A", "Set", "Of", "Things"];
             }
         });
+
+
+
 });

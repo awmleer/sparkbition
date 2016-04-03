@@ -23,15 +23,10 @@
 
 </head>
 <body ng-app="myApp">
+<div ng-controller="ctrl_header" ng-include="'partials/header.html'" style="width: 100%;"></div>
 <div class="container">
-    <div id="header">
-        <div style="width: 50rem;" class="center-block">
-            <img src="img/logo.png" class="img-responsive">
-        </div>
-    </div>
     <div ui-view=""></div>
 </div>
-
 <a ui-sref="state1">State 1</a>
 <a ui-sref="state2">State 2</a>
 
