@@ -21,13 +21,17 @@
 
     <title>sparkbition</title>
 
+    <style>
+        .container{
+            margin:3rem;
+        }
+    </style>
 </head>
 <body ng-app="myApp">
 <div ng-controller="ctrl_header" ng-include="'partials/header.html'" style="width: 100%;"></div>
 <div class="container">
     <div ui-view=""></div>
 </div>
-<a ui-sref="state1">State 1</a>
 <a ui-sref="state2">State 2</a>
 
 <!--初始化-->

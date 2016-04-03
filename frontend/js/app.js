@@ -3,20 +3,11 @@ var app = angular.module('myApp', ['ui.router']);
 
 app.config(function($stateProvider, $urlRouterProvider){
     /*路由模块*/
-    $urlRouterProvider.otherwise("/state1");
+    $urlRouterProvider.otherwise("/tasks");
     $stateProvider
-        .state('login', {
-            url: "/login",
-            templateUrl:"../partials/state1.html"
-        })
-        .state('state1', {
-            url: "/state1",
-            templateUrl: "../partials/state1.html"
-        })
-        .state('state1.list', {
-            url: "/list",
-            templateUrl: "../partials/state1.list.html",
-            controller: "ctrl1"
+        .state('tasks', {
+            url: "/tasks",
+            templateUrl: "../partials/tasks.html"
         })
         .state('state2', {
             url: "/state2",
@@ -39,4 +30,22 @@ app.run(['$rootScope', '$window', '$location', '$log', function ($rootScope, $wi
     function locationChangeSuccess(event) {
         $rootScope.path=$location.path();
     }
+
+    $rootScope.groups=[
+        {
+            groupname:'分组1',
+            tasks:[
+                {
+                    title:'task1',
+                    type:'normal',
+                    remark:'some word here',
+                    tasker_main:'henry',
+                    tasker_other:['jim','john'],
+                    participator:['1','2','3'],
+                    publisher:'henry',
+                    ddl:'2016-4-3'
+                }
+            ]
+        }
+    ]
 }]);
