@@ -8,10 +8,7 @@ myApp.config(function($stateProvider, $urlRouterProvider) {
     $stateProvider
         .state('login', {
             url: "/login",
-            views: {
-                "viewA": { template: "../partials/state1.html" },
-                "viewB": { template: "index.viewB" }
-            }
+            templateUrl:"../partials/state1.html"
         })
         .state('state1', {
             url: "/state1",
