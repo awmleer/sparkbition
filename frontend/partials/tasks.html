@@ -1,8 +1,38 @@
-<div ng-repeat="group in groups" class="panel panel-primary" style="width: 30%;min-width: 20rem;">
-    <div class="panel-heading">
-        <h3 class="panel-title">{{ group.groupname }} <span class="label">{{ group.tasks.length }}</span></h3>
-    </div>
-    <div class="panel-body">
-        123
+<style>
+    .item .label{
+        float: right;
+        margin-top: 0.5rem
+    }
+    .panel_wrapper{
+        display: inline;
+    }
+</style>
+<div ng-repeat="group in groups" class="panel_wrapper col-sm-10 col-md-6 col-lg-4">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">{{ group.groupname }} <span class="badge">{{ group.tasks.length }}</span></h3>
+        </div>
+        <div class="panel-body">
+
+
+            <div class="list-group">
+                <div class="list-group-item"  ng-repeat="task in group.tasks">
+                    <div class="row-content">
+                        <!--日期&紧急程度-->
+                        <div class="least-content"><span class="label" ng-class="{'label-primary':task.type=='正常','label-warning':task.type=='紧急','label-danger':task.type=='火急'}">{{ task.type }}</span> <span class="label">{{ task.ddl | date:'MM-dd' }}</span></div>
+                        <!--标题-->
+                        <h4 class="list-group-item-heading">{{ task.title }}</h4>
+                        <!--备注-->
+                        <p ng-if="task.remark!=''">{{ task.remark }}</p>
+                        <p>负责：<span class="label">{{ task.tasker_main }}</span>&nbsp;&nbsp;<span ng-repeat="tasker in task.tasker_other">{{ tasker }}&nbsp;&nbsp;</span></p>
+                        <p>参加：<span ng-repeat="participator in task.participators">{{ participator }}&nbsp;&nbsp;</span></p>
+                        <p>发布：{{ task.publisher }}</p>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+
+
+        </div>
     </div>
 </div>
