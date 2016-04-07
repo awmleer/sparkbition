@@ -9,6 +9,10 @@ app.config(function($stateProvider, $urlRouterProvider){
             url: "/tasks",
             templateUrl: "../partials/tasks.html"
         })
+        .state('message', {
+            url: "/message",
+            templateUrl: "../partials/message.html"
+        })
         .state('state2', {
             url: "/state2",
             templateUrl: "../partials/state2.html"
@@ -31,6 +35,18 @@ app.run(['$rootScope', '$window', '$location', '$log', function ($rootScope, $wi
         $rootScope.path=$location.path();
     }
 
+    
+    /*获取任务分组*/
+    $http({
+        url: 'api/task',
+        method: 'get',
+        params: {}
+    }).success(function (data) {
+        $rootScope.groups=data;
+    }).error(function () {
+        alert("获取信息失败，请稍后再试");
+    });
+    
     $rootScope.groups=[
         {
             groupname:'主要任务',
@@ -43,7 +59,8 @@ app.run(['$rootScope', '$window', '$location', '$log', function ($rootScope, $wi
                     tasker_other:['jim','john'],
                     participators:['1','2','3'],
                     publisher:'henry',
-                    ddl:'1288323623006'
+                    ddl:'1288323623006',
+                    score:''
                 },
                 {
                     title:'task2',
