@@ -7,19 +7,20 @@ app.config(function($stateProvider, $urlRouterProvider){
     $stateProvider
         .state('tasks', {
             url: "/tasks",
-            templateUrl: "../partials/tasks.html"
+            templateUrl: "partials/tasks.html",
+            controller:'ctrl_task'
         })
         .state('message', {
             url: "/message",
-            templateUrl: "../partials/message.html"
+            templateUrl: "partials/message.html"
         })
         .state('state2', {
             url: "/state2",
-            templateUrl: "../partials/state2.html"
+            templateUrl: "partials/state2.html"
         })
         .state('state2.list', {
             url: "/list",
-            templateUrl: "../partials/state2.list.html",
+            templateUrl: "partials/state2.list.html",
             controller: function($scope) {
                 $scope.things = ["A", "Set", "Of", "Things"];
             }
@@ -28,7 +29,7 @@ app.config(function($stateProvider, $urlRouterProvider){
 });
 
 
-app.run(['$rootScope', '$window', '$location', '$log', function ($rootScope, $window, $location, $log) {
+app.run(['$rootScope', '$window', '$location', '$log', function ($rootScope, $window, $location, $log,$http) {
     //监听location的变化，实时更新path变量
     var locationChangeSuccessOff = $rootScope.$on('$locationChangeSuccess', locationChangeSuccess);
     function locationChangeSuccess(event) {
@@ -36,16 +37,7 @@ app.run(['$rootScope', '$window', '$location', '$log', function ($rootScope, $wi
     }
 
     
-    /*获取任务分组*/
-    $http({
-        url: 'api/task',
-        method: 'get',
-        params: {}
-    }).success(function (data) {
-        $rootScope.groups=data;
-    }).error(function () {
-        alert("获取信息失败，请稍后再试");
-    });
+
     
     $rootScope.groups=[
         {
