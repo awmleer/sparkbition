@@ -39,7 +39,7 @@
                             <p>支持：<span ng-if="task.upvoters.length==0">还没有人支持呢...</span><span ng-repeat="upvoter in task.upvoters">{{ upvoter }}&nbsp;&nbsp;</span></p>
                         </td>
                         <td class="td_right">
-                            <span class="label" ng-class="{'label-primary':task.type=='正常','label-warning':task.type=='紧急','label-danger':task.type=='火急'}">{{ task.type }}</span>
+                            <span class="label" ng-class="{'label-primary':task.urgency=='正常','label-warning':task.urgency=='紧急','label-danger':task.urgency=='火急'}">{{ task.urgency }}</span>
                             <span class="label">{{ task.ddl | date:'MM-dd' }}</span>
                             <br>
                             <h1>{{ task.base_score*(1+0.1*task.upvoters.length) }}</h1>

@@ -3,12 +3,17 @@ var app = angular.module('myApp', ['ui.router']);
 
 app.config(function($stateProvider, $urlRouterProvider){
     /*路由模块*/
-    $urlRouterProvider.otherwise("/tasks");
+    // $urlRouterProvider.otherwise("/tasks");
     $stateProvider
         .state('tasks', {
             url: "/tasks",
             templateUrl: "partials/tasks.html",
             controller:'ctrl_task'
+        })
+        .state('newtask', {
+            url: "/newtask",
+            templateUrl: "partials/newtask.html",
+            controller:'ctrl_newtask'
         })
         .state('message', {
             url: "/message",
@@ -46,7 +51,7 @@ app.run(['$rootScope', '$window', '$location', '$log', function ($rootScope, $wi
             tasks:[
                 {
                     title:'完善通讯录aaweeeeg',
-                    type:'正常',
+                    urgency:'正常',
                     remark:'some word here',
                     tasker_main:'henry',
                     tasker_other:['jim','john'],
@@ -58,7 +63,7 @@ app.run(['$rootScope', '$window', '$location', '$log', function ($rootScope, $wi
                 },
                 {
                     title:'task2',
-                    type:'正常',
+                    urgency:'正常',
                     remark:'',
                     tasker_main:'12',
                     tasker_other:['小李','小王'],
@@ -70,7 +75,7 @@ app.run(['$rootScope', '$window', '$location', '$log', function ($rootScope, $wi
                 },
                 {
                     title:'紧急会议',
-                    type:'紧急',
+                    urgency:'紧急',
                     remark:'some word here',
                     tasker_main:'henry',
                     tasker_other:['smith','harry'],
@@ -88,7 +93,7 @@ app.run(['$rootScope', '$window', '$location', '$log', function ($rootScope, $wi
             tasks:[
                 {
                     title:'task1',
-                    type:'火急',
+                    urgency:'火急',
                     remark:'some word here',
                     tasker_main:'henry',
                     tasker_other:['jim','john'],

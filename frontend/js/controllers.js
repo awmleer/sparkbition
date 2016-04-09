@@ -27,3 +27,23 @@ app.controller("ctrl_task",function($scope,$rootScope,$location,$http) {
     //     alert("获取信息失败，请稍后再试");
     // });
 });
+
+app.controller("ctrl_newtask",function($scope,$rootScope,$location,$http) {
+    //select的options
+    // $scope.groups=[];
+
+    $rootScope.newtask={};
+    $rootScope.newtask.group=$rootScope.groups[1];
+
+    // 设置默认的option
+    // $rootScope.newtask={
+    //     groupname:'主要任务'
+    // };
+    $scope.loginfo=function () {
+        console.log($rootScope.newtask);
+    };
+    var search=$location.search();
+    if (search.groupname) {
+        
+    }
+});
