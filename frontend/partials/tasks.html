@@ -34,15 +34,23 @@
                             <!--备注-->
                             <p ng-if="task.remark!=''">{{ task.remark }}</p>
                             <p>负责：<span class="label">{{ task.tasker_main }}</span>&nbsp;&nbsp;<span ng-repeat="tasker in task.tasker_other">{{ tasker }}&nbsp;&nbsp;</span></p>
-                            <p>参加：<span ng-repeat="participator in task.participators">{{ participator }}&nbsp;&nbsp;</span>
-                            </p>
+                            <p>参加：<span ng-repeat="participator in task.participators">{{ participator }}&nbsp;&nbsp;</span></p>
                             <p>发布：{{ task.publisher }}</p>
+                            <p>支持：<span ng-if="task.upvoters.length==0">还没有人支持呢...</span><span ng-repeat="upvoter in task.upvoters">{{ upvoter }}&nbsp;&nbsp;</span></p>
                         </td>
                         <td class="td_right">
                             <span class="label" ng-class="{'label-primary':task.type=='正常','label-warning':task.type=='紧急','label-danger':task.type=='火急'}">{{ task.type }}</span>
                             <span class="label">{{ task.ddl | date:'MM-dd' }}</span>
+                            <br>
+                            <h1>{{ task.base_score*(1+0.1*task.upvoters.length) }}</h1>
+                            <p>{{ task.base_score }}×{{ 1+0.1*task.upvoters.length }}</p>
                         </td>
                     </tr>
+                    <tr><td>
+                        <button class="btn btn-raised btn-default">支持</button>
+                        <button class="btn btn-raised btn-default">修改</button>
+                        <button class="btn btn-raised btn-default">完成</button>
+                    </td></tr>
                     <tr><td colspan="2"><hr></td></tr>
                     </tbody>
                 </table>
@@ -51,3 +59,10 @@
         </div>
     </div>
 </div>
+
+<!--初始化-->
+<script>
+    $(document).ready(function () {
+        $.material.init();
+    });
+</script>

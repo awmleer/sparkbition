@@ -63,7 +63,9 @@ app.run(['$rootScope', '$window', '$location', '$log', function ($rootScope, $wi
                     tasker_other:['小李','小王'],
                     participators:['1','2','3'],
                     publisher:'小华',
-                    ddl:'1289355623006'
+                    ddl:'1289355623006',
+                    base_score:3,
+                    upvoters:[]
                 },
                 {
                     title:'紧急会议',
@@ -73,7 +75,9 @@ app.run(['$rootScope', '$window', '$location', '$log', function ($rootScope, $wi
                     tasker_other:['smith','harry'],
                     participators:['1','2','3'],
                     publisher:'小明',
-                    ddl:'1285978923006'
+                    ddl:'1285978923006',
+                    base_score:2,
+                    upvoters:['henry']
                 }
             ]
         },
@@ -88,7 +92,9 @@ app.run(['$rootScope', '$window', '$location', '$log', function ($rootScope, $wi
                     tasker_other:['jim','john'],
                     participators:['1','2','3'],
                     publisher:'mary',
-                    ddl:'1285978923006'
+                    ddl:'1285978923006',
+                    base_score:'5',
+                    upvoters:['jim','小华']
                 }
             ]
         }
