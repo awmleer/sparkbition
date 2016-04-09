@@ -44,7 +44,7 @@ app.run(['$rootScope', '$window', '$location', '$log', function ($rootScope, $wi
             groupname:'主要任务',
             tasks:[
                 {
-                    title:'完善通讯录',
+                    title:'完善通讯录aaweeeeg',
                     type:'正常',
                     remark:'some word here',
                     tasker_main:'henry',
@@ -52,7 +52,8 @@ app.run(['$rootScope', '$window', '$location', '$log', function ($rootScope, $wi
                     participators:['1','2','3'],
                     publisher:'henry',
                     ddl:'1288323623006',
-                    score:''
+                    base_score:'5',
+                    upvoters:['jim','小华']
                 },
                 {
                     title:'task2',
@@ -87,7 +88,7 @@ app.run(['$rootScope', '$window', '$location', '$log', function ($rootScope, $wi
                     tasker_other:['jim','john'],
                     participators:['1','2','3'],
                     publisher:'mary',
-                    ddl:'2016-4-3'
+                    ddl:'1285978923006'
                 }
             ]
         }
