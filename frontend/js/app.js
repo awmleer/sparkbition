@@ -42,6 +42,7 @@ app.run(['$rootScope', '$window', '$location', '$log', function ($rootScope, $wi
     $rootScope.groups=[
         {
             groupname:'主要任务',
+            index:0,
             tasks:[
                 {
                     title:'完善通讯录aaweeeeg',
@@ -83,6 +84,7 @@ app.run(['$rootScope', '$window', '$location', '$log', function ($rootScope, $wi
         },
         {
             groupname:'技术任务',
+            index:1,
             tasks:[
                 {
                     title:'task1',

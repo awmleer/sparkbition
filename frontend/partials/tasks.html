@@ -17,7 +17,7 @@
         text-align: right;
     }
 </style>
-<div ng-repeat="group in groups" class="panel_wrapper col-sm-10 col-md-6 col-lg-5">
+<div ng-repeat="group in groups | orderBy:'index'" class="panel_wrapper col-sm-12 col-md-6 col-lg-5">
     <div class="panel panel-primary">
         <div class="panel-heading">
             <h3 class="panel-title">{{ group.groupname }} <span class="badge">{{ group.tasks.length }}</span></h3>
@@ -60,9 +60,4 @@
     </div>
 </div>
 
-<!--初始化-->
-<script>
-    $(document).ready(function () {
-        $.material.init();
-    });
-</script>
+<!--TODO 涟漪动画效果无法显示-->

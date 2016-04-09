@@ -2,7 +2,7 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!--bootstrap & material design-->
     <link href="static/bootstrap/bootstrap.min.css" rel="stylesheet">
@@ -24,6 +24,13 @@
     <style>
         .container{
             margin:3rem;
+        }
+
+        @media screen and (max-device-width:600px){
+            .container{
+                margin:0;
+                width:100%;
+            }
         }
     </style>
 </head>

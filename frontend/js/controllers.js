@@ -18,7 +18,7 @@ app.controller("ctrl_header",function($scope,$rootScope,$location,$http) {
 app.controller("ctrl_task",function($scope,$rootScope,$location,$http) {
     // /*获取任务分组*/
     // $http({
-    //     url: 'api/task',
+    //     url: 'http://120.27.123.112:5001/sparkbition/api/test',
     //     method: 'get',
     //     params: {}
     // }).success(function (data) {
