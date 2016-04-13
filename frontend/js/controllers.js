@@ -16,16 +16,17 @@ app.controller("ctrl_header",function($scope,$rootScope,$location,$http) {
 
 
 app.controller("ctrl_task",function($scope,$rootScope,$location,$http) {
-    // /*获取任务分组*/
-    // $http({
-    //     url: 'http://120.27.123.112:5001/sparkbition/api/test',
-    //     method: 'get',
-    //     params: {}
-    // }).success(function (data) {
-    //     $rootScope.groups=data;
-    // }).error(function () {
-    //     alert("获取信息失败，请稍后再试");
-    // });
+
+    /*获取任务*/
+    $http({
+        url: 'http://120.27.123.112:5001/sparkbition/api/task',
+        method: 'get',
+        params: {}
+    }).success(function (data) {
+        $rootScope.groups=data;
+    }).error(function () {
+        alert("获取信息失败，请稍后再试");
+    });
 });
 
 app.controller("ctrl_newtask",function($scope,$rootScope,$location,$http) {

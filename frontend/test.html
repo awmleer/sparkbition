@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="static/jquery.min.js"></script>
+    <link rel="stylesheet" href="static/bootstrap/bootstrap.min.css">
+    <script src="static/bootstrap/bootstrap.min.js"></script>
+    <!--icheck-->
+    <link rel="stylesheet" href="static/icheck/skins/square/green.css">
+    <script src="static/icheck/icheck.min.js"></script>
+    <title>test</title>
+</head>
+<body>
+
+<input type="checkbox" name="quux[1]">
+
+<script>
+    $(document).ready(function () {
+        $('input').iCheck({
+            checkboxClass: 'icheckbox_square-green',
+            radioClass: 'iradio_square-green',
+            increaseArea: '20%'
+        });
+    });
+</script>
+
+
+</body>
+</html>
