@@ -10,14 +10,20 @@
     .table_task{
         width:100%;
     }
+    .table_task tbody:hover{
+        background: #c8c8c8;
+    }
     .table_task td{
         vertical-align: top;
+    }
+    .tr_hr{
+        background: white !important;
     }
     .td_right{
         text-align: right;
     }
 </style>
-<div ng-repeat="group in groups | orderBy:'index'" class="panel_wrapper col-sm-12 col-md-6 col-lg-5">
+<div ng-repeat="group in groups | orderBy:'index'" class="panel_wrapper col-sm-12 col-md-6 col-lg-4">
     <div class="panel panel-primary">
         <div class="panel-heading">
             <h3 class="panel-title">{{ group.groupname }} <span class="badge">{{ group.tasks.length }}</span></h3>
@@ -46,12 +52,12 @@
                             <p>{{ task.base_score }}×{{ 1+0.1*task.upvoters.length }}</p>
                         </td>
                     </tr>
-                    <tr><td>
+                    <tr><td colspan="2">
                         <button class="btn btn-raised btn-default">支持</button>
                         <button class="btn btn-raised btn-default">修改</button>
                         <button class="btn btn-raised btn-default">完成</button>
                     </td></tr>
-                    <tr><td colspan="2"><hr></td></tr>
+                    <tr class="tr_hr"><td colspan="2"><hr></td></tr>
                     </tbody>
                 </table>
             </div>

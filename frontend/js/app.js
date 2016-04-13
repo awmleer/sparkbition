@@ -104,6 +104,24 @@ app.run(['$rootScope', '$window', '$location', '$log', function ($rootScope, $wi
                     upvoters:['jim','小华']
                 }
             ]
+        },
+        {
+            groupname:'技术任务',
+            index:1,
+            tasks:[
+                {
+                    title:'task1',
+                    urgency:'火急',
+                    remark:'some word here',
+                    tasker_main:'henry',
+                    tasker_other:['jim','john'],
+                    participators:['1','2','3'],
+                    publisher:'mary',
+                    ddl:'1285978923006',
+                    base_score:'5',
+                    upvoters:['jim','小华']
+                }
+            ]
         }
     ]
 }]);
