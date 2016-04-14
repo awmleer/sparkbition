@@ -27,23 +27,7 @@ app.controller("ctrl_task",function($scope,$rootScope,$location,$http) {
     // }).error(function () {
     //     alert("获取信息失败，请稍后再试");
     // });
-
-    function task_find(id) {
-
-    }
-
-    $scope.icheck_init= function () {
-        $('input').iCheck({
-            checkboxClass: 'icheckbox_square-green',
-            radioClass: 'iradio_square-green',
-            increaseArea: '20%'
-        });
-        $('input').on('ifChecked', function(event){
-            console.log(this);
-            $(this).attr("checked",true);
-            console.log(this);
-        });
-    }
+    
 });
 
 app.controller("ctrl_newtask",function($scope,$rootScope,$location,$http) {

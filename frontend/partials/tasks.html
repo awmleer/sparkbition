@@ -43,10 +43,10 @@
                     <tbody>
                     <tr ng-repeat="task in group.tasks | orderBy:'completed'" ng-class="{'tr_task_completed':task.completed}">
                         <td style="padding-top: 18px">
-                            <input id="{{ task.id }}" type="checkbox" name="task_check" ng-model="task.completed" onclick="alert('123');">
+                            <input type="checkbox" class="checkbox_flat" name="task_check" ng-model="task.completed" style="background: #eee;border:1px solid #ddd;width: 1.5em;height: 1.5em;">
                         </td>
                         <td>
-                            <h4  ng-init="icheck_init()">{{ task.title }}</h4>
+                            <h4>{{ task.title }}</h4>
                             <span class="label">{{ task.tasker_main }}</span>
                             <span class="label" ng-class="{'label-primary':task.urgency=='正常','label-warning':task.urgency=='紧急','label-danger':task.urgency=='火急'}">{{ task.urgency }}</span>
                             <span class="label">{{ task.ddl | date:'MM-dd' }}</span>
