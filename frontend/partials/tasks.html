@@ -48,7 +48,7 @@
                         <td ng-click="show_task_info()">
                             <h4>{{ task.title }}</h4>
                             <span class="label">{{ task.tasker_main }}</span>
-                            <span class="label" ng-class="{'label-primary':task.urgency=='正常','label-warning':task.urgency=='紧急','label-danger':task.urgency=='火急'}">{{ task.urgency }}</span>
+                            <span ng-if="task.urgency!='正常'" class="label" ng-class="{'label-primary':task.urgency=='正常','label-warning':task.urgency=='紧急','label-danger':task.urgency=='火急'}">{{ task.urgency }}</span>
                             <span class="label">{{ task.ddl | date:'MM-dd' }}</span>
                             <span class="label"><span class="glyphicon glyphicon-thumbs-up"></span> {{ task.upvoters.length }}</span>
                         </td>
