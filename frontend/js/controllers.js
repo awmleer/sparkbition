@@ -27,7 +27,20 @@ app.controller("ctrl_task",function($scope,$rootScope,$location,$http) {
     // }).error(function () {
     //     alert("获取信息失败，请稍后再试");
     // });
+
+    //模型-正在查看的task
+    $scope.task_looking={};
+
+    //点击任务弹出模态框
+    $scope.show_task_info= function () {
+        //显示任务详情
+        $scope.task_looking=this.task;
+        $("#modal_task").modal();
+    };
     
+    $scope.test= function () {
+        alert("123");
+    };
 });
 
 app.controller("ctrl_newtask",function($scope,$rootScope,$location,$http) {
