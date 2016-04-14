@@ -24,20 +24,24 @@
     }
 </style>
 
-<div ng-repeat="group in groups | orderBy:'index'" class="panel_wrapper col-sm-12 col-md-6 col-lg-4">
+<div ng-repeat="group in groups | orderBy:'index'"  class="panel_wrapper col-sm-12 col-md-6 col-lg-4">
     <div class="panel panel-primary">
         <div class="panel-heading">
             <h3 class="panel-title">{{ group.groupname }} <span class="badge">{{ group.tasks.length }}</span></h3>
         </div>
 
                 <table class="table table-hover">
+                    <colgroup>
+                        <col width="1%">
+                        <col width="99%">
+                    </colgroup>
                     <tbody>
                     <tr ng-repeat="task in group.tasks">
-                        <td>
+                        <td style="padding-top: 18px">
                             <input type="checkbox" name="quux[1]">
                         </td>
                         <td>
-                            <h4>{{ task.title }}</h4>
+                            <h4  ng-init="inittest()">{{ task.title }}</h4>
                             <span class="label">{{ task.tasker_main }}</span>
                             <span class="label" ng-class="{'label-primary':task.urgency=='正常','label-warning':task.urgency=='紧急','label-danger':task.urgency=='火急'}">{{ task.urgency }}</span>
                             <span class="label">{{ task.ddl | date:'MM-dd' }}</span>
@@ -85,15 +89,5 @@
     </div>
 </div>
 
-
-<script>
-    $(document).ready(function () {
-        $('input').iCheck({
-            checkboxClass: 'icheckbox_square-green',
-            radioClass: 'iradio_square-green',
-            increaseArea: '20%'
-        });
-    });
-</script>
 
 <!--TODO 涟漪动画效果无法显示-->
