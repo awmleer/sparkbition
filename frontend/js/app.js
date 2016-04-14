@@ -60,7 +60,8 @@ app.run(['$rootScope', '$window', '$location', '$log', function ($rootScope, $wi
                     publisher:'henry',
                     ddl:'1288323623006',
                     base_score:'5',
-                    upvoters:['jim','小华']
+                    upvoters:['jim','小华'],
+                    completed:true
                 },
                 {
                     id:3,
@@ -73,7 +74,8 @@ app.run(['$rootScope', '$window', '$location', '$log', function ($rootScope, $wi
                     publisher:'小华',
                     ddl:'1289355623006',
                     base_score:3,
-                    upvoters:[]
+                    upvoters:[],
+                    completed:true
                 },
                 {
                     id:4,
@@ -86,7 +88,8 @@ app.run(['$rootScope', '$window', '$location', '$log', function ($rootScope, $wi
                     publisher:'小明',
                     ddl:'1285978923006',
                     base_score:2,
-                    upvoters:['henry']
+                    upvoters:['henry'],
+                    completed:false
                 }
             ]
         },
@@ -105,7 +108,8 @@ app.run(['$rootScope', '$window', '$location', '$log', function ($rootScope, $wi
                     publisher:'mary',
                     ddl:'1285978923006',
                     base_score:'5',
-                    upvoters:['jim','小华']
+                    upvoters:['jim','小华'],
+                    completed:false
                 }
             ]
         }
