@@ -29,6 +29,7 @@ app.controller("ctrl_task",function($scope,$rootScope,$location,$http) {
     //     alert("获取信息失败，请稍后再试");
     // });
 
+
     //模型-正在查看的task
     $scope.task_looking={};
 
@@ -57,6 +58,15 @@ app.controller("ctrl_newtask",function($scope,$rootScope,$location,$http) {
     };
     $scope.loginfo=function () {
         console.log($rootScope.newtask);
+    };
+    
+    $scope.freshdata= function () {
+        $scope.$watch();
+        $scope.$apply();
+        $scope.$digest();
+        console.log("done");
+        console.log($scope.newtask);
+        console.log($("#date-format").val());
     };
     var search=$location.search();
     if (search.groupname) {

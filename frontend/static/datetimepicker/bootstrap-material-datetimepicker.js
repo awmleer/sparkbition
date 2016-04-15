@@ -1,8 +1,10 @@
+/*声明：这个datetimepicker是改装后的，为了和angular的双向数据绑定兼容*/
+
 (function($, moment)
 {
 	var pluginName = "bootstrapMaterialDatePicker";
   	var pluginDataName = "plugin_" + pluginName;
-  	
+
   	moment.locale('en');
 
 	function Plugin(element, options)
@@ -11,6 +13,7 @@
 
 		this.minDate;
 		this.maxDate;
+		scope=angular.element(element).scope();
 
 		this._attachedEvents = [];
 
@@ -258,7 +261,7 @@
 									'</div>' +
 									'<div class="dtp-buttons">' +
 										'<button class="dtp-btn-cancel btn btn-flat">' + this.params.cancelText + '</button>' +
-										'<button class="dtp-btn-ok btn btn-flat">' + this.params.okText + '</button>' +
+										'<button class="dtp-btn-ok btn btn-flat" onclick="scope.freshdata();">' + this.params.okText + '</button>' +
 										'<div class="clearfix"></div>' +
 									'</div>' +
 								'</div>' +
