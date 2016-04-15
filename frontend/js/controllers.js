@@ -4,6 +4,7 @@ app.controller("ctrl1",function($scope,$rootScope) {
 
 
 
+
 app.controller("ctrl_header",function($scope,$rootScope,$location,$http) {
     $scope.userinfo={
         name:'小明'
@@ -39,7 +40,7 @@ app.controller("ctrl_task",function($scope,$rootScope,$location,$http) {
     };
     
     $scope.test= function () {
-        alert("123");
+        alert(this.task.completed);
     };
 });
 
@@ -51,9 +52,9 @@ app.controller("ctrl_newtask",function($scope,$rootScope,$location,$http) {
     $rootScope.newtask.group=$rootScope.groups[1];
 
     // 设置默认的option
-    // $rootScope.newtask={
-    //     groupname:'主要任务'
-    // };
+    $rootScope.newtask={
+        groupname:'主要任务'
+    };
     $scope.loginfo=function () {
         console.log($rootScope.newtask);
     };

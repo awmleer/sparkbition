@@ -3,7 +3,7 @@ var app = angular.module('myApp', ['ui.router']);
 
 app.config(function($stateProvider, $urlRouterProvider){
     /*路由模块*/
-    // $urlRouterProvider.otherwise("/tasks");
+    $urlRouterProvider.otherwise("/tasks");
     $stateProvider
         .state('tasks', {
             url: "/tasks",

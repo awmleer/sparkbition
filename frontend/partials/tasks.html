@@ -29,6 +29,9 @@
     }
 </style>
 
+<div class="visible-xs-block">
+    <a ui-sref="newtask" class="btn btn-primary btn-raised btn-block">添加任务</a>
+</div>
 <div ng-repeat="group in groups | orderBy:'index'"  class="panel_wrapper col-sm-12 col-md-6 col-lg-4">
     <div class="panel panel-primary">
         <div class="panel-heading">
@@ -43,7 +46,7 @@
                     <tbody>
                     <tr ng-repeat="task in group.tasks | orderBy:'completed'" ng-class="{'tr_task_completed':task.completed}">
                         <td style="padding-top: 18px">
-                            <input type="checkbox" class="checkbox_flat" name="task_check" ng-model="task.completed" style="background: #eee;border:1px solid #ddd;width: 1.5em;height: 1.5em;">
+                            <input ng-click="test()" type="checkbox" class="checkbox_flat" name="task_check" ng-model="task.completed" style="background: #eee;border:1px solid #ddd;width: 1.5em;height: 1.5em;">
                         </td>
                         <td ng-click="show_task_info()">
                             <h4>{{ task.title }}</h4>
