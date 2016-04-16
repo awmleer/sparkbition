@@ -13,14 +13,13 @@
 
 		this.minDate;
 		this.maxDate;
-		scope=angular.element(element).scope();
 
 		this._attachedEvents = [];
 
 		this.element = element;
 		this.$element = $(element);
 
-		this.params = { date : true, time : true, format : 'YYYY-MM-DD', minDate : null, maxDate : null, currentDate : null, lang : 'en', weekStart : 0, shortTime : false, 'cancelText' : 'Cancel', 'okText' : 'OK' };
+		this.params = { date : true, time : true, format : 'x', minDate : null, maxDate : null, currentDate : null, lang : 'en', weekStart : 0, shortTime : false, 'cancelText' : '取消', 'okText' : '确定' };
 		this.params = $.fn.extend(this.params, options);
 
 		this.name = "dtp_" + this.setName();
@@ -261,7 +260,7 @@
 									'</div>' +
 									'<div class="dtp-buttons">' +
 										'<button class="dtp-btn-cancel btn btn-flat">' + this.params.cancelText + '</button>' +
-										'<button class="dtp-btn-ok btn btn-flat" onclick="scope.freshdata();">' + this.params.okText + '</button>' +
+										'<button class="dtp-btn-ok btn btn-flat">' + this.params.okText + '</button>' +
 										'<div class="clearfix"></div>' +
 									'</div>' +
 								'</div>' +
@@ -898,8 +897,17 @@
 					this.initMinutes(); 
 					break;
 				case 2: 
+					// var $body = angular.element(document.body);   // 1
+					// var $rootScope = $body.scope().$root;         // 2
+					// $rootScope.$apply(function () {               // 3
+					// 	$rootScope.newtask.ddl = "123";
+					// });
 					this.setElementValue();
 					this.hide();
+					//刷新数据模型
+					// scope.$watch();
+					// scope.$apply();
+					// scope.$digest();
 					break;
 			}
 		},

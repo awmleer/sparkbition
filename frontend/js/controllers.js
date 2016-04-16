@@ -60,14 +60,6 @@ app.controller("ctrl_newtask",function($scope,$rootScope,$location,$http) {
         console.log($rootScope.newtask);
     };
     
-    $scope.freshdata= function () {
-        $scope.$watch();
-        $scope.$apply();
-        $scope.$digest();
-        console.log("done");
-        console.log($scope.newtask);
-        console.log($("#date-format").val());
-    };
     var search=$location.search();
     if (search.groupname) {
         

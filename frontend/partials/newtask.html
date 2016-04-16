@@ -25,10 +25,12 @@
                 <label for="textArea" class="col-md-2 control-label">DDL</label>
                 <div class="col-md-10">
                     <div class="form-control-wrapper">
-                        <input ng-model="newtask.ddl" type="text" id="date-format" class="form-control floating-label" placeholder="Begin Date Time">
+                        <input style="display: inline;width: 50%;" ng-model="newtask.ddl" type="text" id="date-format" class="form-control" placeholder="请选择日期">
+                        <p style="display: inline;width: 50%;">{{ newtask.ddl | date:'yyyy-MM-dd HH:mm'}}</p>
                     </div>
                 </div>
             </div>
+
 
 
             <div class="form-group">
@@ -93,6 +95,5 @@
 </div>
 
 <script>
-    $('#date-format').bootstrapMaterialDatePicker();
-    $('#date-format').bootstrapMaterialDatePicker('setDate', moment());
+    $('#date-format').bootstrapMaterialDatePicker().bootstrapMaterialDatePicker('setDate', moment());
 </script>
