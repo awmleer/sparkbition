@@ -81,7 +81,7 @@ app.run(['$rootScope', '$window', '$location', '$log', function ($rootScope, $wi
                     ddl:'1288323623006',
                     base_score:'5',
                     upvoters:['jim','小华'],
-                    completed:true
+                    status:0
                 },
                 {
                     id:3,
@@ -95,7 +95,7 @@ app.run(['$rootScope', '$window', '$location', '$log', function ($rootScope, $wi
                     ddl:'1289355623006',
                     base_score:3,
                     upvoters:[],
-                    completed:true
+                    status:2
                 },
                 {
                     id:4,
@@ -109,7 +109,7 @@ app.run(['$rootScope', '$window', '$location', '$log', function ($rootScope, $wi
                     ddl:'1285978923006',
                     base_score:2,
                     upvoters:['henry'],
-                    completed:false
+                    status:0
                 }
             ]
         },
@@ -129,7 +129,7 @@ app.run(['$rootScope', '$window', '$location', '$log', function ($rootScope, $wi
                     ddl:'1285978923006',
                     base_score:'5',
                     upvoters:['jim','小华'],
-                    completed:false
+                    status:1
                 }
             ]
         }

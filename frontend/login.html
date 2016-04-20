@@ -64,13 +64,14 @@
             return;
         }
         $.ajax({
-            url: "http://120.27.123.112:5000/api/login",
+            url: "api/login",
             type: "get",
             data: {
                 name:name,
                 password:password
             }
         }).done(function (data) {
+            console.log(data);
             alert("请求成功");
         }).fail(function () {
             alert("获取信息失败，请稍后再试");
@@ -80,7 +81,7 @@
 
     function test() {
         $.ajax({
-            url: "http://120.27.123.112:5000/api/func1",
+            url: "api/func1",
             type: "get",
             data: {
                 testdata: "test_success!"

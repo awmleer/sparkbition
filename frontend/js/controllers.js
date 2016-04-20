@@ -51,8 +51,15 @@ app.controller("ctrl_task",function($scope,$rootScope,$location,$http) {
     
     
     $scope.complete_task= function (task_id) {
-        alert(task_id);
-        
+        if (confirm("确定要完成这项任务吗？")) {
+            for(var i=0;i<$rootScope.groups.length;i++){
+                for(var j=0;j<$rootScope.groups[i].tasks.length;j++){
+                    if($rootScope.groups[i].tasks[j]['id'] ==task_id){
+                        $rootScope.groups[i].tasks[j]['status'] = 1;
+                    }
+                }
+            }
+        }
     };
     
     $scope.test= function () {
