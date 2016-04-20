@@ -11,6 +11,15 @@ app.controller("ctrl_header",function($scope,$rootScope,$location,$http) {
     };
     $scope.logout=function () {
         //api logout
+        $http({
+            url: 'api/logout',
+            method: 'get',
+            params: {}
+        }).success(function (data) {
+            location.href="login.html";
+        }).error(function () {
+            alert("获取信息失败，请稍后再试");
+        });
     }
 });
 
@@ -40,10 +49,18 @@ app.controller("ctrl_task",function($scope,$rootScope,$location,$http) {
         $("#modal_task").modal();
     };
     
+    
+    $scope.complete_task= function (task_id) {
+        alert(task_id);
+        
+    };
+    
     $scope.test= function () {
         alert(this.task.completed);
     };
 });
+
+
 
 app.controller("ctrl_newtask",function($scope,$rootScope,$location,$http) {
     //select的options
