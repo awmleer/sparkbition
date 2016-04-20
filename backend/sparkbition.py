@@ -3,6 +3,7 @@
 from flask import Flask, request, make_response
 import time
 import hashlib
+import base64
 import pymongo
 import json
 import datetime
@@ -21,13 +22,16 @@ client.admin.authenticate('fqs', '123456', mechanism='MONGODB-CR')
 uri = "mongodb://fqs:123456@120.27.123.112/admin?authMechanism=MONGODB-CR"
 client = MongoClient(uri)
 
+salt = '5aWZak2n35Wk fqsws'
 
-db = client['sparkbition']
-coll = db['users']
-aa = '789456'
-bb = hashlib.md5(aa)
-abc = {'password': '213'}
-coll.insert_one(abc)
+# db = client['sparkbition']
+# coll = db['users']
+# aa = '6546'
+# bb = hashlib.md5(aa + salt)
+# abc = {'password': bb.hexdigest()}
+# coll.insert_one(abc)
+
+# bb = base64.b64encode(salt + aa)
 
 @app.route('/sparkbition/api/task')
 def task():
