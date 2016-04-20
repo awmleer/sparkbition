@@ -74,6 +74,19 @@ def logout():
     resp.set_cookie('username', None)
     return resp
 
+@app.route('/api/userinfo')
+def userinfo():
+    username = request.cookies.get('username')
+    usernam = base64.b64decode(username)
+    usernam = usernam[18:]
+    db = client['sparkbition']
+    coll = db['users']
+    a1 = coll.find_one({'username': usernam})
+    del a1['password']
+    aaa = dumps(a1)
+    resp = make_response(aaa, 200)
+    return resp
+
 @app.route('/api/func1')
 def func1():
     username = request.cookies.get('username')
