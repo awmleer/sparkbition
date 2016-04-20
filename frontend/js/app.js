@@ -1,25 +1,5 @@
 var app = angular.module('myApp', ['ui.router']);
 
-app.directive('dateFormat', ['$filter',function($filter) {
-    var dateFilter = $filter('date');
-    return {
-        require: 'ngModel',
-        link: function(scope, elm, attrs, ctrl) {
-
-            function formatter(value) {
-                return dateFilter(value, 'yyyy-MM-dd'); //format
-            }
-
-            function parser() {
-                return ctrl.$modelValue;
-            }
-
-            ctrl.$formatters.push(formatter);
-            ctrl.$parsers.unshift(parser);
-
-        }
-    };
-}]);
 
 app.config(function($stateProvider, $urlRouterProvider){
     /*路由模块*/
@@ -79,6 +59,7 @@ app.run(['$rootScope', '$window', '$location', '$log', function ($rootScope, $wi
                     participators:['1','2','3'],
                     publisher:'henry',
                     ddl:'1288323623006',
+                    finishtime:'',
                     base_score:'5',
                     upvoters:['jim','小华'],
                     status:0
@@ -93,6 +74,7 @@ app.run(['$rootScope', '$window', '$location', '$log', function ($rootScope, $wi
                     participators:['1','2','3'],
                     publisher:'小华',
                     ddl:'1289355623006',
+                    finishtime:'1288323623006',
                     base_score:3,
                     upvoters:[],
                     status:2
@@ -106,7 +88,8 @@ app.run(['$rootScope', '$window', '$location', '$log', function ($rootScope, $wi
                     tasker_other:['smith','harry'],
                     participators:['1','2','3'],
                     publisher:'小明',
-                    ddl:'1285978923006',
+                    ddl:'1461180991000',
+                    finishtime:'',
                     base_score:2,
                     upvoters:['henry'],
                     status:0
@@ -127,6 +110,7 @@ app.run(['$rootScope', '$window', '$location', '$log', function ($rootScope, $wi
                     participators:['1','2','3'],
                     publisher:'mary',
                     ddl:'1285978923006',
+                    finishtime:'1288323623006',
                     base_score:'5',
                     upvoters:['jim','小华'],
                     status:1

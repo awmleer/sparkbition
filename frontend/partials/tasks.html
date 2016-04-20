@@ -55,10 +55,18 @@
                         </td>
                         <td ng-click="show_task_info()" class="td_task">
                             <h4>{{ task.title }}</h4>
+                            <!--已关闭-->
+                            <span class="label" ng-if="task.status==2">已关闭</span>
+                            <!--tasker_main-->
                             <span class="label">{{ task.tasker_main }}</span>
-                            <span ng-if="task.urgency!='正常'" class="label" ng-class="{'label-primary':task.urgency=='正常','label-warning':task.urgency=='紧急','label-danger':task.urgency=='火急'}">{{ task.urgency }}</span>
-                            <span class="label">{{ task.ddl | date:'MM-dd' }}</span>
-                            <span class="label"><span class="glyphicon glyphicon-thumbs-up"></span> {{ task.upvoters.length }}</span>
+                            <!--紧急程度-->
+                            <span ng-if="task.urgency!='正常' && task.status==0" class="label" ng-class="{'label-primary':task.urgency=='正常','label-warning':task.urgency=='紧急','label-danger':task.urgency=='火急'}">{{ task.urgency }}</span>
+                            <!--DDL-->
+                            <span class="label" ng-class="{'label-warning':now>task.ddl && task.status==0}"><span class="glyphicon glyphicon-calendar"></span> {{ task.ddl | date:'MM-dd' }}</span>
+                            <!--完成日期-->
+                            <span ng-if="task.status>0" class="label" ng-class="{'label-danger':task.finishtime>task.ddl}"><span class="glyphicon glyphicon-ok"></span> {{ task.finishtime | date:'MM-dd' }}</span>
+                            <!--点赞量-->
+                            <span class="label label-success"><span class="glyphicon glyphicon-thumbs-up"></span> {{ task.upvoters.length }}</span>
                         </td>
                     </tr>
                     </tbody>
@@ -77,10 +85,10 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">任务详情</h4>
+                <h4 class="modal-title" id="myModalLabel">任务详情 <span class="label" ng-if="task_looking.urgency!='正常'" ng-class="{'label-primary':task_looking.urgency=='正常','label-warning':task_looking.urgency=='紧急','label-danger':task_looking.urgency=='火急'}">{{ task_looking.urgency }}</span></h4>
             </div>
             <div class="modal-body">
-                <span style="float: right;" class="label" ng-class="{'label-primary':task_looking.urgency=='正常','label-warning':task_looking.urgency=='紧急','label-danger':task_looking.urgency=='火急'}">{{ task_looking.urgency }}</span>
+                <span style="float: right;" class="label" ng-class="{'label-info':task_looking.status==0,'label-primary':task_looking.status==1}">{{ task_looking.status==0?'进行中':task_looking.status==1?'已完成':task_looking.status==2?'已关闭':'' }}</span>
                 <!--标题-->
                 <h4 class="list-group-item-heading">{{ task_looking.title }}</h4>
                 <!--备注-->
@@ -103,10 +111,10 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                 <button ng-if="task_looking.status==1" class="btn btn-default">支持</button>
                 <button ng-if="task_looking.status==0" ng-click="complete_task(task_looking.id)" class="btn btn-default">完成</button>
-                <button ng-if="task_looking.status==0" type="button" class="btn btn-primary">修改</button>
+                <button ng-if="task_looking.status==0" type="button" class="btn btn-default">修改</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
             </div>
         </div>
     </div>
