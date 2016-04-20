@@ -6,9 +6,22 @@ app.controller("ctrl1",function($scope,$rootScope) {
 
 
 app.controller("ctrl_header",function($scope,$rootScope,$location,$http) {
-    $scope.userinfo={
+    /*获取用户基本信息*/
+    $http({
+        url: 'api/userinfo',
+        method: 'get',
+        params: {}
+    }).success(function (data) {
+        $rootScope.userinfo=data;
+    }).error(function () {
+        alert("获取信息失败，请稍后再试");
+    });
+
+    //TEMP
+    $rootScope.userinfo={
         name:'小明'
     };
+
     $scope.logout=function () {
         //api logout
         $http({
@@ -16,7 +29,9 @@ app.controller("ctrl_header",function($scope,$rootScope,$location,$http) {
             method: 'get',
             params: {}
         }).success(function (data) {
-            location.href="login.html";
+            if (data == true) {
+                location.href="login.html";
+            }
         }).error(function () {
             alert("获取信息失败，请稍后再试");
         });
