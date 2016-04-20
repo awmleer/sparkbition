@@ -63,7 +63,7 @@ def login():
     a2 = a1['password']
     if a2 == password:
         resp = make_response('success', 200)
-        resp.set_cookie('username', username)
+        resp.set_cookie('username', base64.b64encode(salt + username))
     else:
         resp = make_response('failed', 401)
     return resp
@@ -77,10 +77,14 @@ def logout():
 @app.route('/api/func1')
 def func1():
     username = request.cookies.get('username')
+    usernam = base64.b64decode(username)
+    usernam = usernam[18:]
+
     if username != None :
         resp = make_response('success', 200)
     else:
         resp = make_response('failed', 401)
+
     return resp
 
 # @app.route('/new')
