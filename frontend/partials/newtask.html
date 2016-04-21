@@ -23,14 +23,14 @@
             <div class="form-group">
                 <label for="group" class="col-md-2 control-label">分组</label>
                 <div class="col-md-10">
-                    <select ng-model="newtask.group" id="group" class="form-control" ng-options="group.groupname for group in groups"></select>
+                    <select ng-model="newtask.group" id="group" class="form-control" ng-options="group for group in group_list" required></select>
                 </div>
             </div>
 
             <div class="form-group">
                 <label for="title" class="col-md-2 control-label">任务标题</label>
                 <div class="col-md-10">
-                    <input type="text" class="form-control" id="title" ng-model="newtask.title">
+                    <input type="text" class="form-control" id="title" ng-model="newtask.title" required>
                 </div>
             </div>
 
@@ -47,7 +47,7 @@
                 <label for="ddl" class="col-md-2 control-label">DDL</label>
                 <div class="col-md-10">
                     <div class="form-control-wrapper">
-                        <input style="display: inline;width: 50%;" ng-model="newtask.ddl" type="text" id="ddl" class="form-control" placeholder="请选择日期">
+                        <input style="display: inline;width: 50%;" ng-model="newtask.ddl" type="text" id="ddl" class="form-control" placeholder="请选择日期" required>
                         <p style="display: inline;width: 50%;">{{ newtask.ddl | date:'yyyy-MM-dd HH:mm'}}</p>
                     </div>
                 </div>
@@ -58,8 +58,8 @@
             <div class="form-group">
                 <label for="urgency" class="col-md-2 control-label">紧急程度</label>
                 <div class="col-md-10">
-                    <select id="urgency" class="form-control" ng-model="newtask.urgency">
-                        <option value="正常" selected>正常</option>
+                    <select id="urgency" class="form-control" ng-model="newtask.urgency" required>
+                        <option value="正常">正常</option>
                         <option value="紧急">紧急</option>
                         <option value="火急">火急</option>
                     </select>
@@ -69,7 +69,7 @@
             <div class="form-group">
                 <label for="tasker_main" class="col-md-2 control-label">主负责人</label>
                 <div class="col-md-10">
-                    <select ng-model="newtask.tasker_main" id="tasker_main" class="form-control" ng-options="crew for crew in crew_list"></select>
+                    <select ng-model="newtask.tasker_main" id="tasker_main" class="form-control" ng-options="crew for crew in crew_list" required></select>
                 </div>
             </div>
 

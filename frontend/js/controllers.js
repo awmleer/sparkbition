@@ -98,6 +98,17 @@ app.controller("ctrl_newtask",function($scope,$rootScope,$location,$http) {
     };
     $rootScope.newtask.group=$rootScope.groups[0];
 
+    //获取分组列表
+    // $http({
+    //     url: 'api/group_list',
+    //     method: 'get',
+    //     params: {}
+    // }).success(function (data) {
+    //     $rootScope.group_list=data;
+    // }).error(function () {
+    //     alert("获取分组列表失败，请稍后再试");
+    // });
+    $rootScope.group_list=['主要任务','技术任务'];
     //获取全部成员列表
     // $http({
     //     url: 'api/crew_list',
@@ -106,7 +117,7 @@ app.controller("ctrl_newtask",function($scope,$rootScope,$location,$http) {
     // }).success(function (data) {
     //     $rootScope.crew_list=data;
     // }).error(function () {
-    //     alert("获取信息失败，请稍后再试");
+    //     alert("获取成员列表失败，请稍后再试");
     // });
     $rootScope.crew_list=['小明','test','hh'];
 
@@ -136,8 +147,4 @@ app.controller("ctrl_newtask",function($scope,$rootScope,$location,$http) {
         $rootScope.newtask.participator.remove(crew);
     };
     
-    var search=$location.search();
-    if (search.groupname) {
-        
-    }
 });
