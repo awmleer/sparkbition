@@ -93,7 +93,8 @@ app.controller("ctrl_newtask",function($scope,$rootScope,$location,$http) {
     // $scope.groups=[];
 
     $rootScope.newtask={
-        'tasker_other':[]
+        'tasker_other':[],
+        'participator':[]
     };
     $rootScope.newtask.group=$rootScope.groups[0];
 
@@ -124,6 +125,15 @@ app.controller("ctrl_newtask",function($scope,$rootScope,$location,$http) {
     
     $scope.remove_tasker_other= function (crew) {
         $rootScope.newtask.tasker_other.remove(crew);
+    };
+
+    $scope.add_participator= function (crew) {
+        $rootScope.newtask.participator.push(crew);
+        $("#add_participator").modal('hide');
+    };
+
+    $scope.remove_participator= function (crew) {
+        $rootScope.newtask.participator.remove(crew);
     };
     
     var search=$location.search();

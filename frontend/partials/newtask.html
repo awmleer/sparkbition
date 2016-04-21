@@ -1,20 +1,20 @@
 <style>
-    .label_tasker_other span{
+    .label_tasker span{
         display:none;
     }
-    .label_tasker_other{
+    .label_tasker{
         cursor: pointer;
         margin-right: 1em;
         color: #ffffff!important;
     }
-    .label_tasker_other:hover span{
+    .label_tasker:hover span{
         display: inline;
     }
 </style>
 
 
 
-<div class="well col-sm-12 col-md-6 col-md-offset-3">
+<div class="well col-xs-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
     <form class="form-horizontal">
         <fieldset>
             <legend>新任务</legend>
@@ -77,62 +77,22 @@
                 <label class="col-md-2 control-label">其他负责人</label>
                 <div class="col-md-10">
                     <p style="display: inline;" ng-if="newtask.tasker_other.length==0">请点击右边的添加按钮</p>
-                    <label class="label label_tasker_other" ng-repeat="tasker in newtask.tasker_other" ng-click="remove_tasker_other(tasker)">{{ tasker }}<span>&nbsp;&times;</span></label>
+                    <label class="label label_tasker" ng-repeat="tasker in newtask.tasker_other" ng-click="remove_tasker_other(tasker)">{{ tasker }}<span>&nbsp;&times;</span></label>
                     <button data-toggle="modal" data-target="#add_tasker_other" class="btn btn-primary">添加</button>
                 </div>
             </div>
 
 
-
-
-
-
-
-
-
-
-
-
-
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox"><span class="checkbox-material"><span class="check"></span></span> Checkbox
-                </label>
-            </div>
-
-
-
             <div class="form-group">
-                <label class="col-md-2 control-label">Radios</label>
-
+                <label class="col-md-2 control-label">参与者</label>
                 <div class="col-md-10">
-                    <div class="radio radio-primary">
-                        <label>
-                            <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked="">
-                            Option one is this
-                        </label>
-                    </div>
-                    <div class="radio radio-primary">
-                        <label>
-                            <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
-                            Option two can be something else
-                        </label>
-                    </div>
+                    <p style="display: inline;" ng-if="newtask.participator.length==0">请点击右边的添加按钮</p>
+                    <label class="label label_tasker" ng-repeat="tasker in newtask.participator" ng-click="remove_participator(tasker)">{{ tasker }}<span>&nbsp;&times;</span></label>
+                    <button data-toggle="modal" data-target="#add_participator" class="btn btn-primary">添加</button>
                 </div>
             </div>
-            <div class="form-group">
-                <label for="select111" class="col-md-2 control-label">Select</label>
 
-                <div class="col-md-10">
-                    <select id="select111" class="form-control">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                    </select>
-                </div>
-            </div>
+
 
             <div class="form-group">
                 <div class="col-md-10 col-md-offset-2">
@@ -146,8 +106,26 @@
 
 
 
-<a class="btn btn-primary" data-toggle="modal" href="#add_tasker_other">Trigger modal</a>
+
 <div class="modal fade" id="add_tasker_other">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">选择负责人</h4>
+            </div>
+            <div class="modal-body">
+                <button class="btn btn-default" ng-repeat="crew in crew_list" ng-click="add_tasker_other(crew)">{{ crew }}</button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<div class="modal fade" id="add_participator">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -155,7 +133,7 @@
 				<h4 class="modal-title">选择负责人</h4>
 			</div>
 			<div class="modal-body">
-                <button class="btn btn-default" ng-repeat="crew in crew_list" ng-click="add_tasker_other(crew)">{{ crew }}</button>
+                <button class="btn btn-default" ng-repeat="crew in crew_list" ng-click="add_participator(crew)">{{ crew }}</button>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
