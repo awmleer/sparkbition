@@ -4,6 +4,8 @@
     }
     .label_tasker_other{
         cursor: pointer;
+        margin-right: 1em;
+        color: #ffffff!important;
     }
     .label_tasker_other:hover span{
         display: inline;
@@ -73,10 +75,9 @@
 
             <div class="form-group">
                 <label class="col-md-2 control-label">其他负责人</label>
-                <!--TODO 下对齐-->
                 <div class="col-md-10">
-                    <label class="label label_tasker_other" ng-repeat="tasker in newtask.tasker_other">{{ tasker }}<span style="display: none;">&nbsp;&times;</span></label>
-                    <label class="label label_tasker_other">123<span>&nbsp;&times;</span></label>
+                    <p style="display: inline;" ng-if="newtask.tasker_other.length==0">请点击右边的添加按钮</p>
+                    <label class="label label_tasker_other" ng-repeat="tasker in newtask.tasker_other" ng-click="remove_tasker_other(tasker)">{{ tasker }}<span>&nbsp;&times;</span></label>
                     <button data-toggle="modal" data-target="#add_tasker_other" class="btn btn-primary">添加</button>
                 </div>
             </div>

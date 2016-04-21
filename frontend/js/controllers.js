@@ -122,6 +122,10 @@ app.controller("ctrl_newtask",function($scope,$rootScope,$location,$http) {
         $("#add_tasker_other").modal('hide');
     };
     
+    $scope.remove_tasker_other= function (crew) {
+        $rootScope.newtask.tasker_other.remove(crew);
+    };
+    
     var search=$location.search();
     if (search.groupname) {
         
