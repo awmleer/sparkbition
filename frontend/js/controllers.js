@@ -93,12 +93,24 @@ app.controller("ctrl_newtask",function($scope,$rootScope,$location,$http) {
     // $scope.groups=[];
 
     $rootScope.newtask={};
-    $rootScope.newtask.group=$rootScope.groups[1];
+    $rootScope.newtask.group=$rootScope.groups[0];
 
-    // 设置默认的option
-    $rootScope.newtask={
-        groupname:'主要任务'
-    };
+    //获取全部成员列表
+    // $http({
+    //     url: 'api/crew_list',
+    //     method: 'get',
+    //     params: {}
+    // }).success(function (data) {
+    //     $rootScope.crew_list=data;
+    // }).error(function () {
+    //     alert("获取信息失败，请稍后再试");
+    // });
+    $rootScope.crew_list=['小明','test','hh'];
+
+    // // 设置默认的option
+    // $rootScope.newtask={
+    //     groupname:'主要任务'
+    // };
     $scope.loginfo=function () {
         console.log($rootScope.newtask);
     };
