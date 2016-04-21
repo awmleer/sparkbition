@@ -92,7 +92,9 @@ app.controller("ctrl_newtask",function($scope,$rootScope,$location,$http) {
     //select的options
     // $scope.groups=[];
 
-    $rootScope.newtask={};
+    $rootScope.newtask={
+        'tasker_other':[]
+    };
     $rootScope.newtask.group=$rootScope.groups[0];
 
     //获取全部成员列表
@@ -113,6 +115,11 @@ app.controller("ctrl_newtask",function($scope,$rootScope,$location,$http) {
     // };
     $scope.loginfo=function () {
         console.log($rootScope.newtask);
+    };
+    
+    $scope.add_tasker_other= function (crew) {
+        $rootScope.newtask.tasker_other.push(crew);
+        $("#add_tasker_other").modal('hide');
     };
     
     var search=$location.search();
