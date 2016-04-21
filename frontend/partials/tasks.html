@@ -96,15 +96,16 @@
 
                 <div class="row">
                     <div class="col-xs-7">
+                        <p ng-if="task_looking.status>0">完成时间：<span class="label">{{ task_looking.ddl | date:'MM-dd H:mm' }}</span></p>
                         <p>DDL：<span class="label">{{ task_looking.ddl | date:'MM-dd' }}</span></p>
                         <p>负责：<span class="label">{{ task_looking.tasker_main }}</span>&nbsp;&nbsp;<span ng-repeat="tasker in task_looking.tasker_other">{{ tasker }}&nbsp;&nbsp;</span></p>
                         <p>参加：<span ng-repeat="participator in task_looking.participators">{{ participator }}&nbsp;&nbsp;</span></p>
                         <p>发布：{{ task_looking.publisher }}</p>
-                        <p>支持：<span ng-if="task_looking.upvoters.length==0">还没有人支持呢...</span><span ng-repeat="upvoter in task_looking.upvoters"><span class="label">{{ upvoter }}</span>&nbsp;&nbsp;&nbsp;</span></p>
+                        <p ng-if="task_looking.status>0">支持：<span ng-if="task_looking.upvoters.length==0">还没有人支持呢...</span><span ng-repeat="upvoter in task_looking.upvoters"><span class="label">{{ upvoter }}</span>&nbsp;&nbsp;&nbsp;</span></p>
                     </div>
                     <div class="col-xs-5" style="text-align: right;">
                         <h1>{{ task_looking.base_score*(1+0.1*task_looking.upvoters.length) }}</h1>
-                        <p>{{ task_looking.base_score }}×{{ 1+0.1*task_looking.upvoters.length }}</p>
+                        <p ng-if="task_looking.status>0">{{ task_looking.base_score }}×{{ 1+0.1*task_looking.upvoters.length }}</p>
                     </div>
                 </div>
 
