@@ -21,7 +21,11 @@ client = MongoClient('120.27.123.112', 27017)
 client.admin.authenticate('fqs', '123456', mechanism='MONGODB-CR')
 uri = "mongodb://fqs:123456@120.27.123.112/admin?authMechanism=MONGODB-CR"
 client = MongoClient(uri)
-sparkbition=client.sparkbition
-coll=sparkbition.collection
 
-for i in
+db=client.sparkbition
+coll=db['tasks']
+tasks_undone=coll.find({'status':'0'})
+for i in tasks_undone
+    if i.ddl>time.time():
+        pass
+    else: pass
