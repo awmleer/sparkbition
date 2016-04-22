@@ -82,8 +82,8 @@
             <div class="form-group">
                 <label class="col-md-2 control-label">参与者</label>
                 <div class="col-md-10">
-                    <p style="display: inline;" ng-if="newtask.participator.length==0">请点击右边的添加按钮</p>
-                    <label class="label label_tasker" ng-repeat="tasker in newtask.participator" ng-click="remove_participator(tasker)">{{ tasker }}<span>&nbsp;&times;</span></label>
+                    <p style="display: inline;" ng-if="newtask.participators.length==0">请点击右边的添加按钮</p>
+                    <label class="label label_tasker" ng-repeat="tasker in newtask.participators" ng-click="remove_participator(tasker)">{{ tasker }}<span>&nbsp;&times;</span></label>
                     <button data-toggle="modal" data-target="#add_participator" class="btn btn-primary">添加</button>
                 </div>
             </div>
@@ -129,7 +129,7 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h4 class="modal-title">选择负责人</h4>
+				<h4 class="modal-title">选择参与者</h4>
 			</div>
 			<div class="modal-body">
                 <button class="btn btn-default" ng-repeat="crew in crew_list" ng-click="add_participator(crew)">{{ crew }}</button>

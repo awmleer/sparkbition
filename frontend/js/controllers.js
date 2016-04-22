@@ -130,7 +130,7 @@ app.controller("ctrl_newtask",function($scope,$rootScope,$location,$http) {
 
     $rootScope.newtask={
         'tasker_other':[],
-        'participator':[]
+        'participators':[]
     };
 
     //获取分组列表
@@ -179,12 +179,12 @@ app.controller("ctrl_newtask",function($scope,$rootScope,$location,$http) {
     };
 
     $scope.add_participator= function (crew) {
-        $rootScope.newtask.participator.push(crew);
+        $rootScope.newtask.participators.push(crew);
         $("#add_participator").modal('hide');
     };
 
     $scope.remove_participator= function (crew) {
-        $rootScope.newtask.participator.remove(crew);
+        $rootScope.newtask.participators.remove(crew);
     };
     
     $scope.new_task= function () {
