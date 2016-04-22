@@ -61,7 +61,7 @@ def login():
     a2 = a1['password']
     if a2 == password:
         resp = make_response('success', 200)
-        resp.set_cookie('All Hell Fqs', base64.b64encode(salt + username))
+        resp.set_cookie('All_Hell_Fqs', base64.b64encode(salt + username))
     else:
         resp = make_response('wrong password', 200)
     return resp
@@ -69,12 +69,12 @@ def login():
 @app.route('/sparkbition/api/logout')
 def logout():
     resp = make_response('success', 200)
-    resp.set_cookie('All Hell Fqs', None)
+    resp.set_cookie('All_Hell_Fqs', '')
     return resp
 
 @app.route('/sparkbition/api/userinfo')
 def userinfo():
-    username = request.cookies.get('All Hell Fqs')
+    username = request.cookies.get('All_Hell_Fqs')
     usernam = base64.b64decode(username)
     usernam = usernam[18:]
     db = client['sparkbition']
@@ -91,10 +91,10 @@ def func1():
     usernam = base64.b64decode(username)
     usernam = usernam[18:]
 
-    if username != None :
-        resp = make_response('success', 200)
-    else:
+    if (username == None) or (username == ''):
         resp = make_response('failed', 401)
+    else:
+        resp = make_response('success', 200)
 
     return resp
 
