@@ -96,6 +96,7 @@
 
                 <div class="row">
                     <div class="col-xs-7">
+                        <p>ID：{{ task_looking.id }}</p>
                         <p ng-if="task_looking.status>0">完成时间：<span class="label">{{ task_looking.ddl | date:'MM-dd H:mm' }}</span></p>
                         <p>DDL：<span class="label">{{ task_looking.ddl | date:'MM-dd' }}</span></p>
                         <p>负责：<span class="label">{{ task_looking.tasker_main }}</span>&nbsp;&nbsp;<span ng-repeat="tasker in task_looking.tasker_other">{{ tasker }}&nbsp;&nbsp;</span></p>
@@ -119,9 +120,11 @@
             </div>
             <div class="modal-footer">
                 <button ng-click="show_set_base_score()" class="btn btn-primary">设置基础分</button>
+                <!--TODO upvote-->
                 <button ng-if="task_looking.status==1" class="btn btn-default">支持</button>
                 <button ng-if="task_looking.status==0" ng-click="complete_task(task_looking.id)" class="btn btn-default">完成</button>
                 <button ng-if="task_looking.status==0" ng-click="delete_task(task_looking.id)" class="btn btn-default">删除</button>
+                <!--TODO modifBy_task-->
                 <button ng-if="task_looking.status==0" type="button" class="btn btn-default">修改</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
             </div>
