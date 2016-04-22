@@ -108,7 +108,7 @@ def func1():
 
     return resp
 
-@app.route('/sparkbition/api/new_task', methods=['POST'])
+@app.route('/sparkbition/api/new_task', methods=['POST'])             #todo 添加发送短信的功能
 def new_task():
     username = request.cookies.get('All_Hell_Fqs')
     if (username == None) or (username == ''):
@@ -132,7 +132,7 @@ def new_task():
     resp = make_response('success', 200)
     return resp
 
-@app.route('/sparkbition/api/complete_task')
+@app.route('/sparkbition/api/complete_task')                #todo 添加发送短信的功能
 def complete_task():
     username = request.cookies.get('All_Hell_Fqs')
     if (username == None) or (username == ''):
@@ -149,6 +149,28 @@ def complete_task():
     resp = make_response(json.dumps({'finishtime': timestamp}), 200)
     return resp
 
+@app.route('/sparkbition/api/delete_task')                  #todo 添加发送短信的功能
+def delete_task():
+    username = request.cookies.get('All_Hell_Fqs')
+    if (username == None) or (username == ''):
+        resp = make_response('no login', 401)
+        return resp
+    usernam = base64.b64decode(username)
+    usernam = usernam[18:]
+
+    db = client['sparkbition']
+    coll_tasks = db['tasks']
+    task_id = request.args.get('task_id')
+    publisher = coll_tasks.find_one({'id': int(task_id)})['publisher']
+    coll_users = db['users']
+    usertype = coll_users.find_one({'username': usernam})['type']
+    print usertype
+    if (usertype == 'admin') or (usertype == 'root') or (usernam == publisher):
+        coll_tasks.update({'id': int(task_id)}, {'$set': {'status': -1}})
+        resp = make_response('success', 200)
+    else:
+        resp = make_response('not allowed', 200)
+    return resp
 
 # @app.route('/new')
 # def new():
