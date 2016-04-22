@@ -95,9 +95,9 @@ def userinfo():
     resp = make_response(aaa, 200)
     return resp
 
-@app.route('/sparkbition/api/delete_task')
-def delete_task():
-    username = request.cookies.get('username')
+@app.route('/sparkbition/api/func1')
+def func1():
+    username = request.cookies.get('All_Hell_Fqs')
     usernam = base64.b64decode(username)
     usernam = usernam[18:]
 
@@ -107,6 +107,48 @@ def delete_task():
         resp = make_response('success', 200)
 
     return resp
+
+@app.route('/sparkbition/api/new_task', methods=['POST'])
+def new_task():
+    username = request.cookies.get('All_Hell_Fqs')
+    if (username == None) or (username == ''):
+        resp = make_response('no login', 401)
+        return resp
+    usernam = base64.b64decode(username)
+    usernam = usernam[18:]
+
+    db = client['sparkbition']
+    coll_meta = db['meta']
+    groupinfo = coll_meta.find_one({'meta': 'groupinfo'})
+    sum = groupinfo['id_count']
+    sum = sum + 1
+    coll_meta.update({'meta': 'groupinfo'}, {'$set': {'id_count': sum}})
+
+    text = request.json
+    coll_tasks = db['tasks']
+    text.update({'id': sum, 'status': 0, 'finishtime': '', 'publisher': usernam})
+    coll_tasks.insert(text)
+
+    resp = make_response('success', 200)
+    return resp
+
+@app.route('/sparkbition/api/complete_task')
+def complete_task():
+    username = request.cookies.get('All_Hell_Fqs')
+    if (username == None) or (username == ''):
+        resp = make_response('no login', 401)
+        return resp
+    usernam = base64.b64decode(username)
+    usernam = usernam[18:]
+
+    task_id = request.args.get('task_id')
+    db = client['sparkbition']
+    coll_tasks = db['tasks']
+    timestamp = int(time.time() * 1000)
+    coll_tasks.update({'id': int(task_id)}, {'$set': {'status': 1, 'finishtime': timestamp}})
+    resp = make_response(json.dumps({'finishtime': timestamp}), 200)
+    return resp
+
 
 # @app.route('/new')
 # def new():
