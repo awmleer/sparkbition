@@ -36,22 +36,20 @@ salt = '5aWZak2n35Wk fqsws'
 @app.route('/sparkbition/api/task')
 def task():
     db = client['sparkbition']
-    coll = db['meta']
-    a1 = coll.find_one({'meta': 'groupinfo'})
-    temp = []
-    for ii in a1['groups']:
-        temp.append(ii)
+    coll_meta = db['meta']
+    groupinfo = coll_meta.find_one({'meta': 'groupinfo'})
 
-    coll = db['tasks']
-    fuck = []
-    for ii in temp:
-        ii.update({'tasks':[coll.find_one({'group': ii['groupname']})]})
-        fuck.append(ii)
-    aaa = dumps(fuck)
+    coll_tasks = db['tasks']
+    result = []
+    for group in groupinfo['groups']:
+        tasks = coll_tasks.find_one({'group': group['groupname']})
+        group.update({'tasks': tasks})
+        result.append(group)
+    aaa = dumps(result)
     resp = make_response(aaa, 200)
     return resp
 
-@app.route('/api/login')
+@app.route('/sparkbition/api/login')
 def login():
     username = request.args.get('username')
     password = request.args.get('password')
@@ -63,20 +61,20 @@ def login():
     a2 = a1['password']
     if a2 == password:
         resp = make_response('success', 200)
-        resp.set_cookie('username', base64.b64encode(salt + username))
+        resp.set_cookie('All Hell Fqs', base64.b64encode(salt + username))
     else:
-        resp = make_response('failed', 401)
+        resp = make_response('wrong password', 200)
     return resp
 
-@app.route('/api/logout')
+@app.route('/sparkbition/api/logout')
 def logout():
     resp = make_response('success', 200)
-    resp.set_cookie('username', None)
+    resp.set_cookie('All Hell Fqs', None)
     return resp
 
-@app.route('/api/userinfo')
+@app.route('/sparkbition/api/userinfo')
 def userinfo():
-    username = request.cookies.get('username')
+    username = request.cookies.get('All Hell Fqs')
     usernam = base64.b64decode(username)
     usernam = usernam[18:]
     db = client['sparkbition']
@@ -87,7 +85,7 @@ def userinfo():
     resp = make_response(aaa, 200)
     return resp
 
-@app.route('/api/func1')
+@app.route('/sparkbition/api/func1')
 def func1():
     username = request.cookies.get('username')
     usernam = base64.b64decode(username)
