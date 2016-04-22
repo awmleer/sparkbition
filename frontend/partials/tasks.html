@@ -50,8 +50,8 @@
                     <tr ng-repeat="task in group.tasks | orderBy:'status'" ng-class="{'tr_task_completed':task.status>0}">
                         <td style="padding-top: 18px">
                             <!--<input ng-click="test()" type="checkbox" class="checkbox_flat" name="task_check" ng-model="task.status>0" style="background: #eee;border:1px solid #ddd;width: 1.5em;height: 1.5em;">-->
-                            <img class="img_checkbox" ng-show="task.status>0" src="../static/checkbox/checkbox-checked.svg" style="width: 3rem;height: 3rem;">
-                            <img class="img_checkbox" ng-click="complete_task(task.id)" ng-show="task.status==0" src="../static/checkbox/checkbox-unchecked.svg" style="width: 3rem;height: 3rem;">
+                            <img class="img_checkbox" ng-show="task.status>0" src="static/checkbox/checkbox-checked.svg" style="width: 3rem;height: 3rem;">
+                            <img class="img_checkbox" ng-click="complete_task(task.id)" ng-show="task.status==0" src="static/checkbox/checkbox-unchecked.svg" style="width: 3rem;height: 3rem;">
                         </td>
                         <td ng-click="show_task_info()" class="td_task">
                             <h4>{{ task.title }}</h4>

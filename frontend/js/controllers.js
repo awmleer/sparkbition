@@ -29,7 +29,7 @@ app.controller("ctrl_header",function($scope,$rootScope,$location,$http) {
             method: 'get',
             params: {}
         }).success(function (data) {
-            if (data == true) {
+            if (data == 'success') {
                 location.href="login.html";
             }
         }).error(function () {
