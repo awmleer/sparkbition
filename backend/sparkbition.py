@@ -32,6 +32,13 @@ salt = '5aWZak2n35Wk fqsws'
 # coll.insert_one(abc)
 
 # bb = base64.b64encode(salt + aa)
+# db = client['sparkbition']
+# coll = db['tasks']
+# abc = coll.find({'group': '主要任务'})
+# aaa = []
+# for i in abc:
+#     aaa.append(i)
+# print aaa
 
 @app.route('/sparkbition/api/task')
 def task():
@@ -42,7 +49,10 @@ def task():
     coll_tasks = db['tasks']
     result = []
     for group in groupinfo['groups']:
-        tasks = coll_tasks.find_one({'group': group['groupname']})
+        temp = coll_tasks.find({'group': group['groupname'], 'status': {'$gte': 0, '$lte': 1}})
+        tasks = []
+        for i in temp:
+            tasks.append(i)
         group.update({'tasks': tasks})
         result.append(group)
     aaa = dumps(result)
@@ -85,8 +95,8 @@ def userinfo():
     resp = make_response(aaa, 200)
     return resp
 
-@app.route('/sparkbition/api/func1')
-def func1():
+@app.route('/sparkbition/api/delete_task')
+def delete_task():
     username = request.cookies.get('username')
     usernam = base64.b64decode(username)
     usernam = usernam[18:]
