@@ -13,24 +13,25 @@
             <ul class="nav navbar-nav">
                 <li ng-class="{'active':path.substr(0,6)=='/tasks'}"><a ui-sref="tasks">任务板</a></li>
                 <li ng-class="{'active':path.substr(0,8)=='/newtask'}"><a ui-sref="newtask">添加任务</a></li>
+                <li ng-class="{'active':path.substr(0,11)=='/statistics'}"><a ui-sref="statistics">统计</a></li>
                 <li><a ui-sref="state2">state2</a></li>
-                <li class="dropdown">
-                    <a href="" data-target="#" class="dropdown-toggle" data-toggle="dropdown">消息通知<b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="javascript:void(0)">Action</a></li>
-                        <li><a href="javascript:void(0)">Another action</a></li>
-                        <li><a href="javascript:void(0)">Something else here</a></li>
-                        <li class="divider"></li>
-                        <li class="dropdown-header">Dropdown header</li>
-                        <li><a href="javascript:void(0)">Separated link</a></li>
-                        <li><a href="javascript:void(0)">One more separated link</a></li>
-                    </ul>
-                </li>
+                <!--<li class="dropdown">-->
+                    <!--<a href="" data-target="#" class="dropdown-toggle" data-toggle="dropdown">消息通知<b class="caret"></b></a>-->
+                    <!--<ul class="dropdown-menu">-->
+                        <!--<li><a href="javascript:void(0)">Action</a></li>-->
+                        <!--<li><a href="javascript:void(0)">Another action</a></li>-->
+                        <!--<li><a href="javascript:void(0)">Something else here</a></li>-->
+                        <!--<li class="divider"></li>-->
+                        <!--<li class="dropdown-header">Dropdown header</li>-->
+                        <!--<li><a href="javascript:void(0)">Separated link</a></li>-->
+                        <!--<li><a href="javascript:void(0)">One more separated link</a></li>-->
+                    <!--</ul>-->
+                <!--</li>-->
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="javascript:void(0)">Link</a></li>
                 <li class="dropdown">
-                    <a href="" data-target="#" class="dropdown-toggle" data-toggle="dropdown">{{ userinfo.name }}<b class="caret"></b></a>
+                    <a href="" data-target="#" class="dropdown-toggle" data-toggle="dropdown">{{ userinfo.username }}<b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><a href="javascript:void(0)">个人信息</a></li>
                         <li><a href="javascript:void(0)">修改密码</a></li>
