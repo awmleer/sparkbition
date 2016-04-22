@@ -63,6 +63,7 @@ app.controller("ctrl_task",function($scope,$rootScope,$location,$http) {
 
     //点击任务弹出模态框
     $scope.show_task_info= function () {
+        $scope.set_base_score_showing=false;
         //显示任务详情
         $scope.task_looking=this.task;
         $("#modal_task").modal();
@@ -115,6 +116,26 @@ app.controller("ctrl_task",function($scope,$rootScope,$location,$http) {
             });
 
         }
+    };
+    
+    $scope.set_base_score_showing=false;
+    /*设置基础分*/
+    $scope.set_base_score= function (task_id) {
+        $http({
+            url: 'api/set_base_score',
+            method: 'get',
+            params: {task_id: task_id,base_score:$scope.task_looking.base_score}
+        }).success(function (data) {
+            if (data == 'success') {
+                $scope.set_base_score_showing=false;
+                alert('设置成功');
+            }
+        }).error(function () {
+            alert("获取信息失败，请稍后再试");
+        });
+    };
+    $scope.show_set_base_score= function () {
+        $scope.set_base_score_showing=true;
     };
     
     $scope.test= function () {
