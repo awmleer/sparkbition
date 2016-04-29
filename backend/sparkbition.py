@@ -49,7 +49,7 @@ def task():
     coll_tasks = db['tasks']
     result = []
     for group in groupinfo['groups']:
-        temp = coll_tasks.find({'group': group['groupname'], 'status': {'$gte': 0, '$lte': 1}})
+        temp = coll_tasks.find({'group': group['groupname'], 'status': {'$gte': 0, '$lte': 2}})
         tasks = []
         for i in temp:
             tasks.append(i)
@@ -167,7 +167,6 @@ def delete_task():
     publisher = coll_tasks.find_one({'id': int(task_id)})['publisher']
     coll_users = db['users']
     usertype = coll_users.find_one({'username': usernam})['type']
-    print usertype
     if (usertype == 'admin') or (usertype == 'root') or (usernam == publisher):
         coll_tasks.update({'id': int(task_id)}, {'$set': {'status': -1}})
         resp = make_response('success', 200)
@@ -236,25 +235,28 @@ def upvote():
     resp = make_response('success', 200)
     return resp
 
-# @app.route('/sparkbition/api/modify_task', methods=['POST'])
-# def modify_task():
-#     username = request.cookies.get('All_Hell_Fqs')
-#     if (username == None) or (username == ''):
-#         resp = make_response('no login', 401)
-#         return resp
-#     usernam = base64.b64decode(username)
-#     usernam = usernam[18:]
-#
-#     db = client['sparkbition']
-#     coll_tasks = db['tasks']
-#     coll_users = db['users']
-#     publisher = coll_tasks.find_one({'id': text['id']})['publisher']
-#     text['id']    text = request.json
-#     if (coll_tasks.find_one({'id': int(task_id)})['status'] == 1):
-#         resp = make_response('success', 200)
-#     else:
-#         resp = make_response('not allowed', 200)
-#     return resp
+@app.route('/sparkbition/api/modify_task', methods=['POST'])
+def modify_task():
+    username = request.cookies.get('All_Hell_Fqs')
+    if (username == None) or (username == ''):
+        resp = make_response('no login', 401)
+        return resp
+    usernam = base64.b64decode(username)
+    usernam = usernam[18:]
+
+    db = client['sparkbition']
+    coll_tasks = db['tasks']
+    coll_users = db['users']
+    text = request.json
+    del text['status']
+    publisher = coll_tasks.find_one({'id': text['id']})['publisher']
+    usertype = coll_users.find_one({'username': usernam})['type']
+    if (usertype == 'admin') or (usertype == 'root') or (usernam == publisher):
+        coll_tasks.update({'id': text['id']}, {'$set': text})
+        resp = make_response('success', 200)
+    else:
+        resp = make_response('not allowed', 200)
+    return resp
 
 # @app.route('/new')
 # def new():
