@@ -1,0 +1,147 @@
+<style>
+    .label_tasker span{
+        display:none;
+    }
+    .label_tasker{
+        cursor: pointer;
+        margin-right: 1em;
+        color: #ffffff!important;
+    }
+    .label_tasker:hover span{
+        display: inline;
+    }
+</style>
+
+
+
+<div class="well col-xs-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
+    <form class="form-horizontal">
+        <fieldset>
+            <legend>修改任务</legend>
+            <button ng-click="loginfo()">test</button>
+
+            <div class="form-group">
+                <label for="group" class="col-md-2 control-label">分组</label>
+                <div class="col-md-10">
+                    <select ng-model="task_modifying.group" id="group" class="form-control" ng-options="group for group in group_list" required></select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="title" class="col-md-2 control-label">任务标题</label>
+                <div class="col-md-10">
+                    <input type="text" class="form-control" id="title" ng-model="task_modifying.title" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="remark" class="col-md-2 control-label">描述</label>
+                <div class="col-md-10">
+                    <textarea class="form-control" rows="3" id="remark" ng-model="task_modifying.remark"></textarea>
+                    <span class="help-block">在这里输入对任务的详细描述</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="ddl" class="col-md-2 control-label">DDL</label>
+                <div class="col-md-10">
+                    <div class="form-control-wrapper">
+                        <input style="display: inline;width: 50%;" ng-model="task_modifying.ddl" type="text" id="ddl" class="form-control" placeholder="请选择日期" required>
+                        <p style="display: inline;width: 50%;">{{ task_modifying.ddl | date:'yyyy-MM-dd HH:mm'}}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="urgency" class="col-md-2 control-label">紧急程度</label>
+                <div class="col-md-10">
+                    <select id="urgency" class="form-control" ng-model="task_modifying.urgency" required>
+                        <option value="正常">正常</option>
+                        <option value="紧急">紧急</option>
+                        <option value="火急">火急</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="tasker_main" class="col-md-2 control-label">主负责人</label>
+                <div class="col-md-10">
+                    <select ng-model="task_modifying.tasker_main" id="tasker_main" class="form-control" ng-options="crew for crew in crew_list" required></select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-2 control-label">其他负责人</label>
+                <div class="col-md-10">
+                    <p style="display: inline;" ng-if="task_modifying.tasker_other.length==0">请点击右边的添加按钮</p>
+                    <label class="label label_tasker" ng-repeat="tasker in task_modifying.tasker_other" ng-click="remove_tasker_other(tasker)">{{ tasker }}<span>&nbsp;&times;</span></label>
+                    <button data-toggle="modal" data-target="#add_tasker_other" class="btn btn-primary">添加</button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-2 control-label">参与者</label>
+                <div class="col-md-10">
+                    <p style="display: inline;" ng-if="task_modifying.participators.length==0">请点击右边的添加按钮</p>
+                    <label class="label label_tasker" ng-repeat="tasker in task_modifying.participators" ng-click="remove_participator(tasker)">{{ tasker }}<span>&nbsp;&times;</span></label>
+                    <button data-toggle="modal" data-target="#add_participator" class="btn btn-primary">添加</button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-10 col-md-offset-2">
+                    <button type="button" class="btn btn-default">取消</button>
+                    <button class="btn btn-primary" ng-click="new_task()">提交</button>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div>
+
+
+
+
+
+
+
+
+
+<div class="modal fade" id="add_tasker_other">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">选择负责人</h4>
+            </div>
+            <div class="modal-body">
+                <button class="btn btn-default" ng-repeat="crew in crew_list" ng-click="add_tasker_other(crew)">{{ crew }}</button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<div class="modal fade" id="add_participator">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title">选择参与者</h4>
+			</div>
+			<div class="modal-body">
+                <button class="btn btn-default" ng-repeat="crew in crew_list" ng-click="add_participator(crew)">{{ crew }}</button>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<script>
+    $('#ddl').bootstrapMaterialDatePicker().bootstrapMaterialDatePicker('setDate', moment());
+</script>

@@ -15,6 +15,11 @@ app.config(function($stateProvider, $urlRouterProvider){
             templateUrl: "partials/newtask.html",
             controller:'ctrl_newtask'
         })
+        .state('modifytask', {
+            url: "/modifytask",
+            templateUrl: "partials/modifytask.html",
+            controller:'ctrl_modifytask'
+        })
         .state('message', {
             url: "/message",
             templateUrl: "partials/message.html"

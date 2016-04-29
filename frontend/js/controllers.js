@@ -229,3 +229,9 @@ app.controller("ctrl_newtask",function($scope,$rootScope,$location,$http) {
         });
     }
 });
+
+
+
+app.controller('ctrl_modifytask',function($scope,$rootScope,$location,$http){
+    
+});
