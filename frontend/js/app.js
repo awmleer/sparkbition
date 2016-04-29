@@ -10,6 +10,11 @@ app.config(function($stateProvider, $urlRouterProvider){
             templateUrl: "partials/tasks.html",
             controller:'ctrl_task'
         })
+        .state('mytask', {
+            url: "/mytask",
+            templateUrl: "partials/tasks.html",//和tasks界面共用一个网页template
+            controller:'ctrl_task'//和tasks界面共用一个controller
+        })
         .state('newtask', {
             url: "/newtask",
             templateUrl: "partials/newtask.html",

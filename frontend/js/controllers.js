@@ -1,10 +1,3 @@
-app.controller("ctrl1",function($scope,$rootScope) {
-    $scope.items = ["A", "List", "Of", "Items"];
-});
-
-
-
-
 app.controller("ctrl_header",function($scope,$rootScope,$location,$http) {
     /*获取用户基本信息*/
     $http({
@@ -70,8 +63,17 @@ app.controller("ctrl_task",function($scope,$rootScope,$location,$http) {
 
 
     /*获取任务*/
+    //获取任务前，先清空数据模型
+    $rootScope.groups=[];
+    //先判断是任务板状态还是我的任务状态
+    var request_url;
+    if ($location.path().substr(0, 6) == '/tasks') {
+        request_url='api/task';
+    }else if ($location.path().substr(0, 7) == '/mytask') {
+        request_url='api/mytask';
+    }
     $http({
-        url: 'api/task',
+        url: request_url,
         method: 'get',
         params: {}
     }).success(function (data) {
@@ -146,7 +148,7 @@ app.controller("ctrl_task",function($scope,$rootScope,$location,$http) {
 
         }
     };
-    
+
     /*设置基础分*/
     $scope.set_base_score_showing=false;
     $scope.set_base_score= function (task_id) {
@@ -205,9 +207,9 @@ app.controller("ctrl_task",function($scope,$rootScope,$location,$http) {
             alert("操作失败，请稍后再试");
         });
     };
-    
-    
-    
+
+
+
     /*归档任务*/
     $scope.archive_task= function (task_id) {
         $http({
@@ -230,7 +232,7 @@ app.controller("ctrl_task",function($scope,$rootScope,$location,$http) {
             alert("操作失败，请稍后再试");
         });
     };
-    
+
 });
 
 
@@ -323,5 +325,82 @@ app.controller('ctrl_modifytask',function($scope,$rootScope,$location,$http){
         }).error(function () {
             alert("提交失败，请稍后再试");
         });
+    };
+});
+
+
+
+
+
+app.controller('ctrl_mytask',function($scope,$rootScope,$location,$http){
+    $http({
+        url: 'api/mytask',
+        method: 'get',
+        params: {}
+    }).success(function (data) {
+        $rootScope.mytask=data;
+    }).error(function () {
+        alert("获取我的任务列表失败，请稍后再试");
+    });
+    $rootScope.mytask={
+        published:[
+            {
+                "finishtime":"",
+                "publisher":"henry",
+                "remark":"some word changed",
+                "group":"主要任务",
+                "upvoters":[
+                    "jim",
+                    "小华"
+                ],
+                "title":"完善通讯录改一改啊改一改",
+                "base_score":"5",
+                "participators":[
+                    "1"
+                ],
+                "tasker_other":[
+                    "jim"
+                ],
+                "status":0,
+                "tasker_main":"AA",
+                "ddl":1288323623006,
+                "_id":{
+                    "$oid":"5719e7408cdd2389ccee2546"
+                },
+                "id":2,
+                "urgency":"正常"
+            },
+            {
+                "finishtime":1461342043796,
+                "publisher":"henry",
+                "remark":"some word changed",
+                "group":"主要任务",
+                "upvoters":[
+                    "jim",
+                    "小华"
+                ],
+                "title":"完善通讯录",
+                "base_score":2,
+                "participators":[
+                    "1",
+                    "2",
+                    "3"
+                ],
+                "tasker_other":[
+                    "jim",
+                    "john"
+                ],
+                "status":1,
+                "tasker_main":"AA",
+                "ddl":1288323623006,
+                "_id":{
+                    "$oid":"5719e7668cdd2389ccee2548"
+                },
+                "id":4,
+                "urgency":"正常"
+            }
+        ],
+        charged:[],
+        participated:[]
     };
 });

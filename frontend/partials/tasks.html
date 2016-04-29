@@ -40,37 +40,35 @@
         <div class="panel-heading">
             <h3 class="panel-title">{{ group.groupname }} <span class="badge">{{ group.tasks.length }}</span></h3>
         </div>
-
-                <table class="table table-hover table_task">
-                    <colgroup>
-                        <col width="1%">
-                        <col width="99%">
-                    </colgroup>
-                    <tbody>
-                    <tr ng-repeat="task in group.tasks | orderBy:'status'" ng-class="{'tr_task_completed':task.status>0}">
-                        <td style="padding-top: 18px">
-                            <img class="img_checkbox" ng-show="task.status>0" src="static/checkbox/checkbox-checked.svg" style="width: 3rem;height: 3rem;">
-                            <img class="img_checkbox" ng-click="complete_task(task.id)" ng-show="task.status==0" src="static/checkbox/checkbox-unchecked.svg" style="width: 3rem;height: 3rem;">
-                        </td>
-                        <td ng-click="show_task_info()" class="td_task">
-                            <h4>{{ task.title }}</h4>
-                            <!--已关闭-->
-                            <span class="label" ng-if="task.status==2">已关闭</span>
-                            <!--tasker_main-->
-                            <span class="label">{{ task.tasker_main }}</span>
-                            <!--紧急程度-->
-                            <span ng-if="task.urgency!='正常' && task.status==0" class="label" ng-class="{'label-primary':task.urgency=='正常','label-warning':task.urgency=='紧急','label-danger':task.urgency=='火急'}">{{ task.urgency }}</span>
-                            <!--DDL-->
-                            <span class="label" ng-class="{'label-warning':now>task.ddl && task.status==0}"><span class="glyphicon glyphicon-calendar"></span> {{ task.ddl | date:'MM-dd' }}</span>
-                            <!--完成日期-->
-                            <span ng-if="task.status>0" class="label" ng-class="{'label-danger':task.finishtime>task.ddl}"><span class="glyphicon glyphicon-ok"></span> {{ task.finishtime | date:'MM-dd' }}</span>
-                            <!--点赞量-->
-                            <span ng-if="task.status>0" class="label label-success"><span class="glyphicon glyphicon-thumbs-up"></span> {{ task.upvoters.length }}</span>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-
+        <table class="table table-hover table_task">
+            <colgroup>
+                <col width="1%">
+                <col width="99%">
+            </colgroup>
+            <tbody>
+            <tr ng-repeat="task in group.tasks | orderBy:'status'" ng-class="{'tr_task_completed':task.status>0}">
+                <td style="padding-top: 18px">
+                    <img class="img_checkbox" ng-show="task.status>0" src="static/checkbox/checkbox-checked.svg" style="width: 3rem;height: 3rem;">
+                    <img class="img_checkbox" ng-click="complete_task(task.id)" ng-show="task.status==0" src="static/checkbox/checkbox-unchecked.svg" style="width: 3rem;height: 3rem;">
+                </td>
+                <td ng-click="show_task_info()" class="td_task">
+                    <h4>{{ task.title }}</h4>
+                    <!--已关闭-->
+                    <span class="label" ng-if="task.status==2">已关闭</span>
+                    <!--tasker_main-->
+                    <span class="label">{{ task.tasker_main }}</span>
+                    <!--紧急程度-->
+                    <span ng-if="task.urgency!='正常' && task.status==0" class="label" ng-class="{'label-primary':task.urgency=='正常','label-warning':task.urgency=='紧急','label-danger':task.urgency=='火急'}">{{ task.urgency }}</span>
+                    <!--DDL-->
+                    <span class="label" ng-class="{'label-warning':now>task.ddl && task.status==0}"><span class="glyphicon glyphicon-calendar"></span> {{ task.ddl | date:'MM-dd' }}</span>
+                    <!--完成日期-->
+                    <span ng-if="task.status>0" class="label" ng-class="{'label-danger':task.finishtime>task.ddl}"><span class="glyphicon glyphicon-ok"></span> {{ task.finishtime | date:'MM-dd' }}</span>
+                    <!--点赞量-->
+                    <span ng-if="task.status>0" class="label label-success"><span class="glyphicon glyphicon-thumbs-up"></span> {{ task.upvoters.length }}</span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 
@@ -96,6 +94,7 @@
                 <div class="row">
                     <div class="col-xs-7">
                         <p>ID：{{ task_looking.id }}</p>
+                        <p>分组：{{ task_looking.group }}</p>
                         <p ng-if="task_looking.status>0">完成时间：<span class="label">{{ task_looking.ddl | date:'MM-dd H:mm' }}</span></p>
                         <p>DDL：<span class="label">{{ task_looking.ddl | date:'MM-dd' }}</span></p>
                         <p>负责：<span class="label">{{ task_looking.tasker_main }}</span>&nbsp;&nbsp;<span ng-repeat="tasker in task_looking.tasker_other">{{ tasker }}&nbsp;&nbsp;</span></p>
