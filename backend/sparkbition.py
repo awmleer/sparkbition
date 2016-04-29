@@ -66,7 +66,6 @@ def login():
 
     db = client['sparkbition']
     coll = db['users']
-    # cc = time.time()
     a1 = coll.find_one({'username': username})
     a2 = a1['password']
     if a2 == password:
@@ -85,8 +84,12 @@ def logout():
 @app.route('/sparkbition/api/userinfo')
 def userinfo():
     username = request.cookies.get('All_Hell_Fqs')
+    if (username == None) or (username == ''):
+        resp = make_response('no login', 401)
+        return resp
     usernam = base64.b64decode(username)
     usernam = usernam[18:]
+
     db = client['sparkbition']
     coll = db['users']
     a1 = coll.find_one({'username': usernam})
@@ -95,18 +98,18 @@ def userinfo():
     resp = make_response(aaa, 200)
     return resp
 
-@app.route('/sparkbition/api/func1')
-def func1():
-    username = request.cookies.get('All_Hell_Fqs')
-    usernam = base64.b64decode(username)
-    usernam = usernam[18:]
-
-    if (username == None) or (username == ''):
-        resp = make_response('failed', 401)
-    else:
-        resp = make_response('success', 200)
-
-    return resp
+# @app.route('/sparkbition/api/func1')
+# def func1():
+#     username = request.cookies.get('All_Hell_Fqs')
+#     usernam = base64.b64decode(username)
+#     usernam = usernam[18:]
+#
+#     if (username == None) or (username == ''):
+#         resp = make_response('failed', 401)
+#     else:
+#         resp = make_response('success', 200)
+#
+#     return resp
 
 @app.route('/sparkbition/api/new_task', methods=['POST'])             #todo 添加发送短信的功能
 def new_task():
@@ -170,6 +173,42 @@ def delete_task():
         resp = make_response('success', 200)
     else:
         resp = make_response('not allowed', 200)
+    return resp
+
+@app.route('/sparkbition/api/crew_list')
+def crew_list():
+    username = request.cookies.get('All_Hell_Fqs')
+    if (username == None) or (username == ''):
+        resp = make_response('no login', 401)
+        return resp
+    usernam = base64.b64decode(username)
+    usernam = usernam[18:]
+
+    db = client['sparkbition']
+    coll_users = db['users']
+    username = []
+    for userinfo in coll_users.find({}):
+        username.append(userinfo['username'])
+    aaa = dumps(userinfo)
+    resp = make_response(aaa, 200)
+    return resp
+
+@app.route('/sparkbition/api/group_list')
+def group_list():
+    username = request.cookies.get('All_Hell_Fqs')
+    if (username == None) or (username == ''):
+        resp = make_response('no login', 401)
+        return resp
+    usernam = base64.b64decode(username)
+    usernam = usernam[18:]
+
+    db = client['sparkbition']
+    coll_meta = db['meta']
+    groupname = []
+    for groupinfo in coll_meta.find_one({'meta': 'groupinfo'})['groups']:
+        groupname.append(groupinfo['groupname'])
+    aaa = dumps(groupname)
+    resp = make_response(aaa, 200)
     return resp
 
 # @app.route('/new')
