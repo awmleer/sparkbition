@@ -223,15 +223,38 @@ def upvote():
     db = client['sparkbition']
     coll_tasks = db['tasks']
     task_id = request.args.get('task_id')
-    if (coll_tasks.find_one({'id': int(task_id)})['status'] == 1):
-        resp = make_response('success', 200)
-    else:
+    if (coll_tasks.find_one({'id': int(task_id)})['status'] != 1):
         resp = make_response('not allowed', 200)
+        return resp
+    upvoters = coll_tasks.find_one({'id': int(task_id)})['upvoters']
+    for upvoter in upvoters:
+        if (upvoter == usernam):
+            resp = make_response('already', 200)
+            return resp
+    upvoters.append(usernam)
+    coll_tasks.update({'id': int(task_id)}, {'$set': {'upvoters': upvoters}})
+    resp = make_response('success', 200)
     return resp
 
-@app.route('/sparkbition/api/modify_task', methods=['POST'])
-def modify_task():
-
+# @app.route('/sparkbition/api/modify_task', methods=['POST'])
+# def modify_task():
+#     username = request.cookies.get('All_Hell_Fqs')
+#     if (username == None) or (username == ''):
+#         resp = make_response('no login', 401)
+#         return resp
+#     usernam = base64.b64decode(username)
+#     usernam = usernam[18:]
+#
+#     db = client['sparkbition']
+#     coll_tasks = db['tasks']
+#     coll_users = db['users']
+#     publisher = coll_tasks.find_one({'id': text['id']})['publisher']
+#     text['id']    text = request.json
+#     if (coll_tasks.find_one({'id': int(task_id)})['status'] == 1):
+#         resp = make_response('success', 200)
+#     else:
+#         resp = make_response('not allowed', 200)
+#     return resp
 
 # @app.route('/new')
 # def new():
