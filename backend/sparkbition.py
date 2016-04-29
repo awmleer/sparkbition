@@ -23,6 +23,7 @@ uri = "mongodb://fqs:123456@120.27.123.112/admin?authMechanism=MONGODB-CR"
 client = MongoClient(uri)
 
 salt = '5aWZak2n35Wk fqsws'
+tasks_modify = ['publisher', 'remark', 'group', 'upvoters', 'title', 'participators', 'tasker_other', 'tasker_main', 'ddl', 'urgency']
 
 # db = client['sparkbition']
 # coll = db['users']
@@ -42,6 +43,21 @@ salt = '5aWZak2n35Wk fqsws'
 
 @app.route('/sparkbition/api/task')
 def task():
+    flag = False
+    username = request.cookies.get('All_Hell_Fqs')
+    if (username == None) or (username == ''):
+        resp = make_response('no login', 401)
+        return resp
+    usernam = base64.b64decode(username)
+    usernam = usernam[18:]
+    for user in client['sparkbition']['users'].find():
+        if (user['username'] == usernam):
+            flag = True
+            break
+    if (not flag):
+        resp = make_response('wrong cookies', 401)
+        return resp
+
     db = client['sparkbition']
     coll_meta = db['meta']
     groupinfo = coll_meta.find_one({'meta': 'groupinfo'})
@@ -83,12 +99,20 @@ def logout():
 
 @app.route('/sparkbition/api/userinfo')
 def userinfo():
+    flag = False
     username = request.cookies.get('All_Hell_Fqs')
     if (username == None) or (username == ''):
         resp = make_response('no login', 401)
         return resp
     usernam = base64.b64decode(username)
     usernam = usernam[18:]
+    for user in client['sparkbition']['users'].find():
+        if (user['username'] == usernam):
+            flag = True
+            break
+    if (not flag):
+        resp = make_response('wrong cookies', 401)
+        return resp
 
     db = client['sparkbition']
     coll = db['users']
@@ -113,12 +137,20 @@ def userinfo():
 
 @app.route('/sparkbition/api/new_task', methods=['POST'])             #todo 添加发送短信的功能
 def new_task():
+    flag = False
     username = request.cookies.get('All_Hell_Fqs')
     if (username == None) or (username == ''):
         resp = make_response('no login', 401)
         return resp
     usernam = base64.b64decode(username)
     usernam = usernam[18:]
+    for user in client['sparkbition']['users'].find():
+        if (user['username'] == usernam):
+            flag = True
+            break
+    if (not flag):
+        resp = make_response('wrong cookies', 401)
+        return resp
 
     db = client['sparkbition']
     coll_meta = db['meta']
@@ -129,7 +161,7 @@ def new_task():
 
     text = request.json
     coll_tasks = db['tasks']
-    text.update({'id': sum, 'status': 0, 'finishtime': '', 'publisher': usernam})
+    text.update({'id': sum, 'status': 0, 'finishtime': '', 'publisher': usernam, 'base_score': 0})
     coll_tasks.insert(text)
 
     resp = make_response('success', 200)
@@ -137,12 +169,20 @@ def new_task():
 
 @app.route('/sparkbition/api/complete_task')                #todo 添加发送短信的功能
 def complete_task():
+    flag = False
     username = request.cookies.get('All_Hell_Fqs')
     if (username == None) or (username == ''):
         resp = make_response('no login', 401)
         return resp
     usernam = base64.b64decode(username)
     usernam = usernam[18:]
+    for user in client['sparkbition']['users'].find():
+        if (user['username'] == usernam):
+            flag = True
+            break
+    if (not flag):
+        resp = make_response('wrong cookies', 401)
+        return resp
 
     task_id = request.args.get('task_id')
     db = client['sparkbition']
@@ -154,12 +194,20 @@ def complete_task():
 
 @app.route('/sparkbition/api/delete_task')                  #todo 添加发送短信的功能
 def delete_task():
+    flag = False
     username = request.cookies.get('All_Hell_Fqs')
     if (username == None) or (username == ''):
         resp = make_response('no login', 401)
         return resp
     usernam = base64.b64decode(username)
     usernam = usernam[18:]
+    for user in client['sparkbition']['users'].find():
+        if (user['username'] == usernam):
+            flag = True
+            break
+    if (not flag):
+        resp = make_response('wrong cookies', 401)
+        return resp
 
     db = client['sparkbition']
     coll_tasks = db['tasks']
@@ -176,12 +224,20 @@ def delete_task():
 
 @app.route('/sparkbition/api/crew_list')
 def crew_list():
+    flag = False
     username = request.cookies.get('All_Hell_Fqs')
     if (username == None) or (username == ''):
         resp = make_response('no login', 401)
         return resp
     usernam = base64.b64decode(username)
     usernam = usernam[18:]
+    for user in client['sparkbition']['users'].find():
+        if (user['username'] == usernam):
+            flag = True
+            break
+    if (not flag):
+        resp = make_response('wrong cookies', 401)
+        return resp
 
     db = client['sparkbition']
     coll_users = db['users']
@@ -194,12 +250,20 @@ def crew_list():
 
 @app.route('/sparkbition/api/group_list')
 def group_list():
+    flag = False
     username = request.cookies.get('All_Hell_Fqs')
     if (username == None) or (username == ''):
         resp = make_response('no login', 401)
         return resp
     usernam = base64.b64decode(username)
     usernam = usernam[18:]
+    for user in client['sparkbition']['users'].find():
+        if (user['username'] == usernam):
+            flag = True
+            break
+    if (not flag):
+        resp = make_response('wrong cookies', 401)
+        return resp
 
     db = client['sparkbition']
     coll_meta = db['meta']
@@ -212,12 +276,20 @@ def group_list():
 
 @app.route('/sparkbition/api/upvote')
 def upvote():
+    flag = False
     username = request.cookies.get('All_Hell_Fqs')
     if (username == None) or (username == ''):
         resp = make_response('no login', 401)
         return resp
     usernam = base64.b64decode(username)
     usernam = usernam[18:]
+    for user in client['sparkbition']['users'].find():
+        if (user['username'] == usernam):
+            flag = True
+            break
+    if (not flag):
+        resp = make_response('wrong cookies', 401)
+        return resp
 
     db = client['sparkbition']
     coll_tasks = db['tasks']
@@ -237,22 +309,32 @@ def upvote():
 
 @app.route('/sparkbition/api/modify_task', methods=['POST'])
 def modify_task():
+    flag = False
     username = request.cookies.get('All_Hell_Fqs')
     if (username == None) or (username == ''):
         resp = make_response('no login', 401)
         return resp
     usernam = base64.b64decode(username)
     usernam = usernam[18:]
+    for user in client['sparkbition']['users'].find():
+        if (user['username'] == usernam):
+            flag = True
+            break
+    if (not flag):
+        resp = make_response('wrong cookies', 401)
+        return resp
 
     db = client['sparkbition']
     coll_tasks = db['tasks']
     coll_users = db['users']
     text = request.json
-    del text['status']
+    modify = {}
+    for modify_one in tasks_modify:
+        modify.update({modify_one: text[modify_one]})
     publisher = coll_tasks.find_one({'id': text['id']})['publisher']
     usertype = coll_users.find_one({'username': usernam})['type']
     if (usertype == 'admin') or (usertype == 'root') or (usernam == publisher):
-        coll_tasks.update({'id': text['id']}, {'$set': text})
+        coll_tasks.update({'id': text['id']}, {'$set': modify})
         resp = make_response('success', 200)
     else:
         resp = make_response('not allowed', 200)
