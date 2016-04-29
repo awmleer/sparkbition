@@ -189,7 +189,7 @@ def crew_list():
     username = []
     for userinfo in coll_users.find({}):
         username.append(userinfo['username'])
-    aaa = dumps(userinfo)
+    aaa = dumps(username)
     resp = make_response(aaa, 200)
     return resp
 
@@ -211,6 +211,7 @@ def group_list():
     resp = make_response(aaa, 200)
     return resp
 
+# @app.route('/sparkbition/api/')
 # @app.route('/new')
 # def new():
 #    username = request.args.get('username')
