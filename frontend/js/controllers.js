@@ -189,7 +189,13 @@ app.controller("ctrl_task",function($scope,$rootScope,$location,$http) {
         }).success(function (data) {
             if (data == 'success') {
                 //点赞成功
-
+                for(var i=0;i<$rootScope.groups.length;i++){
+                    for(var j=0;j<$rootScope.groups[i].tasks.length;j++){
+                        if($rootScope.groups[i].tasks[j]['id'] ==task_id){
+                            $rootScope.groups[i].tasks[j].upvoters.push($rootScope.userinfo.username);//把该用户添加进upvoters列表
+                        }
+                    }
+                }
             }else if (data == 'not allowed') {
                 alert("现在还不能点赞或您没有点赞的权限");
             }else if (data == 'already') {
