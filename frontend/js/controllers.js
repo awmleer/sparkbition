@@ -141,7 +141,7 @@ app.controller("ctrl_task",function($scope,$rootScope,$location,$http) {
                     alert("您没有权限");
                 }
             }).error(function () {
-                alert("获取信息失败，请稍后再试");
+                alert("操作失败，请稍后再试");
             });
 
         }
@@ -160,7 +160,7 @@ app.controller("ctrl_task",function($scope,$rootScope,$location,$http) {
                 alert('设置成功');
             }
         }).error(function () {
-            alert("获取信息失败，请稍后再试");
+            alert("操作失败，请稍后再试");
         });
     };
     $scope.show_set_base_score= function () {
@@ -202,7 +202,7 @@ app.controller("ctrl_task",function($scope,$rootScope,$location,$http) {
                 alert("您已经点过赞了");
             }
         }).error(function () {
-            alert("获取信息失败，请稍后再试");
+            alert("操作失败，请稍后再试");
         });
     }
 });
@@ -257,7 +257,7 @@ app.controller("ctrl_newtask",function($scope,$rootScope,$location,$http) {
             alert("添加任务成功");
             location.hash='#/tasks';
         }).error(function () {
-            alert("获取信息失败，请稍后再试");
+            alert("提交失败，请稍后再试");
         });
     }
 });
@@ -285,14 +285,14 @@ app.controller('ctrl_modifytask',function($scope,$rootScope,$location,$http){
 
     /*提交修改*/
     $scope.modify_submit= function () {
-        console.log(JSON.stringify($rootScope.newtask));
+        console.log(JSON.stringify($rootScope.task_modifying));//TEMP
         $http({
             url: 'api/new_task',
             method: 'post',
             headers: {'Content-Type': 'application/json'},
-            data: JSON.stringify($rootScope.newtask)
+            data: JSON.stringify($rootScope.task_modifying)
         }).success(function () {
-            alert("添加任务成功");
+            alert("修改任务成功");
             location.hash='#/tasks';
         }).error(function () {
             alert("提交失败，请稍后再试");
