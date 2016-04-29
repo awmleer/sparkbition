@@ -204,7 +204,33 @@ app.controller("ctrl_task",function($scope,$rootScope,$location,$http) {
         }).error(function () {
             alert("操作失败，请稍后再试");
         });
-    }
+    };
+    
+    
+    
+    /*归档任务*/
+    $scope.archive_task= function (task_id) {
+        $http({
+            url: 'api/archive_task',
+            method: 'get',
+            params: {task_id: task_id}
+        }).success(function (data) {
+            if (data == 'success') {
+                for(var i=0;i<$rootScope.groups.length;i++){
+                    for(var j=0;j<$rootScope.groups[i].tasks.length;j++){
+                        if($rootScope.groups[i].tasks[j]['id'] ==task_id){
+                            $rootScope.groups[i].tasks.splice(j);//删除该task
+                        }
+                    }
+                }
+            }else if (data == 'not allowed') {
+                alert("不能归档");
+            }
+        }).error(function () {
+            alert("操作失败，请稍后再试");
+        });
+    };
+    
 });
 
 
@@ -287,7 +313,7 @@ app.controller('ctrl_modifytask',function($scope,$rootScope,$location,$http){
     $scope.modify_submit= function () {
         console.log(JSON.stringify($rootScope.task_modifying));//TEMP
         $http({
-            url: 'api/new_task',
+            url: 'api/modify_task',
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             data: JSON.stringify($rootScope.task_modifying)
