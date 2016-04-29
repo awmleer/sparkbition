@@ -43,9 +43,6 @@ app.controller("ctrl_header",function($scope,$rootScope,$location,$http) {
 app.controller("ctrl_task",function($scope,$rootScope,$location,$http) {
     /*获取当前时间*/
     $scope.now=Date.parse( new Date());
-    //TEMP
-    // console.log($scope.now);
-
 
     /*APP多页面通用信息的获取*/
     // 获取分组列表
@@ -84,7 +81,7 @@ app.controller("ctrl_task",function($scope,$rootScope,$location,$http) {
     });
 
 
-    //模型-正在查看的task
+    //初始化模型-正在查看的task
     $scope.task_looking={};
 
     //点击任务弹出模态框
@@ -105,6 +102,7 @@ app.controller("ctrl_task",function($scope,$rootScope,$location,$http) {
                 method: 'get',
                 params: {task_id:task_id}
             }).success(function (data) {
+                //查找这个任务
                 for(var i=0;i<$rootScope.groups.length;i++){
                     for(var j=0;j<$rootScope.groups[i].tasks.length;j++){
                         if($rootScope.groups[i].tasks[j]['id'] ==task_id){
@@ -120,7 +118,6 @@ app.controller("ctrl_task",function($scope,$rootScope,$location,$http) {
 
         }
     };
-
 
     /*删除任务*/
     $scope.delete_task= function (task_id) {
@@ -150,8 +147,8 @@ app.controller("ctrl_task",function($scope,$rootScope,$location,$http) {
         }
     };
     
-    $scope.set_base_score_showing=false;
     /*设置基础分*/
+    $scope.set_base_score_showing=false;
     $scope.set_base_score= function (task_id) {
         $http({
             url: 'api/set_base_score',
@@ -182,10 +179,26 @@ app.controller("ctrl_task",function($scope,$rootScope,$location,$http) {
         });
     };
 
-    
-    $scope.test= function () {
-        alert(this.task.completed);
-    };
+
+    /*对任务点赞*/
+    $scope.upvote= function (task_id) {
+        $http({
+            url: 'api/upvote',
+            method: 'get',
+            params: {task_id: task_id}
+        }).success(function (data) {
+            if (data == 'success') {
+                //点赞成功
+
+            }else if (data == 'not allowed') {
+                alert("现在还不能点赞或您没有点赞的权限");
+            }else if (data == 'already') {
+                alert("您已经点过赞了");
+            }
+        }).error(function () {
+            alert("获取信息失败，请稍后再试");
+        });
+    }
 });
 
 
@@ -203,13 +216,14 @@ app.controller("ctrl_newtask",function($scope,$rootScope,$location,$http) {
 
 
 
+    //TEMP
     $scope.loginfo=function () {
         console.log($rootScope.newtask);
     };
 
 
     /*模态框选择成员*/
-    //这部分的代码和new_task的相同
+    //这部分的代码和modify_task的类似（$rootScope.newtask/task_modifying这里不一样）
     $scope.add_tasker_other= function (crew) {
         $rootScope.newtask.tasker_other.push(crew);
         $("#add_tasker_other").modal('hide');
@@ -224,7 +238,8 @@ app.controller("ctrl_newtask",function($scope,$rootScope,$location,$http) {
     $scope.remove_participator= function (crew) {
         $rootScope.newtask.participators.remove(crew);
     };
-    
+
+    /*提交*/
     $scope.new_task= function () {
         console.log(JSON.stringify($rootScope.newtask));//TEMP
         $http({
@@ -245,22 +260,21 @@ app.controller("ctrl_newtask",function($scope,$rootScope,$location,$http) {
 
 app.controller('ctrl_modifytask',function($scope,$rootScope,$location,$http){
 
-
     /*模态框选择成员*/
-    //这部分的代码和new_task的相同
+    //这部分的代码和new_task的类似（$rootScope.newtask/task_modifying这里不一样）
     $scope.add_tasker_other= function (crew) {
-        $rootScope.newtask.tasker_other.push(crew);
+        $rootScope.task_modifying.tasker_other.push(crew);
         $("#add_tasker_other").modal('hide');
     };
     $scope.remove_tasker_other= function (crew) {
-        $rootScope.newtask.tasker_other.remove(crew);
+        $rootScope.task_modifying.tasker_other.remove(crew);
     };
     $scope.add_participator= function (crew) {
-        $rootScope.newtask.participators.push(crew);
+        $rootScope.task_modifying.participators.push(crew);
         $("#add_participator").modal('hide');
     };
     $scope.remove_participator= function (crew) {
-        $rootScope.newtask.participators.remove(crew);
+        $rootScope.task_modifying.participators.remove(crew);
     };
 
     /*提交修改*/
@@ -275,7 +289,7 @@ app.controller('ctrl_modifytask',function($scope,$rootScope,$location,$http){
             alert("添加任务成功");
             location.hash='#/tasks';
         }).error(function () {
-            alert("获取信息失败，请稍后再试");
+            alert("提交失败，请稍后再试");
         });
     };
 });
