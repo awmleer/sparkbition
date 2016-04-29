@@ -46,6 +46,32 @@ app.controller("ctrl_task",function($scope,$rootScope,$location,$http) {
     //TEMP
     // console.log($scope.now);
 
+
+    /*APP多页面通用信息的获取*/
+    // 获取分组列表
+    $http({
+        url: 'api/group_list',
+        method: 'get',
+        params: {}
+    }).success(function (data) {
+        $rootScope.group_list=data;
+    }).error(function () {
+        alert("获取分组列表失败，请稍后再试");
+    });
+    // $rootScope.group_list=['主要任务','技术任务'];
+    //获取全部成员列表
+    $http({
+        url: 'api/crew_list',
+        method: 'get',
+        params: {}
+    }).success(function (data) {
+        $rootScope.crew_list=data;
+    }).error(function () {
+        alert("获取成员列表失败，请稍后再试");
+    });
+    // $rootScope.crew_list=['小明','test','hh','AA'];
+
+
     /*获取任务*/
     $http({
         url: 'api/task',
@@ -143,6 +169,19 @@ app.controller("ctrl_task",function($scope,$rootScope,$location,$http) {
     $scope.show_set_base_score= function () {
         $scope.set_base_score_showing=true;
     };
+
+
+
+    /*修改任务*/
+    $scope.modify_task= function () {
+        $rootScope.task_modifying=$scope.task_looking;
+        //先触发关闭模态框的事件，然后注册一个事件绑定，等待其完全消失后做页面跳转，同时消除事件监听
+        $("#modal_task").modal('hide').on('hidden.bs.modal', function () {
+            $("#modal_task").off('hidden.bs.modal');
+            location.hash='#/modifytask';
+        });
+    };
+
     
     $scope.test= function () {
         alert(this.task.completed);
@@ -152,70 +191,42 @@ app.controller("ctrl_task",function($scope,$rootScope,$location,$http) {
 
 
 app.controller("ctrl_newtask",function($scope,$rootScope,$location,$http) {
-    //select的options
-    // $scope.groups=[];
 
+    /*初始化newtask对象*/
     $rootScope.newtask={
         'tasker_other':[],
         'participators':[]
     };
-
-    //获取分组列表
-    // $http({
-    //     url: 'api/group_list',
-    //     method: 'get',
-    //     params: {}
-    // }).success(function (data) {
-    //     $rootScope.group_list=data;
-    // }).error(function () {
-    //     alert("获取分组列表失败，请稍后再试");
-    // });
-    $rootScope.group_list=['主要任务','技术任务'];
     $rootScope.newtask.group=$rootScope.group_list[0];
-
     $rootScope.newtask.urgency="正常";
-
-    //获取全部成员列表
-    // $http({
-    //     url: 'api/crew_list',
-    //     method: 'get',
-    //     params: {}
-    // }).success(function (data) {
-    //     $rootScope.crew_list=data;
-    // }).error(function () {
-    //     alert("获取成员列表失败，请稍后再试");
-    // });
-    $rootScope.crew_list=['小明','test','hh','AA'];
     $rootScope.newtask.tasker_main=$rootScope.userinfo.username;
 
-    // // 设置默认的option
-    // $rootScope.newtask={
-    //     groupname:'主要任务'
-    // };
+
+
     $scope.loginfo=function () {
         console.log($rootScope.newtask);
     };
-    
+
+
+    /*模态框选择成员*/
+    //这部分的代码和new_task的相同
     $scope.add_tasker_other= function (crew) {
         $rootScope.newtask.tasker_other.push(crew);
         $("#add_tasker_other").modal('hide');
     };
-    
     $scope.remove_tasker_other= function (crew) {
         $rootScope.newtask.tasker_other.remove(crew);
     };
-
     $scope.add_participator= function (crew) {
         $rootScope.newtask.participators.push(crew);
         $("#add_participator").modal('hide');
     };
-
     $scope.remove_participator= function (crew) {
         $rootScope.newtask.participators.remove(crew);
     };
     
     $scope.new_task= function () {
-        console.log(JSON.stringify($rootScope.newtask));
+        console.log(JSON.stringify($rootScope.newtask));//TEMP
         $http({
             url: 'api/new_task',
             method: 'post',
@@ -223,7 +234,7 @@ app.controller("ctrl_newtask",function($scope,$rootScope,$location,$http) {
             data: JSON.stringify($rootScope.newtask)
         }).success(function () {
             alert("添加任务成功");
-            location.hash='#/task';
+            location.hash='#/tasks';
         }).error(function () {
             alert("获取信息失败，请稍后再试");
         });
@@ -233,5 +244,38 @@ app.controller("ctrl_newtask",function($scope,$rootScope,$location,$http) {
 
 
 app.controller('ctrl_modifytask',function($scope,$rootScope,$location,$http){
-    
+
+
+    /*模态框选择成员*/
+    //这部分的代码和new_task的相同
+    $scope.add_tasker_other= function (crew) {
+        $rootScope.newtask.tasker_other.push(crew);
+        $("#add_tasker_other").modal('hide');
+    };
+    $scope.remove_tasker_other= function (crew) {
+        $rootScope.newtask.tasker_other.remove(crew);
+    };
+    $scope.add_participator= function (crew) {
+        $rootScope.newtask.participators.push(crew);
+        $("#add_participator").modal('hide');
+    };
+    $scope.remove_participator= function (crew) {
+        $rootScope.newtask.participators.remove(crew);
+    };
+
+    /*提交修改*/
+    $scope.modify_submit= function () {
+        console.log(JSON.stringify($rootScope.newtask));
+        $http({
+            url: 'api/new_task',
+            method: 'post',
+            headers: {'Content-Type': 'application/json'},
+            data: JSON.stringify($rootScope.newtask)
+        }).success(function () {
+            alert("添加任务成功");
+            location.hash='#/tasks';
+        }).error(function () {
+            alert("获取信息失败，请稍后再试");
+        });
+    };
 });

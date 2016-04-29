@@ -125,7 +125,7 @@
                 <button ng-if="task_looking.status==0" ng-click="complete_task(task_looking.id)" class="btn btn-default">完成</button>
                 <button ng-if="task_looking.status==0" ng-click="delete_task(task_looking.id)" class="btn btn-default">删除</button>
                 <!--TODO modifBy_task-->
-                <button ng-if="task_looking.status==0" type="button" class="btn btn-default">修改</button>
+                <button ng-if="task_looking.status==0" ng-click="modify_task()" type="button" class="btn btn-default">修改</button>
                 <button ng-if="task_looking.status==2" type="button" class="btn btn-default">归档</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
             </div>
