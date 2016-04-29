@@ -211,7 +211,28 @@ def group_list():
     resp = make_response(aaa, 200)
     return resp
 
-# @app.route('/sparkbition/api/')
+@app.route('/sparkbition/api/upvote')
+def upvote():
+    username = request.cookies.get('All_Hell_Fqs')
+    if (username == None) or (username == ''):
+        resp = make_response('no login', 401)
+        return resp
+    usernam = base64.b64decode(username)
+    usernam = usernam[18:]
+
+    db = client['sparkbition']
+    coll_tasks = db['tasks']
+    task_id = request.args.get('task_id')
+    if (coll_tasks.find_one({'id': int(task_id)})['status'] == 1):
+        resp = make_response('success', 200)
+    else:
+        resp = make_response('not allowed', 200)
+    return resp
+
+@app.route('/sparkbition/api/modify_task', methods=['POST'])
+def modify_task():
+
+
 # @app.route('/new')
 # def new():
 #    username = request.args.get('username')
