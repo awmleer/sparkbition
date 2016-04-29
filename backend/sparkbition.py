@@ -2,6 +2,8 @@
 
 from flask import Flask, request, make_response
 import time
+import urllib
+import urllib2
 import hashlib
 import base64
 import pymongo
@@ -24,6 +26,20 @@ client = MongoClient(uri)
 
 salt = '5aWZak2n35Wk fqsws'
 tasks_modify = ['publisher', 'remark', 'group', 'upvoters', 'title', 'participators', 'tasker_other', 'tasker_main', 'ddl', 'urgency']
+
+def sendsms():
+    d = {'#publisher#': '冯秋实', '#title#': 'fuck you'}
+    tpl_value = urllib.urlencode(d)
+    finalstr = ''
+    getdata = urllib.urlencode({'mobile':18867137748,'tpl_id':13216,'tpl_value':tpl_value,'key': 'b32c625ffb38e4ad07f86bb1101548e1'})
+    url = 'http://v.juhe.cn/sms/send?%s'%getdata
+    req = urllib.urlopen(url)
+    result = json.loads(req.read())
+    finalstr += '发送给%s的短信的发送结果：%s\n' %('冯秋实',result['reason'].encode('utf-8'))
+    return finalstr
+
+print sendsms()
+
 
 # db = client['sparkbition']
 # coll = db['users']
