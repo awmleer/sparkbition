@@ -407,12 +407,14 @@ app.controller('ctrl_mytask',function($scope,$rootScope,$location,$http){
 });
 
 
-
-
-
-
-
-
 app.controller('ctrl_userinfo',function($scope,$rootScope,$location,$http){
-    
+    $http({
+        url:'api/userinfo',
+        method:'get',
+        params:{}
+    }).success(function(data){
+        $rootscope.userinfo=data;
+    }).error(function(){
+        alert("获取用户个人信息失败，请稍后再试")
+    });
 });
