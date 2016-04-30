@@ -240,7 +240,7 @@ def complete_task():
         print sendsms2(coll_tasks.find_one({'id': int(task_id)})['title'].encode('utf-8'), coll_tasks.find_one({'id': int(task_id)})['tasker_main'].encode('utf-8'), tasker['username'].encode('utf-8'), tasker['mobile'])
     return resp
 
-@app.route('/sparkbition/api/delete_task')                  #todo 添加发送短信的功能
+@app.route('/sparkbition/api/delete_task')
 def delete_task():
     flag = False
     username = request.cookies.get('All_Hell_Fqs')
@@ -268,6 +268,7 @@ def delete_task():
         resp = make_response('success', 200)
     else:
         resp = make_response('not allowed', 200)
+        return resp
 
     task = coll_tasks.find_one({'id': int(task_id)})
     tasker = task['publisher']
@@ -396,6 +397,17 @@ def modify_task():
         resp = make_response('success', 200)
     else:
         resp = make_response('not allowed', 200)
+        return resp
+
+    task = coll_tasks.find_one({'id': text['id']})
+    tasker = task['publisher']
+    print sendsms3(task['title'].encode('utf-8'), '已经被修改', task['tasker_main'].encode('utf-8'), tasker.encode('utf-8'), coll_users.find_one({'username': tasker})['mobile'])
+    tasker = task['tasker_main']
+    print sendsms3(task['title'].encode('utf-8'), '已经被修改', task['tasker_main'].encode('utf-8'), tasker.encode('utf-8'), coll_users.find_one({'username': tasker})['mobile'])
+    for tasker in task['tasker_other']:
+        print sendsms3(task['title'].encode('utf-8'), '已经被修改', task['tasker_main'].encode('utf-8'), tasker.encode('utf-8'), coll_users.find_one({'username': tasker})['mobile'])
+    for tasker in task['participators']:
+        print sendsms3(task['title'].encode('utf-8'), '已经被修改', task['tasker_main'].encode('utf-8'), tasker.encode('utf-8'), coll_users.find_one({'username': tasker})['mobile'])
     return resp
 
 @app.route('/sparkbition/api/archive_task')
