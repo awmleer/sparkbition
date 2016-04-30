@@ -40,9 +40,8 @@ db=client.sparkbition
 tasks_file=db['tasks']
 meta_file=db['meta']
 users_file=db['users']
-tasks_undone=tasks_file.find({'status':'0'})
 finalstr=''
-for tasks in tasks_undone:
+for tasks in tasks_file.find({'status':'0'}):
     for tasker in tasks.tasker_other:
         users=users_file.find({'username':tasker})
         if tasks.ddl-time.time()<0:
