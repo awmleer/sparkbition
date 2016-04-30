@@ -26,7 +26,7 @@ def sendmessage_delay(flag):
         d['#how']='大后天是DDL'
     d['#tasker_main"']=tasks.tasker_main
     tpl_value=urllib.urlencode(d)
-    getdata=urllib.urlencode({'mobile':users['mobile'],'tpl_id':flag,'tpl_value':tpl_value,'key':psb_config.smskey})
+    getdata=urllib.urlencode({'mobile':users['mobile'],'tpl_id':flag,'tpl_value':tpl_value,'key':'b32c625ffb38e4ad07f86bb1101548e1'})
     url='http://v.juhe.cn/sms/send?%s'%getdata
     request=urllib.urlopen(url)
     result=json.loads(request.read())
