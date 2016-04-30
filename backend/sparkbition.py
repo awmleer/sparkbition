@@ -356,6 +356,39 @@ def modify_task():
         resp = make_response('not allowed', 200)
     return resp
 
+@app.route('/sparkbition/api/archive_task')
+def archive_task():
+    flag = False
+    username = request.cookies.get('All_Hell_Fqs')
+    if (username == None) or (username == ''):
+        resp = make_response('no login', 401)
+        return resp
+    usernam = base64.b64decode(username)
+    usernam = usernam[18:]
+    for user in client['sparkbition']['users'].find():
+        if (user['username'] == usernam):
+            flag = True
+            break
+    if (not flag):
+        resp = make_response('wrong cookies', 401)
+        return resp
+
+    task_id = request.args.get('task_id')
+    db = client['sparkbition']
+    coll_tasks = db['tasks']
+    if (coll_tasks.find_one({'id': int(task_id)})['status'] != 2):
+        resp = make_response('not allowed', 200)
+        return resp
+    publisher = coll_tasks.find_one({'id': int(task_id)})['publisher']
+    coll_users = db['users']
+    usertype = coll_users.find_one({'username': usernam})['type']
+    if (usertype == 'admin') or (usertype == 'root') or (usernam == publisher):
+        coll_tasks.update({'id': int(task_id)}, {'$set': {'status': 3}})
+        resp = make_response('success', 200)
+    else:
+        resp = make_response('not allowed', 200)
+    return resp
+
 # @app.route('/new')
 # def new():
 #    username = request.args.get('username')
