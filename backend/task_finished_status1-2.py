@@ -20,6 +20,11 @@ client = MongoClient('120.27.123.112', 27017)
 client.admin.authenticate('fqs', '123456', mechanism='MONGODB-CR')
 uri = "mongodb://fqs:123456@120.27.123.112/admin?authMechanism=MONGODB-CR"
 client = MongoClient(uri)
-
+db=client.sparkbition
 while True:
-    client
+    tasks_file=db['tasks']
+    status_1=tasks_file.find({'status':'1'})
+    for i in status_1:
+        if time.time()-i['ddl']>259200:
+            i['status']=2
+    time.sleep(1200)
