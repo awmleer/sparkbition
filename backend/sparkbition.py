@@ -38,8 +38,7 @@ def sendsms():
     finalstr += '发送给%s的短信的发送结果：%s\n' %('冯秋实',result['reason'].encode('utf-8'))
     return finalstr
 
-print sendsms()
-
+# print sendsms()
 
 # db = client['sparkbition']
 # coll = db['users']
@@ -388,6 +387,43 @@ def archive_task():
     else:
         resp = make_response('not allowed', 200)
     return resp
+
+@app.route('/sparkbition/api/mytask')
+def mytask():
+    flag = False
+    username = request.cookies.get('All_Hell_Fqs')
+    if (username == None) or (username == ''):
+        resp = make_response('no login', 401)
+        return resp
+    usernam = base64.b64decode(username)
+    usernam = usernam[18:]
+    for user in client['sparkbition']['users'].find():
+        if (user['username'] == usernam):
+            flag = True
+            break
+    if (not flag):
+        resp = make_response('wrong cookies', 401)
+        return resp
+
+    db = client['sparkbition']
+    coll_tasks = db['tasks']
+    my = [{'groupname': '我发布的', 'index': 0},{'groupname': '我负责的', 'index': 1}, {'groupname': '我参与的', 'index': 2}]
+    tasks = []
+    for task in coll_tasks.find({'publisher': usernam}):
+        tasks.append(task)
+    my[0].update({'tasks': tasks})
+    tasks = []
+    for task in coll_tasks.find({'tasker_other': {'$in': [usernam]}, 'tasker_main': usernam}):
+        tasks.append(task)
+    my[1].update({'tasks': tasks})
+    tasks = []
+    for task in coll_tasks.find({'participators': {'$in': [usernam]}}):
+        tasks.append(task)
+    my[3].update({'tasks': tasks})
+    aaa = dumps(my)
+    resp = make_response(aaa, 200)
+    return resp
+
 
 # @app.route('/new')
 # def new():
