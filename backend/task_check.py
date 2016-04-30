@@ -51,3 +51,4 @@ for tasks in tasks_undone:
             sendmessage(2)
         elif 172800000<tasks.ddl-time.time() and tasks.ddl-time.time()<259200000:
             sendmessage(3)
+print finalstr
