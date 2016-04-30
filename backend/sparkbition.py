@@ -49,6 +49,16 @@ def sendsms2(title, tasker_main, person, mobile):
     finalstr += '发送给%s的短信的发送结果：%s\n' %(person, result['reason'].encode('utf-8'))
     return finalstr
 
+def sendsms3(title, how, tasker_main, person, mobile):
+    d = {'#title': title, '#how#': how, '#tasker_main#': tasker_main}
+    tpl_value = urllib.urlencode(d)
+    finalstr = ''
+    getdata = urllib.urlencode({'mobile':mobile,'tpl_id':13214,'tpl_value':tpl_value,'key': 'b32c625ffb38e4ad07f86bb1101548e1'})
+    url = 'http://v.juhe.cn/sms/send?%s'%getdata
+    req = urllib.urlopen(url)
+    result = json.loads(req.read())
+    finalstr += '发送给%s的短信的发送结果：%s\n' %(person, result['reason'].encode('utf-8'))
+    return finalstr
 
 # db = client['sparkbition']
 # coll = db['users']
@@ -187,6 +197,8 @@ def new_task():
     text = request.json
     coll_tasks = db['tasks']
     text.update({'id': sum, 'status': 0, 'finishtime': '', 'publisher': usernam, 'base_score': 0, 'upvoters': []})
+    timestamp = int(text['ddl'])
+    text['ddl'] = timestamp
     coll_tasks.insert(text)
     resp = make_response('success', 200)
 
@@ -256,6 +268,16 @@ def delete_task():
         resp = make_response('success', 200)
     else:
         resp = make_response('not allowed', 200)
+
+    task = coll_tasks.find_one({'id': int(task_id)})
+    tasker = task['publisher']
+    print sendsms3(task['title'].encode('utf-8'), '已经被删除', task['tasker_main'].encode('utf-8'), tasker.encode('utf-8'), coll_users.find_one({'username': tasker})['mobile'])
+    tasker = task['tasker_main']
+    print sendsms3(task['title'].encode('utf-8'), '已经被删除', task['tasker_main'].encode('utf-8'), tasker.encode('utf-8'), coll_users.find_one({'username': tasker})['mobile'])
+    for tasker in task['tasker_other']:
+        print sendsms3(task['title'].encode('utf-8'), '已经被删除', task['tasker_main'].encode('utf-8'), tasker.encode('utf-8'), coll_users.find_one({'username': tasker})['mobile'])
+    for tasker in task['participators']:
+        print sendsms3(task['title'].encode('utf-8'), '已经被删除', task['tasker_main'].encode('utf-8'), tasker.encode('utf-8'), coll_users.find_one({'username': tasker})['mobile'])
     return resp
 
 @app.route('/sparkbition/api/crew_list')
