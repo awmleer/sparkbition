@@ -134,7 +134,7 @@ app.controller("ctrl_task",function($scope,$rootScope,$location,$http) {
                     for(var i=0;i<$rootScope.groups.length;i++){
                         for(var j=0;j<$rootScope.groups[i].tasks.length;j++){
                             if($rootScope.groups[i].tasks[j]['id'] ==task_id){
-                                $rootScope.groups[i].tasks.splice(j);//删除该task
+                                $rootScope.groups[i].tasks.splice(j,1);//删除该task
                             }
                         }
                     }
@@ -213,25 +213,30 @@ app.controller("ctrl_task",function($scope,$rootScope,$location,$http) {
 
     /*归档任务*/
     $scope.archive_task= function (task_id) {
-        $http({
-            url: 'api/archive_task',
-            method: 'get',
-            params: {task_id: task_id}
-        }).success(function (data) {
-            if (data == 'success') {
-                for(var i=0;i<$rootScope.groups.length;i++){
-                    for(var j=0;j<$rootScope.groups[i].tasks.length;j++){
-                        if($rootScope.groups[i].tasks[j]['id'] ==task_id){
-                            $rootScope.groups[i].tasks.splice(j);//删除该task
+        
+        if (window.confirm("归档后任务不会显示在任务板上，是否归档？")) {
+            $http({
+                url: 'api/archive_task',
+                method: 'get',
+                params: {task_id: task_id}
+            }).success(function (data) {
+                if (data == 'success') {
+                    for(var i=0;i<$rootScope.groups.length;i++){
+                        for(var j=0;j<$rootScope.groups[i].tasks.length;j++){
+                            if($rootScope.groups[i].tasks[j]['id'] ==task_id){
+                                $rootScope.groups[i].tasks.splice(j,1);//删除该task
+                            }
                         }
                     }
+                    $("#modal_task").modal('hide')//关闭模态框
+                }else if (data == 'not allowed') {
+                    alert("不能归档");
                 }
-            }else if (data == 'not allowed') {
-                alert("不能归档");
-            }
-        }).error(function () {
-            alert("操作失败，请稍后再试");
-        });
+            }).error(function () {
+                alert("操作失败，请稍后再试");
+            });
+        }
+        
     };
 
 });
@@ -408,7 +413,22 @@ app.controller('ctrl_mytask',function($scope,$rootScope,$location,$http){
 
 
 
-
+app.controller('ctrl_statistic',function($scope,$rootScope,$http){
+    Chart.defaults.global.colours=[ '#4D5360', '#00ADF9', '#DCDCDC', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'];
+    $scope.personal={
+        score:{
+            all:35,
+            month:18,
+            week:10,
+            chart:{
+                labels:["7", "6", "5", "4", "3", "2", "1"],
+                data:[
+                    [65, 59, 80, 81, 56, 55, 40]
+                ]
+            }
+        }
+    };
+});
 
 
 

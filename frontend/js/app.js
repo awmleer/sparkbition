@@ -1,4 +1,4 @@
-var app = angular.module('myApp', ['ui.router']);
+var app = angular.module('myApp', ['ui.router','chart.js']);
 
 
 app.config(function($stateProvider, $urlRouterProvider){
@@ -31,7 +31,8 @@ app.config(function($stateProvider, $urlRouterProvider){
         })
         .state('statistics', {
             url: "/statistics",
-            templateUrl: "partials/statistics.html"
+            templateUrl: "partials/statistics.html",
+            controller:'ctrl_statistic'
         })
         .state('about', {
             url: "/about",
