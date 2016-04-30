@@ -176,7 +176,7 @@ def new_task():
 
     text = request.json
     coll_tasks = db['tasks']
-    text.update({'id': sum, 'status': 0, 'finishtime': '', 'publisher': usernam, 'base_score': 0})
+    text.update({'id': sum, 'status': 0, 'finishtime': '', 'publisher': usernam, 'base_score': 0, 'upvoters': []})
     coll_tasks.insert(text)
 
     resp = make_response('success', 200)
@@ -409,17 +409,17 @@ def mytask():
     coll_tasks = db['tasks']
     my = [{'groupname': '我发布的', 'index': 0},{'groupname': '我负责的', 'index': 1}, {'groupname': '我参与的', 'index': 2}]
     tasks = []
-    for task in coll_tasks.find({'publisher': usernam}):
+    for task in coll_tasks.find({'publisher': usernam, 'status': {'$gte': 0, '$lte': 2}}):
         tasks.append(task)
     my[0].update({'tasks': tasks})
     tasks = []
-    for task in coll_tasks.find({'tasker_other': {'$in': [usernam]}, 'tasker_main': usernam}):
+    for task in coll_tasks.find({'$or': [{'tasker_other': {'$in': [usernam]}}, {'tasker_main': usernam}], 'status': {'$gte': 0, '$lte': 2}}):
         tasks.append(task)
     my[1].update({'tasks': tasks})
     tasks = []
-    for task in coll_tasks.find({'participators': {'$in': [usernam]}}):
+    for task in coll_tasks.find({'participators': {'$in': [usernam]}, 'status': {'$gte': 0, '$lte': 2}}):
         tasks.append(task)
-    my[3].update({'tasks': tasks})
+    my[2].update({'tasks': tasks})
     aaa = dumps(my)
     resp = make_response(aaa, 200)
     return resp
@@ -440,5 +440,5 @@ def mytask():
 #    return 'Hello %s !' % person
 
 if __name__ == '__main__':
-    # app.debug = True
+    app.debug = True
     app.run(host='0.0.0.0', port= 5001)
