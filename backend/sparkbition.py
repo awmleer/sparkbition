@@ -27,19 +27,18 @@ client = MongoClient(uri)
 salt = '5aWZak2n35Wk fqsws'
 tasks_modify = ['publisher', 'remark', 'group', 'upvoters', 'title', 'participators', 'tasker_other', 'tasker_main', 'ddl', 'urgency']
 
-def sendsms():
-    d = {'#publisher#': '冯秋实', '#title#': 'fuck you'}
+def sendsms1(publisher, title, person, mobile):
+    d = {'#publisher#': publisher, '#title#': title}
     tpl_value = urllib.urlencode(d)
     finalstr = ''
-    getdata = urllib.urlencode({'mobile':18867137748,'tpl_id':13216,'tpl_value':tpl_value,'key': 'b32c625ffb38e4ad07f86bb1101548e1'})
+    getdata = urllib.urlencode({'mobile':mobile,'tpl_id':13216,'tpl_value':tpl_value,'key': 'b32c625ffb38e4ad07f86bb1101548e1'})
     url = 'http://v.juhe.cn/sms/send?%s'%getdata
     req = urllib.urlopen(url)
     result = json.loads(req.read())
-    finalstr += '发送给%s的短信的发送结果：%s\n' %('冯秋实',result['reason'].encode('utf-8'))
+    finalstr += '发送给%s的短信的发送结果：%s\n' %(person, result['reason'].encode('utf-8'))
     return finalstr
 
-# print sendsms()
-
+def sendsms2()
 # db = client['sparkbition']
 # coll = db['users']
 # aa = '6546'
@@ -66,7 +65,7 @@ def task():
     usernam = base64.b64decode(username)
     usernam = usernam[18:]
     for user in client['sparkbition']['users'].find():
-        if (user['username'] == usernam):
+        if (user['username'].encode('utf-8') == usernam):
             flag = True
             break
     if (not flag):
@@ -101,7 +100,7 @@ def login():
     a2 = a1['password']
     if a2 == password:
         resp = make_response('success', 200)
-        resp.set_cookie('All_Hell_Fqs', base64.b64encode(salt + username))
+        resp.set_cookie('All_Hell_Fqs', base64.b64encode(salt + username.encode('utf-8')))
     else:
         resp = make_response('wrong password', 200)
     return resp
@@ -122,7 +121,7 @@ def userinfo():
     usernam = base64.b64decode(username)
     usernam = usernam[18:]
     for user in client['sparkbition']['users'].find():
-        if (user['username'] == usernam):
+        if (user['username'].encode('utf-8') == usernam):
             flag = True
             break
     if (not flag):
@@ -150,7 +149,7 @@ def userinfo():
 #
 #     return resp
 
-@app.route('/sparkbition/api/new_task', methods=['POST'])             #todo 添加发送短信的功能
+@app.route('/sparkbition/api/new_task', methods=['POST'])
 def new_task():
     flag = False
     username = request.cookies.get('All_Hell_Fqs')
@@ -160,7 +159,7 @@ def new_task():
     usernam = base64.b64decode(username)
     usernam = usernam[18:]
     for user in client['sparkbition']['users'].find():
-        if (user['username'] == usernam):
+        if (user['username'].encode('utf-8') == usernam):
             flag = True
             break
     if (not flag):
@@ -178,8 +177,15 @@ def new_task():
     coll_tasks = db['tasks']
     text.update({'id': sum, 'status': 0, 'finishtime': '', 'publisher': usernam, 'base_score': 0, 'upvoters': []})
     coll_tasks.insert(text)
-
     resp = make_response('success', 200)
+
+    coll_users = db['users']
+    tasker = text['tasker_main']
+    print sendsms1(usernam, text['title'].encode('utf-8'), tasker.encode('utf-8'), coll_users.find_one({'username': tasker})['mobile'])
+    for tasker in text['tasker_other']:
+        print sendsms1(usernam, text['title'].encode('utf-8'), tasker.encode('utf-8'), coll_users.find_one({'username': tasker})['mobile'])
+    for tasker in text['participators']:
+        print sendsms1(usernam, text['title'].encode('utf-8'), tasker.encode('utf-8'), coll_users.find_one({'username': tasker})['mobile'])
     return resp
 
 @app.route('/sparkbition/api/complete_task')                #todo 添加发送短信的功能
@@ -192,7 +198,7 @@ def complete_task():
     usernam = base64.b64decode(username)
     usernam = usernam[18:]
     for user in client['sparkbition']['users'].find():
-        if (user['username'] == usernam):
+        if (user['username'].encode('utf-8') == usernam):
             flag = True
             break
     if (not flag):
@@ -217,7 +223,7 @@ def delete_task():
     usernam = base64.b64decode(username)
     usernam = usernam[18:]
     for user in client['sparkbition']['users'].find():
-        if (user['username'] == usernam):
+        if (user['username'].encode('utf-8') == usernam):
             flag = True
             break
     if (not flag):
@@ -247,7 +253,7 @@ def crew_list():
     usernam = base64.b64decode(username)
     usernam = usernam[18:]
     for user in client['sparkbition']['users'].find():
-        if (user['username'] == usernam):
+        if (user['username'].encode('utf-8') == usernam):
             flag = True
             break
     if (not flag):
@@ -273,7 +279,7 @@ def group_list():
     usernam = base64.b64decode(username)
     usernam = usernam[18:]
     for user in client['sparkbition']['users'].find():
-        if (user['username'] == usernam):
+        if (user['username'].encode('utf-8') == usernam):
             flag = True
             break
     if (not flag):
@@ -299,7 +305,7 @@ def upvote():
     usernam = base64.b64decode(username)
     usernam = usernam[18:]
     for user in client['sparkbition']['users'].find():
-        if (user['username'] == usernam):
+        if (user['username'].encode('utf-8') == usernam):
             flag = True
             break
     if (not flag):
@@ -332,7 +338,7 @@ def modify_task():
     usernam = base64.b64decode(username)
     usernam = usernam[18:]
     for user in client['sparkbition']['users'].find():
-        if (user['username'] == usernam):
+        if (user['username'].encode('utf-8') == usernam):
             flag = True
             break
     if (not flag):
@@ -365,7 +371,7 @@ def archive_task():
     usernam = base64.b64decode(username)
     usernam = usernam[18:]
     for user in client['sparkbition']['users'].find():
-        if (user['username'] == usernam):
+        if (user['username'].encode('utf-8') == usernam):
             flag = True
             break
     if (not flag):
@@ -398,7 +404,7 @@ def mytask():
     usernam = base64.b64decode(username)
     usernam = usernam[18:]
     for user in client['sparkbition']['users'].find():
-        if (user['username'] == usernam):
+        if (user['username'].encode('utf-8') == usernam):
             flag = True
             break
     if (not flag):
@@ -440,5 +446,5 @@ def mytask():
 #    return 'Hello %s !' % person
 
 if __name__ == '__main__':
-    app.debug = True
+    # app.debug = True
     app.run(host='0.0.0.0', port= 5001)
