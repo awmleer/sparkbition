@@ -1,3 +1,4 @@
+# coding:utf-8
 from flask import Flask, request, make_response
 import time
 import hashlib
@@ -21,5 +22,4 @@ uri = "mongodb://fqs:123456@120.27.123.112/admin?authMechanism=MONGODB-CR"
 client = MongoClient(uri)
 
 while True:
-    time.sleep(3)
-    print "1"
+    client
