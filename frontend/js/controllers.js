@@ -405,3 +405,14 @@ app.controller('ctrl_mytask',function($scope,$rootScope,$location,$http){
         participated:[]
     };
 });
+
+
+
+
+
+
+
+
+app.controller('ctrl_userinfo',function($scope,$rootScope,$location,$http){
+    
+});

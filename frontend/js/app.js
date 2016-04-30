@@ -37,6 +37,11 @@ app.config(function($stateProvider, $urlRouterProvider){
             url: "/about",
             templateUrl: "partials/about.html"
         })
+        .state('userinfo', {
+            url: "/userinfo",
+            templateUrl: "partials/userinfo.html",
+            controller:'ctrl_userinfo'
+        })
         .state('state2', {
             url: "/state2",
             templateUrl: "partials/state2.html"
