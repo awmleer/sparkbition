@@ -38,7 +38,18 @@ def sendsms1(publisher, title, person, mobile):
     finalstr += '发送给%s的短信的发送结果：%s\n' %(person, result['reason'].encode('utf-8'))
     return finalstr
 
-def sendsms2()
+def sendsms2(title, tasker_main, person, mobile):
+    d = {'#title#': title, '#tasker_main#': tasker_main}
+    tpl_value = urllib.urlencode(d)
+    finalstr = ''
+    getdata = urllib.urlencode({'mobile':mobile,'tpl_id':13215,'tpl_value':tpl_value,'key': 'b32c625ffb38e4ad07f86bb1101548e1'})
+    url = 'http://v.juhe.cn/sms/send?%s'%getdata
+    req = urllib.urlopen(url)
+    result = json.loads(req.read())
+    finalstr += '发送给%s的短信的发送结果：%s\n' %(person, result['reason'].encode('utf-8'))
+    return finalstr
+
+
 # db = client['sparkbition']
 # coll = db['users']
 # aa = '6546'
@@ -188,7 +199,7 @@ def new_task():
         print sendsms1(usernam, text['title'].encode('utf-8'), tasker.encode('utf-8'), coll_users.find_one({'username': tasker})['mobile'])
     return resp
 
-@app.route('/sparkbition/api/complete_task')                #todo 添加发送短信的功能
+@app.route('/sparkbition/api/complete_task')
 def complete_task():
     flag = False
     username = request.cookies.get('All_Hell_Fqs')
@@ -211,6 +222,10 @@ def complete_task():
     timestamp = int(time.time() * 1000)
     coll_tasks.update({'id': int(task_id)}, {'$set': {'status': 1, 'finishtime': timestamp}})
     resp = make_response(json.dumps({'finishtime': timestamp}), 200)
+
+    coll_users = db['users']
+    for tasker in coll_users.find():
+        print sendsms2(coll_tasks.find_one({'id': int(task_id)})['title'].encode('utf-8'), coll_tasks.find_one({'id': int(task_id)})['tasker_main'].encode('utf-8'), tasker['username'].encode('utf-8'), tasker['mobile'])
     return resp
 
 @app.route('/sparkbition/api/delete_task')                  #todo 添加发送短信的功能
