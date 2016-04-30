@@ -198,10 +198,11 @@ app.controller("ctrl_task",function($scope,$rootScope,$location,$http) {
                         }
                     }
                 }
+                alert("支持成功");
             }else if (data == 'not allowed') {
-                alert("现在还不能点赞或您没有点赞的权限");
+                alert("现在还不能支持或您没有支持的权限");
             }else if (data == 'already') {
-                alert("您已经点过赞了");
+                alert("您已经支持过了");
             }
         }).error(function () {
             alert("操作失败，请稍后再试");
