@@ -6,8 +6,13 @@ app.controller("ctrl_header",function($scope,$rootScope,$location,$http) {
         params: {}
     }).success(function (data) {
         $rootScope.userinfo=data;
-    }).error(function () {
-        alert("获取用户个人信息失败，请稍后再试");
+    }).error(function (data,status) {
+        if (status == 401) {//如果是unauthorized
+            alert("您还没有登录");
+            location.href="login.html";//就跳转到登录页面
+        }else{
+            alert("获取用户个人信息失败，请稍后再试");
+        }
     });
 
     //TEMP
