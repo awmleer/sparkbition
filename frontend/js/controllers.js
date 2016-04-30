@@ -248,7 +248,8 @@ app.controller("ctrl_newtask",function($scope,$rootScope,$location,$http) {
     /*初始化newtask对象*/
     $rootScope.newtask={
         'tasker_other':[],
-        'participators':[]
+        'participators':[],
+        'remark':''
     };
     $rootScope.newtask.group=$rootScope.group_list[0];
     $rootScope.newtask.urgency="正常";
@@ -415,15 +416,38 @@ app.controller('ctrl_mytask',function($scope,$rootScope,$location,$http){
 
 app.controller('ctrl_statistic',function($scope,$rootScope,$http){
     Chart.defaults.global.colours=[ '#4D5360', '#00ADF9', '#DCDCDC', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'];
+    Chart.defaults.global.scaleBeginAtZero=true;
     $scope.personal={
         score:{
             all:35,
             month:18,
             week:10,
             chart:{
-                labels:["7", "6", "5", "4", "3", "2", "1"],
+                labels:["六", "五", "四", "三", "二", "一", "零"],
                 data:[
                     [65, 59, 80, 81, 56, 55, 40]
+                ]
+            }
+        },
+        number:{
+            all:20,
+            month:12,
+            week:8,
+            chart:{
+                labels:["六", "五", "四", "三", "二", "一", "零"],
+                data:[
+                    [4, 2, 3, 5, 1, 6, 2]
+                ]
+            }
+        },
+        average:{
+            all:1.3,
+            month:1.4,
+            week:1.1,
+            chart:{
+                labels:["六", "五", "四", "三", "二", "一", "零"],
+                data:[
+                    [1.6,1.0,1.2,0.9,0,1.5,0.6]
                 ]
             }
         }
