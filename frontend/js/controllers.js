@@ -15,11 +15,6 @@ app.controller("ctrl_header",function($scope,$rootScope,$location,$http) {
         }
     });
 
-    //TEMP
-    // $rootScope.userinfo={
-    //     name:'小明'
-    // };
-
     $scope.logout=function () {
         //api logout
         $http({
@@ -34,6 +29,7 @@ app.controller("ctrl_header",function($scope,$rootScope,$location,$http) {
             alert("获取信息失败，请稍后再试");
         });
     }
+
 });
 
 
