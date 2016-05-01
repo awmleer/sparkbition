@@ -362,7 +362,7 @@ def upvote():
         return resp
     upvoters = coll_tasks.find_one({'id': int(task_id)})['upvoters']
     for upvoter in upvoters:
-        if (upvoter == usernam):
+        if (upvoter.encode('utf-8') == usernam):
             resp = make_response('already', 200)
             return resp
     upvoters.append(usernam)
