@@ -503,7 +503,7 @@ def set_base_score():
     coll_users = db['users']
     usertype = coll_users.find_one({'username': usernam})['type']
     status = coll_tasks.find_one({'id': int(task_id)})['status']
-    if ((status != 0) or (status != 1)):
+    if ((status != 0) and (status != 1)):
         resp = make_response('not allowed', 200)
         return resp
     if ((usertype == 'admin') or (usertype == 'root')):
