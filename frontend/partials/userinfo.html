@@ -1,90 +1,76 @@
+<style>
+    .user-table td{
+        padding-bottom: 1em;
+        padding-left:2em;
+        padding-right:2em;
+    }
+</style>
 
 <div class=" row">
-    <div class="col-md-8 col-md-offset-2">
+    <div class="col-md-6 col-md-offset-3">
         <div class="panel panel-primary">
-            <div  style="margin-bottom:20px;" class="panel-heading">
+            <div class="panel-heading">
                 <h3 class="text-center panel-title">个人信息</h3>
             </div>
-            <table  class="table table-hover">
-                <tbody>
-                <div class=" col-md-offset-2">
-                    <tr class=" col-md-12 col-md-offset-2">
-                        <div class="row">
-                            <div class="col-md-2 col-md-offset-1">
-                                姓名：
-                            </div class="col-md-2 col-md-offset-1">
-                            <div>
-                                {{ userinfo.username }}
-                            </div>
-                        </div>
+            <table>
+                <tbody class="user-table">
+                    <tr >
+                        <td style="padding-top: 2em;">
+                            姓名：
+                        </td>
+                        <td  style="padding-top: 2em;">
+                            {{ userinfo.username }}
+                        </td>
                     </tr>
-                    <tr class="col-md-12 col-md-offset-2">
-                        <div class="row">
-                            <div class="col-md-2 col-md-offset-1">
-                                电话：
-                            </div>
-                            <div class="col-md-2 col-md-offset-1">
-                                {{ userinfo.mobile }}
-                            </div>
-                        </div>
-                    </tr><br>
-                    <tr class="col-md-12 col-md-offset-2">
-                       <div class="row">
-                           <div class="col-md-2 col-md-offset-1">
-                               性别：
-                           </div>
-                           <div class="col-md-2 col-md-offset-1">
-                               {{ userinfo.gender=="F"?"女":"男"}}
-                           </div>
-                       </div>
-                    </tr><br>
-                    <tr class="col-md-12 col-md-offset-2">
-                        <div class="row">
-                            <div class="col-md-2 col-md-offset-1">
-                                登陆次数：
-                            </div>
-                            <div class="col-md-2 col-md-offset-1">
-                                {{ userinfo.login_count }}
-                            </div>
-                        </div>
+                    <tr>
+                        <td >
+                            电话：
+                        </td>
+                        <td >
+                            {{ userinfo.mobile }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            性别：
+                        </td>
+                        <td>
+                            {{ userinfo.gender=="F"?"女":"男"}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            登陆次数：
+                        </td>
+                        <td>
+                            {{ userinfo.login_count }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            积分：
+                        </td>
+                        <td>
+                            {{ userinfo.points }}
+                        </td>
 
-                    </tr><br>
-                    <tr class="col-md-12 col-md-offset-2">
-                        <div class="row">
-                            <div class="col-md-2 col-md-offset-1">
-                                积分：
-                            </div>
-                            <div class="col-md-2 col-md-offset-1">
-                                {{ userinfo.points }}
-                            </div>
-                        </div>
-
-                    </tr><br>
-                    <tr class="col-md-12 col-md-offset-2">
-                        <div class="row">
-                            <div class="col-md-2 col-md-offset-1">
-                                上次登录：
-                            </div>
-                            <div class="col-md-2 col-md-offset-1">
-                                {{ userinfo.last_login }}
-                            </div>
-                        </div>
-
-                    </tr><br>
-                    <tr class="col-md-12 col-md-offset-2">
-                        <div class="row">
-                            <div class="col-md-2 col-md-offset-1">
-                                账户类型：
-                            </div>
-                            <div class="col-md-2 col-md-offset-1">
-                                {{ userinfo.type }}
-                            </div>
-                        </div>
-
-                    </tr><br>
-
-                </div>
-
+                    </tr>
+                    <tr>
+                        <td>
+                            上次登录：
+                        </td>
+                        <td>
+                            {{ userinfo.last_login }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding-bottom: 2em">
+                            账户类型：
+                        </td>
+                        <td style="padding-bottom: 2em">
+                            {{ userinfo.type }}
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>
