@@ -2,7 +2,10 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <meta username="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--icon-->
+    <link rel="shortcut icon" href="img/favico.ico" type="image/x-icon" />
 
     <!--bootstrap & material design-->
     <link href="static/bootstrap/bootstrap.min.css" rel="stylesheet">
@@ -23,10 +26,10 @@
     </style>
 </head>
 <body>
-<div style="width: 80%;max-width: 40rem" class="center-block">
+<div style="width: 80%;max-width: 40rem;margin-bottom: 3rem" class="center-block">
     <img src="img/logo.png" class="img-responsive">
     <h3 class="text-center">sparkbition<br>高效的团队任务管理系统</h3>
-    <div>
+    <form onsubmit="login()">
         <div class="form-group">
             <label for="username" class="col-md-2 control-label">姓名</label>
             <div class="col-md-10">
@@ -39,9 +42,10 @@
                 <input type="password" class="form-control" id="password" placeholder="请输入密码">
             </div>
         </div>
-        <button onclick="login()" style="width: 70%;margin: 7rem auto 3rem;" class="center-block btn btn-primary btn-raised">登录</button>
-        <button onclick="test()" style="width: 70%;margin: 0 auto;" class="center-block btn btn-default btn-raised">测试</button>
-    </div>
+        <button type="submit" style="width: 70%;margin: 6rem auto 1.5rem;" class="center-block btn btn-primary btn-raised">登录</button>
+        <button type="reset" style="width: 70%;margin: 1rem auto 3rem;" class="center-block btn btn-default btn-raised">清空</button>
+    </form>
+    <p class="small text-center">&copy;sparker team<br>All rights reserved.</p>
 </div>
 
 
@@ -53,6 +57,7 @@
     });
 
     function login() {
+        event.preventDefault();//取消默认事件动作
         var username=$("#username").val();
         var password=$("#password").val();
         if (username == "") {
@@ -76,24 +81,12 @@
             }else if (data == 'wrong password') {
                 alert("您输入的密码有误");
                 $("#password").val('');
+            }else if (data == 'wrong username') {
+                alert("您输入的用户名不存在");
+                $("#username").val('');
             }
         }).fail(function () {
-            alert("获取信息失败，请稍后再试");
-        });
-    }
-
-
-    function test() {
-        $.ajax({
-            url: "api/func1",
-            type: "get",
-            data: {
-                testdata: "test_success!"
-            }
-        }).done(function (data) {
-            alert(data);
-        }).fail(function () {
-            alert("获取信息失败，请稍后再试");
+            alert("获取信息失败");
         });
     }
 </script>
