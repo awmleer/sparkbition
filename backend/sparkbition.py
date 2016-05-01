@@ -50,7 +50,7 @@ def sendsms2(title, tasker_main, person, mobile):
     return finalstr
 
 def sendsms3(title, how, tasker_main, person, mobile):
-    d = {'#title': title, '#how#': how, '#tasker_main#': tasker_main}
+    d = {'#title#': title, '#how#': how, '#tasker_main#': tasker_main}
     tpl_value = urllib.urlencode(d)
     finalstr = ''
     getdata = urllib.urlencode({'mobile':mobile,'tpl_id':13214,'tpl_value':tpl_value,'key': 'b32c625ffb38e4ad07f86bb1101548e1'})
@@ -479,6 +479,39 @@ def mytask():
     resp = make_response(aaa, 200)
     return resp
 
+@app.route('/sparkbition/api/set_base_score')
+def set_base_score():
+    flag = False
+    username = request.cookies.get('All_Hell_Fqs')
+    if (username == None) or (username == ''):
+        resp = make_response('no login', 401)
+        return resp
+    usernam = base64.b64decode(username)
+    usernam = usernam[18:]
+    for user in client['sparkbition']['users'].find():
+        if (user['username'].encode('utf-8') == usernam):
+            flag = True
+            break
+    if (not flag):
+        resp = make_response('wrong cookies', 401)
+        return resp
+
+    task_id = request.args.get('task_id')
+    base_score = request.args.get('base_score')
+    db = client['sparkbition']
+    coll_tasks = db['tasks']
+    coll_users = db['users']
+    usertype = coll_users.find_one({'username': usernam})['type']
+    status = coll_tasks.find_one({'id': int(task_id)})['status']
+    if ((status != 0) or (status != 1)):
+        resp = make_response('not allowed', 200)
+        return resp
+    if ((usertype == 'admin') or (usertype == 'root')):
+        coll_tasks.update({'id': int(task_id)}, {'$set': {'base_score': base_score}})
+        resp = make_response('success', 200)
+    else:
+        resp = make_response('not allowed', 200)
+    return resp
 
 # @app.route('/new')
 # def new():
