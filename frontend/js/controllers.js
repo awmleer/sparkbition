@@ -456,6 +456,26 @@ app.controller('ctrl_statistic',function($scope,$rootScope,$http){
 });
 
 
+app.controller('ctrl_changepwd', function ($scope, $rootScope, $location, $http) {
+    $scope.submit_change = function () {
+        if ($scope.new_password != $scope.new_password2) {
+            alert("两次密码不同，请重新输入");
+        } else {
+            $http({
+                url: "api/change_password",
+                method: 'get',
+                params: {old_password: $scope.old_password, new_password: $scope.new_password}
+            }).success(function (data) {
+                if (data == 'success') {
+                    alert("修改密码成功，请重新登录");
+                    location.href = 'login.html';
+                } else if (data == 'wrong old password') {
+                    alert("密码错误，请重新输入")
+                }
+            })
+        }
+    };
+});
 
 
 app.controller('ctrl_userinfo',function($scope,$rootScope,$location,$http){
