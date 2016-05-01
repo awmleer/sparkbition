@@ -161,6 +161,8 @@ app.controller("ctrl_task",function($scope,$rootScope,$location,$http) {
             if (data == 'success') {
                 $scope.set_base_score_showing=false;
                 alert('设置成功');
+            }else if (data == 'not allowed') {
+                alert("无法设置");
             }
         }).error(function () {
             alert("操作失败，请稍后再试");

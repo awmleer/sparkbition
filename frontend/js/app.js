@@ -47,7 +47,7 @@ app.config(function($stateProvider, $urlRouterProvider){
             url: "/changepwd",
             templateUrl: "partials/changepwd.html",
             controller:'ctrl_changepwd'
-        });;
+        });
 
 
 });

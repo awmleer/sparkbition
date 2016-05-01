@@ -15,7 +15,7 @@
 
 
 <div class="well col-xs-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
-    <form class="form-horizontal">
+    <form class="form-horizontal" onsubmit="stop_submit()">
         <fieldset>
             <legend>新任务</legend>
 
@@ -74,7 +74,7 @@
                 <div class="col-md-10">
                     <p style="display: inline;" ng-if="newtask.tasker_other.length==0">请点击右边的添加按钮</p>
                     <label class="label label_tasker" ng-repeat="tasker in newtask.tasker_other" ng-click="remove_tasker_other(tasker)">{{ tasker }}<span>&nbsp;&times;</span></label>
-                    <button data-toggle="modal" data-target="#add_tasker_other" class="btn btn-primary">添加</button>
+                    <button type="button" data-toggle="modal" data-target="#add_tasker_other" class="btn btn-primary">添加</button>
                 </div>
             </div>
 
@@ -83,14 +83,14 @@
                 <div class="col-md-10">
                     <p style="display: inline;" ng-if="newtask.participators.length==0">请点击右边的添加按钮</p>
                     <label class="label label_tasker" ng-repeat="tasker in newtask.participators" ng-click="remove_participator(tasker)">{{ tasker }}<span>&nbsp;&times;</span></label>
-                    <button data-toggle="modal" data-target="#add_participator" class="btn btn-primary">添加</button>
+                    <button type="button" data-toggle="modal" data-target="#add_participator" class="btn btn-primary">添加</button>
                 </div>
             </div>
 
             <div class="form-group">
                 <div class="col-md-10 col-md-offset-2">
                     <button onclick="history.go(-1)" type="button" class="btn btn-default">取消</button>
-                    <button class="btn btn-primary" ng-click="new_task()">提交</button>
+                    <button type="submit" class="btn btn-primary" ng-click="new_task()">提交</button>
                 </div>
             </div>
         </fieldset>
@@ -143,4 +143,7 @@
 
 <script>
     $('#ddl').bootstrapMaterialDatePicker().bootstrapMaterialDatePicker('setDate', moment());
+    function stop_submit () {
+        event.preventDefault();//取消默认事件动作
+    }
 </script>
