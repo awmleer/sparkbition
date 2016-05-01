@@ -362,7 +362,7 @@ def upvote():
             resp = make_response('already', 200)
             return resp
     upvoters.append(usernam)
-    coll_tasks.update({'id': int(task_id)}, {'$set': {'upvoters': upvoters}})
+    coll_tasks.update({'id': int(task_id), 'status': 1}, {'$set': {'upvoters': upvoters}})
     resp = make_response('success', 200)
     return resp
 
@@ -511,6 +511,34 @@ def set_base_score():
         resp = make_response('success', 200)
     else:
         resp = make_response('not allowed', 200)
+    return resp
+
+@app.route('/sparkbition/api/change_password')
+def change_password():
+    flag = False
+    username = request.cookies.get('All_Hell_Fqs')
+    if (username == None) or (username == ''):
+        resp = make_response('no login', 401)
+        return resp
+    usernam = base64.b64decode(username)
+    usernam = usernam[18:]
+    for user in client['sparkbition']['users'].find():
+        if (user['username'].encode('utf-8') == usernam):
+            flag = True
+            break
+    if (not flag):
+        resp = make_response('wrong cookies', 401)
+        return resp
+
+    old_password = request.args.get('old_password')
+    new_password = request.args.get('new_password')
+    db = client['sparkbition']
+    coll_users = db['users']
+    if (old_password != coll_users.find_one({'username': usernam})['password']):
+        resp = make_response('wrong old password', 200)
+        return resp
+    coll_users.update({'username': usernam}, {'$set': {'password': new_password}})
+    resp = make_response('success', 200)
     return resp
 
 # @app.route('/new')
