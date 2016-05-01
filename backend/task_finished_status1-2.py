@@ -23,8 +23,7 @@ client = MongoClient(uri)
 db=client.sparkbition
 while True:
     tasks_file=db['tasks']
-    status_1=tasks_file.find({'status':'1'})
-    for i in status_1:
-        if time.time()-i['ddl']>259200:
+    for i in tasks_file.find({'status':'1'}):
+        if 1000*time.time()-i['finishtime']>259200:
             i['status']=2
     time.sleep(1200)
