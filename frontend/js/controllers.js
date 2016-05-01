@@ -135,7 +135,7 @@ app.controller("ctrl_task",function($scope,$rootScope,$location,$http) {
                     for(var i=0;i<$rootScope.groups.length;i++){
                         for(var j=0;j<$rootScope.groups[i].tasks.length;j++){
                             if($rootScope.groups[i].tasks[j]['id'] ==task_id){
-                                $rootScope.groups[i].tasks.splice(j,1);//删除该task
+                                $rootScope.groups[i].tasks.splice(j);//删除该task
                             }
                         }
                     }
@@ -461,5 +461,13 @@ app.controller('ctrl_statistic',function($scope,$rootScope,$http){
 
 
 app.controller('ctrl_userinfo',function($scope,$rootScope,$location,$http){
-    
+    $http({
+        url:'api/userinfo',
+        method:'get',
+        params:{}
+    }).success(function(data){
+        $rootscope.userinfo=data;
+    }).error(function(){
+        alert("获取用户个人信息失败，请稍后再试")
+    });
 });
