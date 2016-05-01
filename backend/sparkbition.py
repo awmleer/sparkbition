@@ -116,10 +116,14 @@ def login():
     password = request.args.get('password')
 
     db = client['sparkbition']
-    coll = db['users']
-    a1 = coll.find_one({'username': username})
-    a2 = a1['password']
-    if a2 == password:
+    coll_users = db['users']
+    usernam = coll_users.find_one({'username': username})
+    if (usernam == None):
+        resp = make_response('wrong username')
+        return resp
+    passwo = usernam['password']
+    password_hash = hashlib.md5(password + salt).hexdigest()
+    if passwo == password_hash:
         resp = make_response('success', 200)
         resp.set_cookie('All_Hell_Fqs', base64.b64encode(salt + username.encode('utf-8')))
     else:
@@ -534,11 +538,14 @@ def change_password():
     new_password = request.args.get('new_password')
     db = client['sparkbition']
     coll_users = db['users']
-    if (old_password != coll_users.find_one({'username': usernam})['password']):
+    old_password_hash = hashlib.md5(old_password + salt).hexdigest()
+    new_password_hash = hashlib.md5(new_password + salt).hexdigest()
+    if (old_password_hash != coll_users.find_one({'username': usernam})['password']):
         resp = make_response('wrong old password', 200)
         return resp
-    coll_users.update({'username': usernam}, {'$set': {'password': new_password}})
+    coll_users.update({'username': usernam}, {'$set': {'password': new_password_hash}})
     resp = make_response('success', 200)
+    resp.set_cookie('All_Hell_Fqs', '')
     return resp
 
 # @app.route('/new')
