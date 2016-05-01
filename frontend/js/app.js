@@ -42,7 +42,13 @@ app.config(function($stateProvider, $urlRouterProvider){
             url: "/userinfo",
             templateUrl: "partials/userinfo.html",
             controller:'ctrl_userinfo'
-        });
+        })
+        .state('changepwd', {
+            url: "/changepwd",
+            templateUrl: "partials/changepwd.html",
+            controller:'ctrl_changepwd'
+        });;
+
 
 });
 

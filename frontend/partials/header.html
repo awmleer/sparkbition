@@ -18,11 +18,11 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li ng-class="{'active':path.substr(0,6)=='/about'}"><a ui-sref="about">关于</a></li>
-                <li ng-class="{'active':path.substr(0,9)=='/userinfo'}" class="dropdown">
+                <li ng-class="{'active':path.substr(0,9)=='/userinfo'||path.substr(0,10)=='/changepwd'}" class="dropdown">
                     <a href="" data-target="#" class="dropdown-toggle" data-toggle="dropdown">{{ userinfo.username }}<b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><a ui-sref="userinfo">个人信息</a></li>
-                        <li><a href="javascript:void(0)">修改密码</a></li>
+                        <li><a ui-sref="changepwd">修改密码</a></li>
                         <li class="divider"></li>
                         <li><a href="" ng-click="logout()">退出登录</a></li>
                     </ul>
