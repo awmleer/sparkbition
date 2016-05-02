@@ -58,6 +58,7 @@
 
     function login() {
         event.preventDefault();//取消默认事件动作
+        event.stopPropagation();
         var username=$("#username").val();
         var password=$("#password").val();
         if (username == "") {
