@@ -6,6 +6,7 @@
         cursor: pointer;
         margin-right: 1em;
         color: #ffffff!important;
+        display: inline-block;
     }
     .label_tasker:hover span{
         display: inline;
@@ -75,6 +76,8 @@
                     <p style="display: inline;" ng-if="newtask.tasker_other.length==0">请点击右边的添加按钮</p>
                     <label class="label label_tasker" ng-repeat="tasker in newtask.tasker_other" ng-click="remove_tasker_other(tasker)">{{ tasker }}<span>&nbsp;&times;</span></label>
                     <button type="button" data-toggle="modal" data-target="#add_tasker_other" class="btn btn-primary">添加</button>
+
+
                 </div>
             </div>
 
