@@ -15,6 +15,31 @@ app.controller("ctrl_header",function($scope,$rootScope,$location,$http) {
         }
     });
 
+
+    /*APP多页面通用信息的获取*/
+    // 获取分组列表
+    $http({
+        url: 'api/group_list',
+        method: 'get',
+        params: {}
+    }).success(function (data) {
+        $rootScope.group_list=data;
+    }).error(function () {
+        alert("获取分组列表失败，请稍后再试");
+    });
+    //获取全部成员列表
+    $http({
+        url: 'api/crew_list',
+        method: 'get',
+        params: {}
+    }).success(function (data) {
+        $rootScope.crew_list=data;
+    }).error(function () {
+        alert("获取成员列表失败，请稍后再试");
+    });
+
+
+    /*退出登录*/
     $scope.logout=function () {
         //api logout
         $http({
@@ -37,30 +62,6 @@ app.controller("ctrl_header",function($scope,$rootScope,$location,$http) {
 app.controller("ctrl_task",function($scope,$rootScope,$location,$http) {
     /*获取当前时间*/
     $scope.now=Date.parse( new Date());
-
-    /*APP多页面通用信息的获取*/
-    // 获取分组列表
-    $http({
-        url: 'api/group_list',
-        method: 'get',
-        params: {}
-    }).success(function (data) {
-        $rootScope.group_list=data;
-    }).error(function () {
-        alert("获取分组列表失败，请稍后再试");
-    });
-    // $rootScope.group_list=['主要任务','技术任务'];
-    //获取全部成员列表
-    $http({
-        url: 'api/crew_list',
-        method: 'get',
-        params: {}
-    }).success(function (data) {
-        $rootScope.crew_list=data;
-    }).error(function () {
-        alert("获取成员列表失败，请稍后再试");
-    });
-    // $rootScope.crew_list=['小明','test','hh','AA'];
 
 
     /*获取任务*/
@@ -486,7 +487,7 @@ app.controller('ctrl_userinfo',function($scope,$rootScope,$location,$http){
         method:'get',
         params:{}
     }).success(function(data){
-        $rootscope.userinfo=data;
+        $rootScope.userinfo=data;
     }).error(function(){
         alert("获取用户个人信息失败，请稍后再试")
     });
