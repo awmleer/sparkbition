@@ -1,5 +1,5 @@
 # coding:utf-8
-
+#!/usr/bin/python
 from flask import Flask, request, make_response
 import time
 import hashlib
