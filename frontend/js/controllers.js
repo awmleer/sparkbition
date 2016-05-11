@@ -106,12 +106,16 @@ app.controller("ctrl_task",function($scope,$rootScope,$location,$http) {
                 method: 'get',
                 params: {task_id:task_id}
             }).success(function (data) {
-                //查找这个任务
-                for(var i=0;i<$rootScope.groups.length;i++){
-                    for(var j=0;j<$rootScope.groups[i].tasks.length;j++){
-                        if($rootScope.groups[i].tasks[j]['id'] ==task_id){
-                            $rootScope.groups[i].tasks[j]['status'] = 1;//把status改成1
-                            $rootScope.groups[i].tasks[j]['finishtime'] = data.finishtime;//设置finishtime
+                if (data == "not allowed") {
+                    alert("您没有权限完成该任务");
+                }else {
+                    //查找这个任务
+                    for(var i=0;i<$rootScope.groups.length;i++){
+                        for(var j=0;j<$rootScope.groups[i].tasks.length;j++){
+                            if($rootScope.groups[i].tasks[j]['id'] ==task_id){
+                                $rootScope.groups[i].tasks[j]['status'] = 1;//把status改成1
+                                $rootScope.groups[i].tasks[j]['finishtime'] = data.finishtime;//设置finishtime
+                            }
                         }
                     }
                 }
@@ -141,7 +145,7 @@ app.controller("ctrl_task",function($scope,$rootScope,$location,$http) {
                         }
                     }
                     $("#modal_task").modal('hide');//关闭模态框
-                }else if (date == 'not allowed') {
+                }else if (data == 'not allowed') {
                     alert("您没有权限");
                 }
             }).error(function () {
@@ -330,8 +334,12 @@ app.controller('ctrl_modifytask',function($scope,$rootScope,$location,$http){
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             data: JSON.stringify($rootScope.task_modifying)
-        }).success(function () {
-            alert("修改任务成功");
+        }).success(function (data) {
+            if (data == "not allowed") {
+                alert("您没有权限");
+            }else if (data == "success") {
+                alert("修改任务成功");
+            }
             location.hash='#/tasks';
         }).error(function () {
             alert("提交失败，请稍后再试");
