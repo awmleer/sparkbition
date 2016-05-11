@@ -235,13 +235,23 @@ def complete_task():
     task_id = request.args.get('task_id')
     db = client['sparkbition']
     coll_tasks = db['tasks']
+    tasker_main = coll_tasks.find_one({'id': int(task_id)})['tasker_main']
+    coll_users = db['users']
+    usertype = coll_users.find_one({'username': usernam})['type']
+    if (usertype == 'admin') or (usertype == 'root') or (usernam == tasker_main):
+        coll_tasks.update({'id': int(task_id)}, {'$set': {'status': -1}})
+        resp = make_response('success', 200)
+    else:
+        resp = make_response('not allowed', 200)
+        return resp
+
     timestamp = int(time.time() * 1000)
     coll_tasks.update({'id': int(task_id)}, {'$set': {'status': 1, 'finishtime': timestamp}})
     resp = make_response(json.dumps({'finishtime': timestamp}), 200)
 
-    coll_users = db['users']
-    for tasker in coll_users.find():
-        print sendsms2(coll_tasks.find_one({'id': int(task_id)})['title'].encode('utf-8'), coll_tasks.find_one({'id': int(task_id)})['tasker_main'].encode('utf-8'), tasker['username'].encode('utf-8'), tasker['mobile'])
+    # coll_users = db['users']
+    # for tasker in coll_users.find():
+    #     print sendsms2(coll_tasks.find_one({'id': int(task_id)})['title'].encode('utf-8'), coll_tasks.find_one({'id': int(task_id)})['tasker_main'].encode('utf-8'), tasker['username'].encode('utf-8'), tasker['mobile'])
     return resp
 
 @app.route('/sparkbition/api/delete_task')
