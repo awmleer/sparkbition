@@ -238,7 +238,7 @@ def complete_task():
     tasker_main = coll_tasks.find_one({'id': int(task_id)})['tasker_main']
     coll_users = db['users']
     usertype = coll_users.find_one({'username': usernam})['type']
-    if (usertype == 'admin') or (usertype == 'root') or (usernam == tasker_main):
+    if (usertype == 'admin') or (usertype == 'root') or (usernam == tasker_main.encode('utf-8')):
         timestamp = int(time.time() * 1000)
         coll_tasks.update({'id': int(task_id)}, {'$set': {'status': 1, 'finishtime': timestamp}})
         resp = make_response(json.dumps({'finishtime': timestamp}), 200)
@@ -274,7 +274,7 @@ def delete_task():
     publisher = coll_tasks.find_one({'id': int(task_id)})['publisher']
     coll_users = db['users']
     usertype = coll_users.find_one({'username': usernam})['type']
-    if (usertype == 'admin') or (usertype == 'root') or (usernam == publisher):
+    if (usertype == 'admin') or (usertype == 'root') or (usernam == publisher.encode('utf-8')):
         coll_tasks.update({'id': int(task_id)}, {'$set': {'status': -1}})
         resp = make_response('success', 200)
     else:
@@ -403,7 +403,7 @@ def modify_task():
         modify.update({modify_one: text[modify_one]})
     publisher = coll_tasks.find_one({'id': text['id']})['publisher']
     usertype = coll_users.find_one({'username': usernam})['type']
-    if (usertype == 'admin') or (usertype == 'root') or (usernam == publisher):
+    if (usertype == 'admin') or (usertype == 'root') or (usernam == publisher.encode('utf-8')):
         coll_tasks.update({'id': text['id']}, {'$set': modify})
         resp = make_response('success', 200)
     else:
@@ -447,7 +447,7 @@ def archive_task():
     publisher = coll_tasks.find_one({'id': int(task_id)})['publisher']
     coll_users = db['users']
     usertype = coll_users.find_one({'username': usernam})['type']
-    if (usertype == 'admin') or (usertype == 'root') or (usernam == publisher):
+    if (usertype == 'admin') or (usertype == 'root') or (usernam == publisher.encode('utf-8')):
         coll_tasks.update({'id': int(task_id)}, {'$set': {'status': 3}})
         resp = make_response('success', 200)
     else:
