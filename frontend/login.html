@@ -42,7 +42,8 @@
                 <input type="password" class="form-control" id="password" placeholder="请输入密码">
             </div>
         </div>
-        <button type="submit" style="width: 70%;margin: 6rem auto 1.5rem;" class="center-block btn btn-primary btn-raised">登录</button>
+        <button type="submit" style="width: 70%;margin: 6rem auto 1.5rem;" id="btn_login_normal" class="center-block btn btn-primary btn-raised">登录</button>
+        <button type="button" onclick="login()" id="btn_login_firefox" style="width: 70%;margin: 6rem auto 1.5rem;display: none;" class="center-block btn btn-primary btn-raised">登录</button>
         <button type="reset" style="width: 70%;margin: 1rem auto 3rem;" class="center-block btn btn-default btn-raised">清空</button>
     </form>
     <p class="small text-center">&copy;sparker team<br>All rights reserved.</p>
@@ -51,14 +52,23 @@
 
 
 <script>
-    //初始化ripple效果
     $(document).ready(function () {
+        //初始化ripple效果
         $.material.init();
+        //判断如果是Firefox
+        if (navigator.userAgent.indexOf("Firefox") > 0) {
+            $("#btn_login_normal").hide();
+            $("#btn_login_firefox").show();
+        }
     });
 
     function login() {
-        event.preventDefault();//取消默认事件动作
-        event.stopPropagation();
+        //判断如果不是Firefox
+        if (navigator.userAgent.indexOf("Firefox") <= 0) {
+            event.preventDefault();//取消默认事件动作
+            event.stopPropagation();
+        }
+
         var username=$("#username").val();
         var password=$("#password").val();
         if (username == "") {
