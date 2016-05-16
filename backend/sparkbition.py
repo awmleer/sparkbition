@@ -60,6 +60,22 @@ def sendsms3(title, how, tasker_main, person, mobile):
     finalstr += '发送给%s的短信的发送结果：%s\n' %(person, result['reason'].encode('utf-8'))
     return finalstr
 
+usernam=""
+def isLogin():
+    flag = False
+    username = request.cookies.get('All_Hell_Fqs')
+    if (username == None) or (username == ''):
+        resp = make_response('no login', 401)
+        return resp
+    usernam = base64.b64decode(username)
+    usernam = usernam[18:]
+    for user in client['sparkbition']['users'].find():
+        if (user['username'].encode('utf-8') == usernam):
+            return True
+    if (not flag):
+        resp = make_response('wrong cookies', 401)
+        return resp
+
 # db = client['sparkbition']
 # coll = db['users']
 # aa = '6546'
@@ -78,20 +94,9 @@ def sendsms3(title, how, tasker_main, person, mobile):
 
 @app.route('/sparkbition/api/task')
 def task():
-    flag = False
-    username = request.cookies.get('All_Hell_Fqs')
-    if (username == None) or (username == ''):
-        resp = make_response('no login', 401)
-        return resp
-    usernam = base64.b64decode(username)
-    usernam = usernam[18:]
-    for user in client['sparkbition']['users'].find():
-        if (user['username'].encode('utf-8') == usernam):
-            flag = True
-            break
-    if (not flag):
-        resp = make_response('wrong cookies', 401)
-        return resp
+    ret=isLogin()
+    if(ret!=True):
+        return ret
 
     db = client['sparkbition']
     coll_meta = db['meta']
@@ -138,20 +143,9 @@ def logout():
 
 @app.route('/sparkbition/api/userinfo')
 def userinfo():
-    flag = False
-    username = request.cookies.get('All_Hell_Fqs')
-    if (username == None) or (username == ''):
-        resp = make_response('no login', 401)
-        return resp
-    usernam = base64.b64decode(username)
-    usernam = usernam[18:]
-    for user in client['sparkbition']['users'].find():
-        if (user['username'].encode('utf-8') == usernam):
-            flag = True
-            break
-    if (not flag):
-        resp = make_response('wrong cookies', 401)
-        return resp
+    ret=isLogin()
+    if(ret!=True):
+        return ret
 
     db = client['sparkbition']
     coll = db['users']
@@ -176,20 +170,9 @@ def userinfo():
 
 @app.route('/sparkbition/api/new_task', methods=['POST'])
 def new_task():
-    flag = False
-    username = request.cookies.get('All_Hell_Fqs')
-    if (username == None) or (username == ''):
-        resp = make_response('no login', 401)
-        return resp
-    usernam = base64.b64decode(username)
-    usernam = usernam[18:]
-    for user in client['sparkbition']['users'].find():
-        if (user['username'].encode('utf-8') == usernam):
-            flag = True
-            break
-    if (not flag):
-        resp = make_response('wrong cookies', 401)
-        return resp
+    ret=isLogin()
+    if(ret!=True):
+        return ret
 
     db = client['sparkbition']
     coll_meta = db['meta']
@@ -217,20 +200,9 @@ def new_task():
 
 @app.route('/sparkbition/api/complete_task')
 def complete_task():
-    flag = False
-    username = request.cookies.get('All_Hell_Fqs')
-    if (username == None) or (username == ''):
-        resp = make_response('no login', 401)
-        return resp
-    usernam = base64.b64decode(username)
-    usernam = usernam[18:]
-    for user in client['sparkbition']['users'].find():
-        if (user['username'].encode('utf-8') == usernam):
-            flag = True
-            break
-    if (not flag):
-        resp = make_response('wrong cookies', 401)
-        return resp
+    ret=isLogin()
+    if(ret!=True):
+        return ret
 
     task_id = request.args.get('task_id')
     db = client['sparkbition']
@@ -253,20 +225,9 @@ def complete_task():
 
 @app.route('/sparkbition/api/delete_task')
 def delete_task():
-    flag = False
-    username = request.cookies.get('All_Hell_Fqs')
-    if (username == None) or (username == ''):
-        resp = make_response('no login', 401)
-        return resp
-    usernam = base64.b64decode(username)
-    usernam = usernam[18:]
-    for user in client['sparkbition']['users'].find():
-        if (user['username'].encode('utf-8') == usernam):
-            flag = True
-            break
-    if (not flag):
-        resp = make_response('wrong cookies', 401)
-        return resp
+    ret=isLogin()
+    if(ret!=True):
+        return ret
 
     db = client['sparkbition']
     coll_tasks = db['tasks']
@@ -294,20 +255,9 @@ def delete_task():
 
 @app.route('/sparkbition/api/crew_list')
 def crew_list():
-    flag = False
-    username = request.cookies.get('All_Hell_Fqs')
-    if (username == None) or (username == ''):
-        resp = make_response('no login', 401)
-        return resp
-    usernam = base64.b64decode(username)
-    usernam = usernam[18:]
-    for user in client['sparkbition']['users'].find():
-        if (user['username'].encode('utf-8') == usernam):
-            flag = True
-            break
-    if (not flag):
-        resp = make_response('wrong cookies', 401)
-        return resp
+    ret=isLogin()
+    if(ret!=True):
+        return ret
 
     db = client['sparkbition']
     coll_users = db['users']
@@ -320,20 +270,9 @@ def crew_list():
 
 @app.route('/sparkbition/api/group_list')
 def group_list():
-    flag = False
-    username = request.cookies.get('All_Hell_Fqs')
-    if (username == None) or (username == ''):
-        resp = make_response('no login', 401)
-        return resp
-    usernam = base64.b64decode(username)
-    usernam = usernam[18:]
-    for user in client['sparkbition']['users'].find():
-        if (user['username'].encode('utf-8') == usernam):
-            flag = True
-            break
-    if (not flag):
-        resp = make_response('wrong cookies', 401)
-        return resp
+    ret=isLogin()
+    if(ret!=True):
+        return ret
 
     db = client['sparkbition']
     coll_meta = db['meta']
@@ -346,20 +285,9 @@ def group_list():
 
 @app.route('/sparkbition/api/upvote')
 def upvote():
-    flag = False
-    username = request.cookies.get('All_Hell_Fqs')
-    if (username == None) or (username == ''):
-        resp = make_response('no login', 401)
-        return resp
-    usernam = base64.b64decode(username)
-    usernam = usernam[18:]
-    for user in client['sparkbition']['users'].find():
-        if (user['username'].encode('utf-8') == usernam):
-            flag = True
-            break
-    if (not flag):
-        resp = make_response('wrong cookies', 401)
-        return resp
+    ret=isLogin()
+    if(ret!=True):
+        return ret
 
     db = client['sparkbition']
     coll_tasks = db['tasks']
@@ -379,20 +307,9 @@ def upvote():
 
 @app.route('/sparkbition/api/modify_task', methods=['POST'])
 def modify_task():
-    flag = False
-    username = request.cookies.get('All_Hell_Fqs')
-    if (username == None) or (username == ''):
-        resp = make_response('no login', 401)
-        return resp
-    usernam = base64.b64decode(username)
-    usernam = usernam[18:]
-    for user in client['sparkbition']['users'].find():
-        if (user['username'].encode('utf-8') == usernam):
-            flag = True
-            break
-    if (not flag):
-        resp = make_response('wrong cookies', 401)
-        return resp
+    ret=isLogin()
+    if(ret!=True):
+        return ret
 
     db = client['sparkbition']
     coll_tasks = db['tasks']
@@ -423,20 +340,9 @@ def modify_task():
 
 @app.route('/sparkbition/api/archive_task')
 def archive_task():
-    flag = False
-    username = request.cookies.get('All_Hell_Fqs')
-    if (username == None) or (username == ''):
-        resp = make_response('no login', 401)
-        return resp
-    usernam = base64.b64decode(username)
-    usernam = usernam[18:]
-    for user in client['sparkbition']['users'].find():
-        if (user['username'].encode('utf-8') == usernam):
-            flag = True
-            break
-    if (not flag):
-        resp = make_response('wrong cookies', 401)
-        return resp
+    ret=isLogin()
+    if(ret!=True):
+        return ret
 
     task_id = request.args.get('task_id')
     db = client['sparkbition']
@@ -456,20 +362,9 @@ def archive_task():
 
 @app.route('/sparkbition/api/mytask')
 def mytask():
-    flag = False
-    username = request.cookies.get('All_Hell_Fqs')
-    if (username == None) or (username == ''):
-        resp = make_response('no login', 401)
-        return resp
-    usernam = base64.b64decode(username)
-    usernam = usernam[18:]
-    for user in client['sparkbition']['users'].find():
-        if (user['username'].encode('utf-8') == usernam):
-            flag = True
-            break
-    if (not flag):
-        resp = make_response('wrong cookies', 401)
-        return resp
+    ret=isLogin()
+    if(ret!=True):
+        return ret
 
     db = client['sparkbition']
     coll_tasks = db['tasks']
@@ -492,20 +387,9 @@ def mytask():
 
 @app.route('/sparkbition/api/set_base_score')
 def set_base_score():
-    flag = False
-    username = request.cookies.get('All_Hell_Fqs')
-    if (username == None) or (username == ''):
-        resp = make_response('no login', 401)
-        return resp
-    usernam = base64.b64decode(username)
-    usernam = usernam[18:]
-    for user in client['sparkbition']['users'].find():
-        if (user['username'].encode('utf-8') == usernam):
-            flag = True
-            break
-    if (not flag):
-        resp = make_response('wrong cookies', 401)
-        return resp
+    ret=isLogin()
+    if(ret!=True):
+        return ret
 
     task_id = request.args.get('task_id')
     base_score = request.args.get('base_score')
@@ -526,20 +410,9 @@ def set_base_score():
 
 @app.route('/sparkbition/api/change_password')
 def change_password():
-    flag = False
-    username = request.cookies.get('All_Hell_Fqs')
-    if (username == None) or (username == ''):
-        resp = make_response('no login', 401)
-        return resp
-    usernam = base64.b64decode(username)
-    usernam = usernam[18:]
-    for user in client['sparkbition']['users'].find():
-        if (user['username'].encode('utf-8') == usernam):
-            flag = True
-            break
-    if (not flag):
-        resp = make_response('wrong cookies', 401)
-        return resp
+    ret=isLogin()
+    if(ret!=True):
+        return ret
 
     old_password = request.args.get('old_password')
     new_password = request.args.get('new_password')
