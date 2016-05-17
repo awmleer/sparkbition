@@ -1,5 +1,3 @@
-<div class="row">功能还在研发中。。敬请期待</div>
-
 <div class="row">
 
     <div class="col-xs-12 col-md-4">
@@ -7,9 +5,9 @@
             <div class="panel-heading">个人-得分</div>
             <div class="panel-body">
                 <p>
-                    总计：{{ personal.score.all }}<br>
-                    本月：{{ personal.score.month }}<br>
-                    本周：{{ personal.score.week }}<br>
+                    总计：{{ personal.score.all | number:2 }}<br>
+                    本月：{{ personal.score.month | number:2 }}<br>
+                    本周：{{ personal.score.week | number:2 }}<br>
                 </p>
                 <hr>
                 <canvas class="chart chart-line" chart-data="personal.score.chart.data" chart-labels="personal.score.chart.labels" chart-series="personal.score.chart.series"></canvas>
@@ -37,9 +35,9 @@
             <div class="panel-heading">个人-平均任务得分</div>
             <div class="panel-body">
                 <p>
-                    总计：{{ personal.average.all }}<br>
-                    本月：{{ personal.average.month }}<br>
-                    本周：{{ personal.average.week }}<br>
+                    总计：{{ personal.average.all | number:2 }}<br>
+                    本月：{{ personal.average.month | number:2 }}<br>
+                    本周：{{ personal.average.week | number:2 }}<br>
                 </p>
                 <hr>
                 <canvas class="chart chart-line" chart-data="personal.average.chart.data" chart-labels="personal.average.chart.labels" chart-series="personal.average.chart.series"></canvas>
@@ -57,27 +55,60 @@
     <div class="col-xs-12 col-md-4">
         <div class="panel panel-default">
             <div class="panel-heading">排行-得分</div>
-            <div class="panel-body">
-                this is another chart
-            </div>
+            <table class="panel-body table table-hover" width="100%">
+                <colgroup>
+                    <col width="30%">
+                    <col width="40%">
+                    <col width="30%">
+                </colgroup>
+                <tbody>
+                <tr ng-repeat="row in ranking.score">
+                    <td style="text-align: center">{{ row.rank }}</td>
+                    <td>{{ row.name }}</td>
+                    <td>{{ row.value }}</td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 
     <div class="col-xs-12 col-md-4">
         <div class="panel panel-default">
             <div class="panel-heading">排行-项数</div>
-            <div class="panel-body">
-                this is another chart
-            </div>
+            <table class="panel-body table table-hover" width="100%">
+                <colgroup>
+                    <col width="30%">
+                    <col width="40%">
+                    <col width="30%">
+                </colgroup>
+                <tbody>
+                <tr ng-repeat="row in ranking.number">
+                    <td style="text-align: center">{{ row.rank }}</td>
+                    <td>{{ row.name }}</td>
+                    <td>{{ row.value }}</td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 
     <div class="col-xs-12 col-md-4">
         <div class="panel panel-default">
             <div class="panel-heading">排行-平均任务得分</div>
-            <div class="panel-body">
-                this is another chart
-            </div>
+            <table class="panel-body table table-hover" width="100%">
+                <colgroup>
+                    <col width="30%">
+                    <col width="40%">
+                    <col width="30%">
+                </colgroup>
+                <tbody>
+                <tr ng-repeat="row in ranking.average">
+                    <td style="text-align: center">{{ row.rank }}</td>
+                    <td>{{ row.name }}</td>
+                    <td>{{ row.value }}</td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 

@@ -429,41 +429,106 @@ app.controller('ctrl_mytask',function($scope,$rootScope,$location,$http){
 app.controller('ctrl_statistic',function($scope,$rootScope,$http){
     Chart.defaults.global.colours=[ '#4D5360', '#00ADF9', '#DCDCDC', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'];
     Chart.defaults.global.scaleBeginAtZero=true;
+
     $scope.personal={
         score:{
-            all:35,
-            month:18,
-            week:10,
+            all:0,
+            month:0,
+            week:0,
             chart:{
                 labels:["六", "五", "四", "三", "二", "一", "零"],
                 data:[
-                    [65, 59, 80, 81, 56, 55, 40]
+                    [0, 0, 0, 0, 0, 0, 0]
                 ]
             }
         },
         number:{
-            all:20,
-            month:12,
-            week:8,
+            all:0,
+            month:0,
+            week:0,
             chart:{
                 labels:["六", "五", "四", "三", "二", "一", "零"],
                 data:[
-                    [4, 2, 3, 5, 1, 6, 2]
+                    [0, 0, 0, 0, 0, 0, 0]
                 ]
             }
         },
         average:{
-            all:1.3,
-            month:1.4,
-            week:1.1,
+            all:0,
+            month:0,
+            week:0,
             chart:{
                 labels:["六", "五", "四", "三", "二", "一", "零"],
                 data:[
-                    [1.6,1.0,1.2,0.9,0,1.5,0.6]
+                    [0, 0, 0, 0, 0, 0, 0]
                 ]
             }
         }
     };
+
+    $http({
+        url: 'api/statistic/personal',
+        method: 'get',
+        params: {}
+    }).success(function (data) {
+        $scope.personal=data;
+    }).error(function () {
+        alert("获取个人统计数据失败");
+    });
+
+    $scope.ranking={
+        score:[
+            {
+                rank:1,
+                name:'小明',
+                value:15
+            },
+            {
+                rank:2,
+                name:'小华',
+                value:20
+            },
+            {
+                rank:3,
+                name:'小强',
+                value:10
+            }
+        ],
+        number:[
+            {
+                rank:1,
+                name:'小明',
+                value:15
+            },
+            {
+                rank:2,
+                name:'小华',
+                value:20
+            },
+            {
+                rank:3,
+                name:'小强',
+                value:10
+            }
+        ],
+        average:[
+            {
+                rank:1,
+                name:'小明',
+                value:15
+            },
+            {
+                rank:2,
+                name:'小华',
+                value:20
+            },
+            {
+                rank:3,
+                name:'小强',
+                value:10
+            }
+        ]
+    }
 });
 
 
