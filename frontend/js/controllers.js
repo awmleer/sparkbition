@@ -476,59 +476,16 @@ app.controller('ctrl_statistic',function($scope,$rootScope,$http){
         alert("获取个人统计数据失败");
     });
 
-    $scope.ranking={
-        score:[
-            {
-                rank:1,
-                name:'小明',
-                value:15
-            },
-            {
-                rank:2,
-                name:'小华',
-                value:20
-            },
-            {
-                rank:3,
-                name:'小强',
-                value:10
-            }
-        ],
-        number:[
-            {
-                rank:1,
-                name:'小明',
-                value:15
-            },
-            {
-                rank:2,
-                name:'小华',
-                value:20
-            },
-            {
-                rank:3,
-                name:'小强',
-                value:10
-            }
-        ],
-        average:[
-            {
-                rank:1,
-                name:'小明',
-                value:15
-            },
-            {
-                rank:2,
-                name:'小华',
-                value:20
-            },
-            {
-                rank:3,
-                name:'小强',
-                value:10
-            }
-        ]
-    }
+    $http({
+        url: 'api/statistic/ranking',
+        method: 'get',
+        params: {}
+    }).success(function (data) {
+        $scope.ranking=data;
+    }).error(function () {
+        alert("获取信息失败，请稍后再试");
+    });
+    
 });
 
 

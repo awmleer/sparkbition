@@ -63,9 +63,9 @@
                 </colgroup>
                 <tbody>
                 <tr ng-repeat="row in ranking.score">
-                    <td style="text-align: center">{{ row.rank }}</td>
+                    <td style="padding-left: 10%">{{ row.rank }}</td>
                     <td>{{ row.name }}</td>
-                    <td>{{ row.value }}</td>
+                    <td>{{ row.value | number:2 }}</td>
                 </tr>
                 </tbody>
             </table>
@@ -83,7 +83,7 @@
                 </colgroup>
                 <tbody>
                 <tr ng-repeat="row in ranking.number">
-                    <td style="text-align: center">{{ row.rank }}</td>
+                    <td style="padding-left: 10%">{{ row.rank }}</td>
                     <td>{{ row.name }}</td>
                     <td>{{ row.value }}</td>
                 </tr>
@@ -103,9 +103,9 @@
                 </colgroup>
                 <tbody>
                 <tr ng-repeat="row in ranking.average">
-                    <td style="text-align: center">{{ row.rank }}</td>
+                    <td style="padding-left: 10%">{{ row.rank }}</td>
                     <td>{{ row.name }}</td>
-                    <td>{{ row.value }}</td>
+                    <td>{{ row.value | number:2 }}</td>
                 </tr>
                 </tbody>
             </table>
