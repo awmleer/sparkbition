@@ -1,3 +1,10 @@
+<style>
+    .tr_me{
+        background-color: #dadcde !important;
+    }
+</style>
+
+
 <div class="row">
 
     <div class="col-xs-12 col-md-4">
@@ -62,7 +69,7 @@
                     <col width="30%">
                 </colgroup>
                 <tbody>
-                <tr ng-repeat="row in ranking.score">
+                <tr ng-repeat="row in ranking.score" ng-class="{'tr_me':row.name==userinfo.username}">
                     <td style="padding-left: 10%">{{ row.rank }}</td>
                     <td>{{ row.name }}</td>
                     <td>{{ row.value | number:2 }}</td>
@@ -82,7 +89,7 @@
                     <col width="30%">
                 </colgroup>
                 <tbody>
-                <tr ng-repeat="row in ranking.number">
+                <tr ng-repeat="row in ranking.number" ng-class="{'tr_me':row.name==userinfo.username}">
                     <td style="padding-left: 10%">{{ row.rank }}</td>
                     <td>{{ row.name }}</td>
                     <td>{{ row.value }}</td>
@@ -102,7 +109,7 @@
                     <col width="30%">
                 </colgroup>
                 <tbody>
-                <tr ng-repeat="row in ranking.average">
+                <tr ng-repeat="row in ranking.average" ng-class="{'tr_me':row.name==userinfo.username}">
                     <td style="padding-left: 10%">{{ row.rank }}</td>
                     <td>{{ row.name }}</td>
                     <td>{{ row.value | number:2 }}</td>
