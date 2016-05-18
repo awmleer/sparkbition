@@ -403,6 +403,7 @@ def modify_task():
         modify.update({modify_one: text[modify_one]})
     publisher = coll_tasks.find_one({'id': text['id']})['publisher']
     usertype = coll_users.find_one({'username': usernam})['type']
+    modify['ddl'] = int(modify['ddl'])
     if (usertype == 'admin') or (usertype == 'root') or (usernam == publisher.encode('utf-8')):
         coll_tasks.update({'id': text['id']}, {'$set': modify})
         resp = make_response('success', 200)
