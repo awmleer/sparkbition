@@ -127,6 +127,36 @@ app.controller("ctrl_task",function($scope,$rootScope,$location,$http) {
         }
     };
 
+    /*重做任务*/
+    $scope.redo_task= function (task_id) {
+        if (confirm("确定要重做这项任务吗？")) {
+
+            $http({
+                url: 'api/redo_task',
+                method: 'get',
+                params: {task_id:task_id}
+            }).success(function (data) {
+                if (data == "not allowed") {
+                    alert("您没有权限重做该任务");
+                }else {
+                    //查找这个任务
+                    for(var i=0;i<$rootScope.groups.length;i++){
+                        for(var j=0;j<$rootScope.groups[i].tasks.length;j++){
+                            if($rootScope.groups[i].tasks[j]['id'] ==task_id){
+                                $rootScope.groups[i].tasks[j]['status'] = 0;//把status改成0
+                                $rootScope.groups[i].tasks[j]['finishtime'] = '';//回滚finishtime
+                            }
+                        }
+                    }
+                }
+                $("#modal_task").modal('hide');//关闭模态框
+            }).error(function () {
+                alert("获取信息失败，请稍后再试");
+            });
+
+        }
+    };
+
     /*删除任务*/
     $scope.delete_task= function (task_id) {
         if (confirm("确定要删除这项任务吗？")) {
