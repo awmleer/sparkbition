@@ -79,7 +79,7 @@ def sendsms3(title, how, tasker_main, person, mobile):
 @app.route('/sparkbition/api/task')
 def task():
     flag = False
-    username = request.cookies.get('All_Hell_Fqs')
+    username = request.cookies.get('All_Hail_Fqs')
     if (username == None) or (username == ''):
         resp = make_response('no login', 401)
         return resp
@@ -125,7 +125,7 @@ def login():
     password_hash = hashlib.md5(password + salt).hexdigest()
     if passwo == password_hash:
         resp = make_response('success', 200)
-        resp.set_cookie('All_Hell_Fqs', base64.b64encode(salt + username.encode('utf-8')))
+        resp.set_cookie('All_Hail_Fqs', base64.b64encode(salt + username.encode('utf-8')))
     else:
         resp = make_response('wrong password', 200)
     return resp
@@ -133,13 +133,13 @@ def login():
 @app.route('/sparkbition/api/logout')
 def logout():
     resp = make_response('success', 200)
-    resp.set_cookie('All_Hell_Fqs', '')
+    resp.set_cookie('All_Hail_Fqs', '')
     return resp
 
 @app.route('/sparkbition/api/userinfo')
 def userinfo():
     flag = False
-    username = request.cookies.get('All_Hell_Fqs')
+    username = request.cookies.get('All_Hail_Fqs')
     if (username == None) or (username == ''):
         resp = make_response('no login', 401)
         return resp
@@ -163,7 +163,7 @@ def userinfo():
 
 # @app.route('/sparkbition/api/func1')
 # def func1():
-#     username = request.cookies.get('All_Hell_Fqs')
+#     username = request.cookies.get('All_Hail_Fqs')
 #     usernam = base64.b64decode(username)
 #     usernam = usernam[18:]
 #
@@ -177,7 +177,7 @@ def userinfo():
 @app.route('/sparkbition/api/new_task', methods=['POST'])
 def new_task():
     flag = False
-    username = request.cookies.get('All_Hell_Fqs')
+    username = request.cookies.get('All_Hail_Fqs')
     if (username == None) or (username == ''):
         resp = make_response('no login', 401)
         return resp
@@ -218,7 +218,7 @@ def new_task():
 @app.route('/sparkbition/api/complete_task')
 def complete_task():
     flag = False
-    username = request.cookies.get('All_Hell_Fqs')
+    username = request.cookies.get('All_Hail_Fqs')
     if (username == None) or (username == ''):
         resp = make_response('no login', 401)
         return resp
@@ -254,7 +254,7 @@ def complete_task():
 @app.route('/sparkbition/api/delete_task')
 def delete_task():
     flag = False
-    username = request.cookies.get('All_Hell_Fqs')
+    username = request.cookies.get('All_Hail_Fqs')
     if (username == None) or (username == ''):
         resp = make_response('no login', 401)
         return resp
@@ -295,7 +295,7 @@ def delete_task():
 @app.route('/sparkbition/api/crew_list')
 def crew_list():
     flag = False
-    username = request.cookies.get('All_Hell_Fqs')
+    username = request.cookies.get('All_Hail_Fqs')
     if (username == None) or (username == ''):
         resp = make_response('no login', 401)
         return resp
@@ -321,7 +321,7 @@ def crew_list():
 @app.route('/sparkbition/api/group_list')
 def group_list():
     flag = False
-    username = request.cookies.get('All_Hell_Fqs')
+    username = request.cookies.get('All_Hail_Fqs')
     if (username == None) or (username == ''):
         resp = make_response('no login', 401)
         return resp
@@ -347,7 +347,7 @@ def group_list():
 @app.route('/sparkbition/api/upvote')
 def upvote():
     flag = False
-    username = request.cookies.get('All_Hell_Fqs')
+    username = request.cookies.get('All_Hail_Fqs')
     if (username == None) or (username == ''):
         resp = make_response('no login', 401)
         return resp
@@ -380,7 +380,7 @@ def upvote():
 @app.route('/sparkbition/api/modify_task', methods=['POST'])
 def modify_task():
     flag = False
-    username = request.cookies.get('All_Hell_Fqs')
+    username = request.cookies.get('All_Hail_Fqs')
     if (username == None) or (username == ''):
         resp = make_response('no login', 401)
         return resp
@@ -424,7 +424,7 @@ def modify_task():
 @app.route('/sparkbition/api/archive_task')
 def archive_task():
     flag = False
-    username = request.cookies.get('All_Hell_Fqs')
+    username = request.cookies.get('All_Hail_Fqs')
     if (username == None) or (username == ''):
         resp = make_response('no login', 401)
         return resp
@@ -457,7 +457,7 @@ def archive_task():
 @app.route('/sparkbition/api/mytask')
 def mytask():
     flag = False
-    username = request.cookies.get('All_Hell_Fqs')
+    username = request.cookies.get('All_Hail_Fqs')
     if (username == None) or (username == ''):
         resp = make_response('no login', 401)
         return resp
@@ -493,7 +493,7 @@ def mytask():
 @app.route('/sparkbition/api/set_base_score')
 def set_base_score():
     flag = False
-    username = request.cookies.get('All_Hell_Fqs')
+    username = request.cookies.get('All_Hail_Fqs')
     if (username == None) or (username == ''):
         resp = make_response('no login', 401)
         return resp
@@ -527,7 +527,7 @@ def set_base_score():
 @app.route('/sparkbition/api/change_password')
 def change_password():
     flag = False
-    username = request.cookies.get('All_Hell_Fqs')
+    username = request.cookies.get('All_Hail_Fqs')
     if (username == None) or (username == ''):
         resp = make_response('no login', 401)
         return resp
@@ -552,7 +552,7 @@ def change_password():
         return resp
     coll_users.update({'username': usernam}, {'$set': {'password': new_password_hash}})
     resp = make_response('success', 200)
-    resp.set_cookie('All_Hell_Fqs', '')
+    resp.set_cookie('All_Hail_Fqs', '')
     return resp
 
 # @app.route('/new')
