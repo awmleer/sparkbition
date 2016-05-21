@@ -62,7 +62,7 @@ def sendsms3(title, how, tasker_main, person, mobile):
 
 def isLogin():
     flag = False
-    username = request.cookies.get('All_Hell_Fqs')
+    username = request.cookies.get('All_Hail_Fqs')
     if (username == None) or (username == ''):
         resp = make_response('no login', 401)
         return (1,resp)
