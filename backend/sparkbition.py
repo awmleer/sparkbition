@@ -72,7 +72,7 @@ def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         flag = False
-        username = request.cookies.get('All_Hell_Fqs')
+        username = request.cookies.get('All_Hail_Fqs')
         if (username == None) or (username == ''):
             resp = make_response('no login', 401)
             return resp
@@ -149,7 +149,7 @@ def login():
         else:
             login_count=usernam['login_count']+1
         coll_users.update({'username': username},{'$set':{'login_count':login_count,'last_login': datetime.datetime.now()}})
-        resp.set_cookie('All_Hell_Fqs', base64.b64encode(salt + username.encode('utf-8')))
+        resp.set_cookie('All_Hail_Fqs', base64.b64encode(salt + username.encode('utf-8')))
     else:
         resp = make_response('wrong password', 200)
     return resp
@@ -158,7 +158,7 @@ def login():
 @login_required
 def logout():
     resp = make_response('success', 200)
-    resp.set_cookie('All_Hell_Fqs', '')
+    resp.set_cookie('All_Hail_Fqs', '')
     return resp
 
 @app.route('/sparkbition/api/userinfo')
@@ -175,7 +175,7 @@ def userinfo():
 
 # @app.route('/sparkbition/api/func1')
 # def func1():
-#     username = request.cookies.get('All_Hell_Fqs')
+#     username = request.cookies.get('All_Hail_Fqs')
 #     usernam = base64.b64decode(username)
 #     usernam = usernam[18:]
 #
@@ -447,7 +447,7 @@ def change_password():
         return resp
     coll_users.update({'username': usernam}, {'$set': {'password': new_password_hash}})
     resp = make_response('success', 200)
-    resp.set_cookie('All_Hell_Fqs', '')
+    resp.set_cookie('All_Hail_Fqs', '')
     return resp
 
 # @app.route('/new')
