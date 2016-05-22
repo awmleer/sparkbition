@@ -44,6 +44,8 @@ users_file=db['users']
 finalstr=''
 time_now=time.time()*1000
 for tasks in tasks_file.find({'status':0}):
+    print "\n==============================================================\n执行到了这个任务："
+    print tasks
     for tasker in tasks['tasker_other']:
         users=users_file.find_one({'username':tasker})
         if tasks['ddl']-time_now<0:
