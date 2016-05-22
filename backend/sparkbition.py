@@ -182,7 +182,7 @@ def userinfo():
     coll = db['users']
     a1 = coll.find_one({'username': usernam})
     del a1['password']
-    a1['lastlogin'] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(a1['lastlogin']['$date']))
+    a1['last_login'] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(a1['last_login']['$date']))
     aaa = dumps(a1)
     resp = make_response(aaa, 200)
     return resp
