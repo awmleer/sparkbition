@@ -92,6 +92,19 @@ def login_required(f):
             return resp
     return decorated_function
 
+def changestatus(task_id,status):
+    db = client['sparkbition']
+    coll_tasks = db['tasks']
+    tasker_main = coll_tasks.find_one({'id': int(task_id)})['tasker_main']
+    coll_users = db['users']
+    usertype = coll_users.find_one({'username': g.usernam})['type']
+    if (usertype == 'admin') or (usertype == 'root') or (g.usernam == tasker_main.encode('utf-8')):
+        timestamp = int(time.time() * 1000)
+        coll_tasks.update({'id': int(task_id)}, {'$set': {'status': status, 'finishtime': timestamp}})
+        return (True,timestamp)
+    else:
+        return (False,'not allowed')
+
 @app.route('/sparkbition/api/checklogin')
 
 # db = client['sparkbition']
@@ -222,21 +235,13 @@ def new_task():
 @app.route('/sparkbition/api/complete_task')
 @login_required
 def complete_task():
-    usernam = g.usernam
-
     task_id = request.args.get('task_id')
-    db = client['sparkbition']
-    coll_tasks = db['tasks']
-    tasker_main = coll_tasks.find_one({'id': int(task_id)})['tasker_main']
-    coll_users = db['users']
-    usertype = coll_users.find_one({'username': usernam})['type']
-    if (usertype == 'admin') or (usertype == 'root') or (usernam == tasker_main.encode('utf-8')):
-        timestamp = int(time.time() * 1000)
-        coll_tasks.update({'id': int(task_id)}, {'$set': {'status': 1, 'finishtime': timestamp}})
-        resp = make_response(json.dumps({'finishtime': timestamp}), 200)
+    result = changestatus(task_id,1)
+    if result[0]:
+        resp = make_response(result[1],200)
     else:
-        resp = make_response('not allowed', 200)
-        return resp
+        resp = make_response(result[1],403)
+    return resp
 
     # coll_users = db['users']
     # for tasker in coll_users.find():
@@ -245,35 +250,15 @@ def complete_task():
 
 
 @app.route('/sparkbition/api/redo_task')
+@login_required
 def redo_task():
-    flag = False
-    username = request.cookies.get('All_Hell_Fqs')
-    if (username == None) or (username == ''):
-        resp = make_response('no login', 401)
-        return resp
-    usernam = base64.b64decode(username)
-    usernam = usernam[18:]
-    for user in client['sparkbition']['users'].find():
-        if (user['username'].encode('utf-8') == usernam):
-            flag = True
-            break
-    if (not flag):
-        resp = make_response('wrong cookies', 401)
-        return resp
-
     task_id = request.args.get('task_id')
-    db = client['sparkbition']
-    coll_tasks = db['tasks']
-    tasker_main = coll_tasks.find_one({'id': int(task_id)})['tasker_main']
-    coll_users = db['users']
-    usertype = coll_users.find_one({'username': usernam})['type']
-    if (usertype == 'admin') or (usertype == 'root') or (usernam == tasker_main.encode('utf-8')):
-        coll_tasks.update({'id': int(task_id)}, {'$set': {'status': 0,})
-        resp = make_response(json.dumps({'finishtime': timestamp}), 200)
-        return resp
+    result = changestatus(task_id, 0)
+    if result[0]:
+        resp = make_response(result[1], 200)
     else:
-        resp = make_response('not allowed', 200)
-        return resp
+        resp = make_response(result[1], 403)
+    return resp
 
 
 @app.route('/sparkbition/api/delete_task')
