@@ -292,11 +292,8 @@ def crew_list():
     return resp
 
 @app.route('/sparkbition/api/group_list')
+@login_required
 def group_list():
-    ret=isLogin()
-    if(ret!=True):
-        return ret
-
     db = client['sparkbition']
     coll_meta = db['meta']
     groupname = []
