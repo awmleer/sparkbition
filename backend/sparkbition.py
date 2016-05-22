@@ -238,7 +238,7 @@ def complete_task():
     task_id = request.args.get('task_id')
     result = changestatus(task_id,1)
     if result[0]:
-        resp = make_response(result[1],200)
+        resp = make_response(json.dumps({'timestamp': result[1]}),200)
     else:
         resp = make_response(result[1],403)
     return resp
@@ -255,7 +255,7 @@ def redo_task():
     task_id = request.args.get('task_id')
     result = changestatus(task_id, 0)
     if result[0]:
-        resp = make_response(result[1], 200)
+        resp = make_response(json.dumps({'timestamp': 0}), 200)
     else:
         resp = make_response(result[1], 403)
     return resp
@@ -613,5 +613,5 @@ def dumps_rank():
 
 
 if __name__ == '__main__':
-    # app.debug = True
+    app.debug = True
     app.run(host='0.0.0.0', port= 5001)
