@@ -54,7 +54,7 @@
             <tbody>
             <tr ng-repeat="task in group.tasks | orderBy:'status'" ng-class="{'tr_task_completed':task.status==1,'tr_task_closed':task.status==2}">
                 <td style="padding-top: 18px">
-                    <img class="img_checkbox" ng-show="task.status>0" src="static/checkbox/checkbox-checked.svg" style="width: 3rem;height: 3rem;">
+                    <img class="img_checkbox" ng-click="redo_task(task.id)" ng-show="task.status>0" src="static/checkbox/checkbox-checked.svg" style="width: 3rem;height: 3rem;">
                     <img class="img_checkbox" ng-click="complete_task(task.id)" ng-show="task.status==0" src="static/checkbox/checkbox-unchecked.svg" style="width: 3rem;height: 3rem;">
                 </td>
                 <td ng-click="show_task_info()" class="td_task">
