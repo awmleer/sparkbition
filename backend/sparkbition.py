@@ -92,6 +92,19 @@ def login_required(f):
             return resp
     return decorated_function
 
+def changestatus(task_id,status):
+    db = client['sparkbition']
+    coll_tasks = db['tasks']
+    tasker_main = coll_tasks.find_one({'id': int(task_id)})['tasker_main']
+    coll_users = db['users']
+    usertype = coll_users.find_one({'username': g.usernam})['type']
+    if (usertype == 'admin') or (usertype == 'root') or (g.usernam == tasker_main.encode('utf-8')):
+        timestamp = int(time.time() * 1000)
+        coll_tasks.update({'id': int(task_id)}, {'$set': {'status': status, 'finishtime': timestamp}})
+        return (True,timestamp)
+    else:
+        return (False,'not allowed')
+
 @app.route('/sparkbition/api/checklogin')
 
 # db = client['sparkbition']
@@ -169,6 +182,7 @@ def userinfo():
     coll = db['users']
     a1 = coll.find_one({'username': usernam})
     del a1['password']
+    a1['last_login'] = a1['last_login'].isoformat()
     aaa = dumps(a1)
     resp = make_response(aaa, 200)
     return resp
@@ -222,26 +236,31 @@ def new_task():
 @app.route('/sparkbition/api/complete_task')
 @login_required
 def complete_task():
-    usernam = g.usernam
-
     task_id = request.args.get('task_id')
-    db = client['sparkbition']
-    coll_tasks = db['tasks']
-    tasker_main = coll_tasks.find_one({'id': int(task_id)})['tasker_main']
-    coll_users = db['users']
-    usertype = coll_users.find_one({'username': usernam})['type']
-    if (usertype == 'admin') or (usertype == 'root') or (usernam == tasker_main.encode('utf-8')):
-        timestamp = int(time.time() * 1000)
-        coll_tasks.update({'id': int(task_id)}, {'$set': {'status': 1, 'finishtime': timestamp}})
-        resp = make_response(json.dumps({'finishtime': timestamp}), 200)
+    result = changestatus(task_id,1)
+    if result[0]:
+        resp = make_response(json.dumps({'timestamp': result[1]}),200)
     else:
-        resp = make_response('not allowed', 200)
-        return resp
+        resp = make_response(result[1],403)
+    return resp
 
     # coll_users = db['users']
     # for tasker in coll_users.find():
     #     print sendsms2(coll_tasks.find_one({'id': int(task_id)})['title'].encode('utf-8'), coll_tasks.find_one({'id': int(task_id)})['tasker_main'].encode('utf-8'), tasker['username'].encode('utf-8'), tasker['mobile'])
     return resp
+
+
+@app.route('/sparkbition/api/redo_task')
+@login_required
+def redo_task():
+    task_id = request.args.get('task_id')
+    result = changestatus(task_id, 0)
+    if result[0]:
+        resp = make_response(json.dumps({'timestamp': 0}), 200)
+    else:
+        resp = make_response(result[1], 403)
+    return resp
+
 
 @app.route('/sparkbition/api/delete_task')
 @login_required
@@ -339,6 +358,7 @@ def modify_task():
     publisher = coll_tasks.find_one({'id': text['id']})['publisher']
     usertype = coll_users.find_one({'username': usernam})['type']
     if (usertype == 'admin') or (usertype == 'root') or (usernam == publisher.encode('utf-8')):
+        if(modify['ddl']):modify['ddl'] = int(modify['ddl'])
         coll_tasks.update({'id': text['id']}, {'$set': modify})
         resp = make_response('success', 200)
     else:
@@ -592,5 +612,5 @@ def dumps_rank():
 
 
 if __name__ == '__main__':
-    # app.debug = True
+    app.debug = True
     app.run(host='0.0.0.0', port= 5001)
