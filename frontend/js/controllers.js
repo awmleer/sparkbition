@@ -171,6 +171,7 @@ app.controller("ctrl_task",function($scope,$rootScope,$location,$http) {
                         for(var j=0;j<$rootScope.groups[i].tasks.length;j++){
                             if($rootScope.groups[i].tasks[j]['id'] ==task_id){
                                 $rootScope.groups[i].tasks.splice(j);//删除该task
+                                break;
                             }
                         }
                     }
