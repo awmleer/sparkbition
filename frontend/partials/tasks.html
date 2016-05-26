@@ -63,16 +63,18 @@
                     <span class="label" ng-if="task.status==2">已关闭</span>
                     <!--tasker_main-->
                     <span class="label">{{ task.tasker_main }}</span>
+                    <!--DDL-->
+                    <span class="label" ng-if="task.status==0" ng-class="{'label-warning':now>task.ddl && task.status==0,'label-info':now<=task.ddl && now>task.ddl-86400000 && task.status==0}"><span class="glyphicon glyphicon-calendar"></span> {{ task.ddl | date:'M-d' }}</span>
                     <!--紧急程度-->
                     <span ng-if="task.urgency!='正常' && task.status==0" class="label" ng-class="{'label-primary':task.urgency=='正常','label-warning':task.urgency=='紧急','label-danger':task.urgency=='火急'}">{{ task.urgency }}</span>
-                    <!--DDL-->
-                    <span class="label" ng-if="task.status==0" ng-class="{'label-warning':now>task.ddl && task.status==0}"><span class="glyphicon glyphicon-calendar"></span> {{ task.ddl | date:'M-d' }}</span>
                     <!--完成日期-->
                     <span ng-if="task.status>0" class="label" ng-class="{'label-danger':task.finishtime>task.ddl}"><span class="glyphicon glyphicon-ok"></span> {{ task.finishtime | date:'M-d' }}</span>
                     <!--点赞量-->
                     <span ng-if="task.status>0" class="label label-success"><span class="glyphicon glyphicon-thumbs-up"></span> {{ task.upvoters.length }}</span>
+                    <!--有备注-->
+                    <span ng-if="task.remark" class="label"><span class="glyphicon glyphicon-paperclip"></span> 有备注</span>
                     <!--得分-->
-                    <span ng-if="task.base_score!=0" class="label label-info"><span class="glyphicon glyphicon glyphicon-star"></span> {{ task.base_score*(1+0.1*task.upvoters.length) | number:1 }}</span>
+                    <span ng-if="task.base_score!=0" class="label"><span class="glyphicon glyphicon glyphicon-star"></span> {{ task.base_score*(1+0.1*task.upvoters.length) | number:1 }}</span>
                 </td>
             </tr>
             </tbody>
