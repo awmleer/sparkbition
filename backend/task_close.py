@@ -1,19 +1,6 @@
 # coding:utf-8
-from flask import Flask, request, make_response
 import time
-import hashlib
-import base64
-import pymongo
-import json
-import datetime
 from pymongo import MongoClient
-import bson
-from bson import Binary, Code
-from bson.json_util import dumps, loads
-from flask.ext.cors import CORS      #跨域访问
-
-app = Flask(__name__)
-CORS(app)   #跨域访问
 
 #登录及用户认证
 client = MongoClient('120.27.123.112', 27017)
