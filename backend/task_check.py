@@ -5,7 +5,7 @@ import time
 import urllib
 from pymongo import MongoClient
 
-def sendmessage(flag):
+def sendmessage(flag,users):
     d={}
     d['#title#']=tasks['title'].encode('utf-8')
     if (flag==1):
