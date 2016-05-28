@@ -127,6 +127,7 @@
 
             </div>
             <div class="modal-footer">
+                您本周剩余的点赞次数：{{userinfo.upvotetimes}}
                 <button ng-if="(userinfo.type=='root'||userinfo.type=='admin')&&(task_looking.status==0||task_looking.status==1)" ng-click="show_set_base_score()" class="btn btn-primary">设置基础分</button>
                 <button ng-if="task_looking.status==1" ng-click="upvote(task_looking.id)" class="btn btn-default">支持</button>
                 <button ng-if="task_looking.status==0" ng-click="complete_task(task_looking.id)" class="btn btn-default">完成</button>
