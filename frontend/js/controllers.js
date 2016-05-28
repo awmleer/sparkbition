@@ -230,6 +230,7 @@ app.controller("ctrl_task",function($scope,$rootScope,$location,$http) {
         }).success(function (data) {
             if (data == 'success') {
                 //点赞成功
+                $rootScope.userinfo.upvotetimes--;//剩余点赞次数减一
                 for(var i=0;i<$rootScope.groups.length;i++){
                     for(var j=0;j<$rootScope.groups[i].tasks.length;j++){
                         if($rootScope.groups[i].tasks[j]['id'] ==task_id){
