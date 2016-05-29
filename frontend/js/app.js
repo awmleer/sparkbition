@@ -52,6 +52,11 @@ app.config(function($stateProvider, $urlRouterProvider){
             url: "/BBS",
             templateUrl: "partials/BBSlist.html",
             controller: 'ctrl_BBS'
+        })
+        .state('newpost', {
+            url: "/newpost",
+            templateUrl: "partials/newpost.html",
+            controller: 'ctrl_newpost'
         });
 
 

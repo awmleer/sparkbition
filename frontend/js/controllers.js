@@ -564,14 +564,25 @@ app.controller("ctrl_BBS",function($scope,$rootScope,$location,$http) {
             alert("获取帖子列表失败，请稍后再试");
         });
     }
-    $scope.getPostList();
+    $scope.PostVisible = function (posttaglist) {
+        for (var posttag in posttaglist) {
+            for (var tag in $rootScope.taglist) {
+                if ($rootScope.taglist[tag].looking == true && $rootScope.taglist[tag].label == posttaglist[posttag]) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    // $scope.getPostList();
+    // $scope.getTagList();
     $rootScope.postlist = [
         {
             "id": 3,
             "title": "我们的下一个产品是什么？",
             "author": "郝广博",
             "time": "字符串时间S",
-            "tag": [
+            "tags": [
                 "目标",
                 "产品"
             ],
@@ -608,7 +619,132 @@ app.controller("ctrl_BBS",function($scope,$rootScope,$location,$http) {
             "title": "后端要炸了",
             "author": "冯秋实",
             "time": "字符串时间S",
-            "tag": [
+            "tags": [
+                "技术",
+                "困难"
+            ],
+            "content": "这是内容",
+            "replies": [
+                {
+                    "id": 1,
+                    "author": "郝广博",
+                    "time": "字符串时间1",
+                    "upvoters": [
+                        "秦泽浩"
+                    ],
+                    "downvoters": [
+                        "冯秋实"
+                    ],
+                    "content": "你这错误明显得我都看出来了……"
+                },
+                {
+                    "id": 2,
+                    "author": "冯秋实",
+                    "time": "字符串时间2",
+                    "upvoters": [
+                        "郝广博"
+                    ],
+                    "downvoters": [
+                        "秦泽浩"
+                    ],
+                    "content": "已解决……"
+                }
+            ]
+        }
+    ];
+    $rootScope.taglist = [
+        {
+           "label": "tag1",
+            "looking": false
+        },
+        {
+            "label": "tag2",
+            "looking": true
+        },
+        {
+            "label": "tag3",
+            "looking": false
+        },
+        {
+            "label": "tag4",
+            "looking": true
+        },
+        {
+            "label": "目标",
+            "looking": true
+        },
+        {
+            "label": "产品",
+            "looking": false
+        },
+        {
+            "label": "技术",
+            "looking": true        
+        },
+        {
+            "label": "困难",
+            "looking": true
+        },
+    ];
+});
+
+
+app.controller("ctrl_newpost",function($scope,$rootScope,$location,$http) {
+    $scope.getPostList = function () {
+        $http({
+            url:'api/post',
+            method:'get',
+            params:{}
+        }).success(function(data){
+            $rootScope.postlist=data;
+        }).error(function(){
+            alert("获取帖子列表失败，请稍后再试");
+        });
+    }
+    $rootScope.postlist = [
+        {
+            "id": 3,
+            "title": "我们的下一个产品是什么？",
+            "author": "郝广博",
+            "time": "字符串时间S",
+            "tags": [
+                "目标",
+                "产品"
+            ],
+            "content": "这是内容",
+            "replies": [
+                {
+                    "id": 1,
+                    "author": "郝广博",
+                    "time": "字符串时间1",
+                    "upvoters": [
+                        "秦泽浩"
+                    ],
+                    "downvoters": [
+                        "冯秋实"
+                    ],
+                    "content": "test123"
+                },
+                {
+                    "id": 2,
+                    "author": "冯秋实",
+                    "time": "字符串时间2",
+                    "upvoters": [
+                        "郝广博"
+                    ],
+                    "downvoters": [
+                        "秦泽浩"
+                    ],
+                    "content": "test123"
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "title": "后端要炸了",
+            "author": "冯秋实",
+            "time": "字符串时间S",
+            "tags": [
                 "技术",
                 "困难"
             ],

@@ -38,41 +38,41 @@
     }
 </style>
 
-<div class="visible-xs-block">
-    <a ui-sref="newtask" class="btn btn-primary btn-raised btn-block">发布讨论</a>
-</div>
-<div class="panel_wrapper col-sm-12 col-md-6 col-lg-6">
+
+<div class="panel_wrapper col-sm-12 col-md-4 col-lg-4">
     <div class="panel panel-primary">
         <div class="panel-heading">
-            <h3 class="panel-title">{{ group.groupname }} <span class="badge">{{ group.tasks.length }}</span></h3>
+            <h3 class="panel-title">工具栏</h3>
+        </div>
+        <div class="panel-body">
+            <div class="col-sm-8 col-md-8 col-lg-8 col-sm-offset-2 col-md-offset-2 col-lg-offset-2">
+                <a ui-sref="newpost" class="btn btn-primary btn-raised btn-block">发布讨论</a>
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <h5 class="panel-title">标签过滤</h5>
+                <span ng-repeat="tag in taglist" class="label col-sm-2 col-md-2 col-lg-2" style="cursor: pointer;font-size: 1.5rem;margin-top: 0.25rem;margin-bottom: 0.25rem;display: block" ng-click="tag.looking=!tag.looking" ng-class="{'label-primary':tag.looking == true}">{{tag.label}}</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel_wrapper col-sm-12 col-md-8 col-lg-8">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">帖子列表</h3>
         </div>
         <table class="table table-hover table_task">
-            <colgroup>
-                <col width="1%">
-                <col width="99%">
-            </colgroup>
             <tbody>
-            <tr ng-repeat="post in group.tasks | orderBy:'status'" ng-class="{'tr_task_completed':task.status==1,'tr_task_closed':task.status==2}">
-                <td style="padding-top: 18px">
-                    <img class="img_checkbox" ng-show="task.status>0" src="static/checkbox/checkbox-checked.svg" style="width: 3rem;height: 3rem;">
-                    <img class="img_checkbox" ng-click="complete_task(task.id)" ng-show="task.status==0" src="static/checkbox/checkbox-unchecked.svg" style="width: 3rem;height: 3rem;">
+            <tr ng-repeat="post in postlist | orderBy:'id':true" ng-hide="!PostVisible(post.tags)" ng-class="{'tr_task_completed':task.status==1,'tr_task_closed':task.status==2}">
+                <td ng-click="show_post_info()" class="td_post">
+                    <h4>{{ post.title }}</h4>
+                    {{ post.author }}&nbsp;
+                    <!--标签-->
+                    <span ng-repeat="tag in post.tags" class="label">{{tag.label}}</span>
                 </td>
-                <td ng-click="show_task_info()" class="td_task">
-                    <h4>{{ task.title }}</h4>
-                    <!--已关闭-->
-                    <span class="label" ng-if="task.status==2">已关闭</span>
-                    <!--tasker_main-->
-                    <span class="label">{{ task.tasker_main }}</span>
-                    <!--紧急程度-->
-                    <span ng-if="task.urgency!='正常' && task.status==0" class="label" ng-class="{'label-primary':task.urgency=='正常','label-warning':task.urgency=='紧急','label-danger':task.urgency=='火急'}">{{ task.urgency }}</span>
-                    <!--DDL-->
-                    <span class="label" ng-if="task.status==0" ng-class="{'label-warning':now>task.ddl && task.status==0}"><span class="glyphicon glyphicon-calendar"></span> {{ task.ddl | date:'M-d' }}</span>
-                    <!--完成日期-->
-                    <span ng-if="task.status>0" class="label" ng-class="{'label-danger':task.finishtime>task.ddl}"><span class="glyphicon glyphicon-ok"></span> {{ task.finishtime | date:'M-d' }}</span>
-                    <!--点赞量-->
-                    <span ng-if="task.status>0" class="label label-success"><span class="glyphicon glyphicon-thumbs-up"></span> {{ task.upvoters.length }}</span>
-                    <!--得分-->
-                    <span ng-if="task.base_score!=0" class="label label-info"><span class="glyphicon glyphicon glyphicon-star"></span> {{ task.base_score*(1+0.1*task.upvoters.length) | number:1 }}</span>
+                <td>
+                    最后回复：{{post.replies[post.replies.length-1].author}}<br>
+                    回复时间：{{post.replies[post.replies.length-1].time}}
                 </td>
             </tr>
             </tbody>
