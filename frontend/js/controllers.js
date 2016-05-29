@@ -584,7 +584,7 @@ app.controller("ctrl_BBS",function($scope,$rootScope,$location,$http) {
             angular.forEach(data,function (taglabel) {
                 $rootScope.taglist.push({
                     "label": taglabel,
-                    "looking": true
+                    "looking": false
                 });
             });
         }).error(function(){
@@ -679,7 +679,7 @@ app.controller("ctrl_BBS",function($scope,$rootScope,$location,$http) {
         },
         {
             "label": "tag2",
-            "looking": true
+            "looking": false
         },
         {
             "label": "tag3",
@@ -687,11 +687,11 @@ app.controller("ctrl_BBS",function($scope,$rootScope,$location,$http) {
         },
         {
             "label": "tag4",
-            "looking": true
+            "looking": false
         },
         {
             "label": "目标",
-            "looking": true
+            "looking": false
         },
         {
             "label": "产品",
@@ -699,11 +699,11 @@ app.controller("ctrl_BBS",function($scope,$rootScope,$location,$http) {
         },
         {
             "label": "技术",
-            "looking": true
+            "looking": false
         },
         {
             "label": "困难",
-            "looking": true
+            "looking": false
         },
     ];
 });
