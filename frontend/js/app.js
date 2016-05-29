@@ -66,11 +66,6 @@ app.config(function($stateProvider, $urlRouterProvider){
 app.filter("filter_tag",function () {
     return function (input,taglist) {
         var rtnarray = [];
-        var useflag = false;
-        angular.forEach (taglist,function (alltag) {
-            if (alltag.looking == true) useflag = true;
-        });
-        if (!useflag) return input;
         angular.forEach (input,function (thread) {
             var flag = false;
             angular.forEach (thread.tags,function (threadtag) {
@@ -80,7 +75,7 @@ app.filter("filter_tag",function () {
                     }
                 });
             });
-            if (flag == true) rtnarray.push(thread);
+            if (flag) rtnarray.push(thread);
         });
         return rtnarray;
     }
