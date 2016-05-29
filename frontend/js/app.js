@@ -66,20 +66,23 @@ app.config(function($stateProvider, $urlRouterProvider){
 app.filter("filter_tag",function () {
     return function (input,taglist) {
         var rtnarray = [];
+        var useflag = false;
+        angular.forEach (taglist,function (alltag) {
+            if (alltag.looking == true) useflag = true;
+        });
+        if (!useflag) return input;
         angular.forEach (input,function (thread) {
             var flag = false;
-            var useflag = false;
             angular.forEach (thread.tags,function (threadtag) {
                 angular.forEach (taglist,function (alltag) {
-                    if (alltag.looking == true) useflag = true;
                     if (alltag.looking == true && alltag.label == threadtag) {
                         flag = true;
                     }
-                })
-            })
+                });
+            });
             if (flag == true) rtnarray.push(thread);
-        })
-        return useflag ? rtnarray : input;
+        });
+        return rtnarray;
     }
 });
 
