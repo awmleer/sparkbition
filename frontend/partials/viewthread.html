@@ -38,61 +38,64 @@
     }
 </style>
 
-
-<div class="col-sm-2 col-md-2 col-lg-2">
-    <button onclick="history.go(-1)" type="button" class="btn btn-primary btn-raised btn-block">返回</button>
+<div class="row">
+    <div class="col-xs-12 col-md-3 col-lg-2 col-md-offset-1 col-lg-offset-2">
+        <button onclick="history.go(-1)" type="button" class="btn btn-primary btn-raised btn-block">返回</button>
+    </div>
 </div>
 
-<div class="panel_wrapper col-sm-12 col-md-10 col-lg-8 col-md-offset-1 col-lg-offset-2">
-    <div class="panel panel-primary">
-        <div class="panel-heading">
-            <h3 class="panel-title">{{postnow.title}}</h3>
-        </div>
-        <div class="panel-body">
-            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                <h5>{{postnow.author}}</h5>
-                <h6>{{postnow.time}}</h6>
-                <!--<button class="btn">赞</button>-->
-                <!--<button class="btn">踩</button>-->
+<div class="row">
+    <div class="panel_wrapper col-xs-12 col-md-10 col-lg-8 col-md-offset-1 col-lg-offset-2">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">{{postnow.title}}</h3>
             </div>
-            <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-                {{postnow.content}}
-            </div>
-            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xs-offset-10 col-sm-offset-10 col-md-offset-10 col-lg-offset-10">
-                <button class="btn">回复</button>
-            </div>
-        </div>
-    </div>
-    <div class="panel panel-default" ng-repeat="reply in postnow.replies | orderBy:'id':true">
-        <div class="panel-heading">
-            <h3 class="panel-title">回帖#{{reply.id}}</h3>
-        </div>
-        <div class="panel-body">
-            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                <h5>{{reply.author}}</h5>
-                <h6>{{reply.time}}</h6>
-                <!--<button class="btn">赞</button>-->
-                <!--<button class="btn">踩</button>-->
-            </div>
-            <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-                {{reply.content}}
-            </div>
-            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xs-offset-10 col-sm-offset-10 col-md-offset-10 col-lg-offset-10">
-                <button class="btn">回复</button>
+            <div class="panel-body">
+                <div class="col-xs-2">
+                    <h5>{{postnow.author}}</h5>
+                    <h6>{{postnow.time}}</h6>
+                    <!--<button class="btn">赞</button>-->
+                    <!--<button class="btn">踩</button>-->
+                </div>
+                <div class="col-xs-10">
+                    {{postnow.content}}
+                </div>
+                <div class="col-xs-2 col-xs-offset-10">
+                    <button class="btn">回复</button>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="panel panel-primary">
-        <div class="panel-heading">
-            <h3 class="panel-title">添加回复</h3>
-        </div>
-        <div class="panel-body">
-            <div class="col-md-10">
-                <textarea type="text" class="form-control" rows="6" id="content" ng-model="newreply.content" required></textarea>
+        <div class="panel panel-default" ng-repeat="reply in postnow.replies | orderBy:'id':true">
+            <div class="panel-heading">
+                <h3 class="panel-title">回帖#{{reply.id}}</h3>
             </div>
-            <div class="col-md-10 col-md-offset-2">
-                <button type="submit" class="btn btn-primary" ng-click="sendPostList()">提交</button>
-                <button ng-click="mdpreview()" type="button" class="btn btn-default">预览</button>
+            <div class="panel-body">
+                <div class="col-xs-2">
+                    <h5>{{reply.author}}</h5>
+                    <h6>{{reply.time}}</h6>
+                    <!--<button class="btn">赞</button>-->
+                    <!--<button class="btn">踩</button>-->
+                </div>
+                <div class="col-xs-10">
+                    {{reply.content}}
+                </div>
+                <div class="col-xs-2 col-xs-offset-10">
+                    <button class="btn">回复</button>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">添加回复</h3>
+            </div>
+            <div class="panel-body">
+                <div class="col-xs-12">
+                    <textarea type="text" class="form-control" rows="6" id="content" ng-model="newreply.content" required></textarea>
+                </div>
+                <div class="col-md-10 col-md-offset-2">
+                    <button type="submit" class="btn btn-primary" ng-click="sendPostList()">提交</button>
+                    <button ng-click="mdpreview()" type="button" class="btn btn-default">预览</button>
+                </div>
             </div>
         </div>
     </div>
