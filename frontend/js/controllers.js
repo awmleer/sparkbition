@@ -591,6 +591,9 @@ app.controller("ctrl_BBS",function($scope,$rootScope,$location,$http) {
             alert("获取标签列表失败，请稍后再试");
         });
     }
+    $scope.show_detail = function (id) {
+        location.hash='#/BBS/' + String(id);
+    }
     // $scope.getPostList();
     // $scope.getTagList();
     $rootScope.postlist = [
@@ -737,7 +740,4 @@ app.controller("ctrl_BBS_ViewThread",function($scope,$stateParams,$rootScope,$lo
     angular.forEach($rootScope.postlist,function (post) {
         if (post.id == $stateParams.postid) $scope.postnow = post;
     });// 从数据中找到正确的文档（由于数据模型在另一个控制器中获取，所以直接进来是得不到任何数据的）
-    $scope.show_detail = function (id) {
-        location.hash='#/BBS/' + String(id);
-    }
 })
