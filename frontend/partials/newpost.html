@@ -32,7 +32,7 @@
         <div class="form-group">
             <label for="title" class="col-md-2 control-label">内容（MarkDown）</label>
             <div class="col-md-10">
-                <textarea type="text" class="form-control" id="content" ng-model="newpost.content" required>
+                <textarea type="text" class="form-control" rows="24" id="content" ng-model="newpost.content" required></textarea>
             </div>
         </div>
 
@@ -40,6 +40,7 @@
             <div class="col-md-10 col-md-offset-2">
                 <button onclick="history.go(-1)" type="button" class="btn btn-default">取消</button>
                 <button type="submit" class="btn btn-primary" ng-click="new_task()">提交</button>
+                <button ng-click="mdpreview()" type="button" class="btn btn-default">预览</button>
             </div>
         </div>
     </fieldset>
