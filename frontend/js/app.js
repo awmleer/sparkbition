@@ -72,13 +72,15 @@ app.filter("filter_tag",function () {
     return function (input,taglist) {
         var rtnarray = [];
         angular.forEach (input,function (thread) {
-            var flag = false;
-            angular.forEach (thread.tags,function (threadtag) {
-                angular.forEach (taglist,function (alltag) {
-                    if (alltag.looking == true && alltag.label == threadtag) {
-                        flag = true;
+            angular.forEach (taglist,function (alltag) {
+                if (!alltag.looking) continue;
+                var flag = true;
+                angular.forEach (thread.tags,function (threadtag) {
+                    if (alltag.label != threadtag) {
+                        flag = false;
                     }
                 });
+                if (flag) break;
             });
             if (flag) rtnarray.push(thread);
         });
