@@ -63,6 +63,25 @@ app.config(function($stateProvider, $urlRouterProvider){
 });
 
 
+app.filter("filter_tag",function () {
+    return function (input,taglist) {
+        var rtnarray = [];
+        angular.forEach (input,function (thread) {
+            var flag = false;
+            angular.forEach (thread.tags,function (threadtag) {
+                angular.forEach (taglist,function (alltag) {
+                    if (alltag.looking == true && alltag.label == threadtag) {
+                        flag = true;
+                    }
+                })
+            })
+            if (flag == true) rtnarray.push(thread);
+        })
+        return rtnarray;
+    }
+});
+
+
 app.run(['$rootScope', '$window', '$location', '$log', function ($rootScope, $window, $location, $log,$http) {
     //监听location的变化，实时更新path变量
     var locationChangeSuccessOff = $rootScope.$on('$locationChangeSuccess', locationChangeSuccess);
