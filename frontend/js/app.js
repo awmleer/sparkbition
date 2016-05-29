@@ -68,8 +68,10 @@ app.filter("filter_tag",function () {
         var rtnarray = [];
         angular.forEach (input,function (thread) {
             var flag = false;
+            var useflag = false;
             angular.forEach (thread.tags,function (threadtag) {
                 angular.forEach (taglist,function (alltag) {
+                    if (alltag.looking == true) useflag = true;
                     if (alltag.looking == true && alltag.label == threadtag) {
                         flag = true;
                     }
@@ -77,7 +79,7 @@ app.filter("filter_tag",function () {
             })
             if (flag == true) rtnarray.push(thread);
         })
-        return rtnarray;
+        return useflag ? rtnarray : input;
     }
 });
 
