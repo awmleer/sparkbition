@@ -64,7 +64,7 @@
         <table class="table table-hover table_task">
             <tbody>
             <tr ng-repeat="post in postlist | orderBy:'id':true | filter_tag:taglist" ng-class="{'tr_task_completed':task.status==1,'tr_task_closed':task.status==2}">
-                <td ng-click="show_detail(post.id)" class="td_post">
+                <td ng-click="show_detail(post.id)" class="td_post" style="cursor: pointer;">
                     <h4>{{ post.title }}</h4>
                     {{ post.author }}&nbsp;
                     <!--标签-->
