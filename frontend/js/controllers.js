@@ -549,6 +549,98 @@ app.controller('ctrl_userinfo',function($scope,$rootScope,$location,$http){
     }).success(function(data){
         $rootScope.userinfo=data;
     }).error(function(){
-        alert("获取用户个人信息失败，请稍后再试")
+        alert("获取用户个人信息失败，请稍后再试");
     });
+});
+
+
+app.controller("ctrl_BBS",function($scope,$rootScope,$location,$http) {
+    $scope.getPostList = function () {
+        $http({
+            url:'api/post',
+            method:'get',
+            params:{}
+        }).success(function(data){
+            $rootScope.postlist=data;
+        }).error(function(){
+            alert("获取帖子列表失败，请稍后再试");
+        });
+    }
+    $scope.getPostList();
+    $rootScope.postlist = [
+        {
+            "id": 3,
+            "title": "我们的下一个产品是什么？",
+            "author": "郝广博",
+            "time": "字符串时间S",
+            "tag": [
+                "目标",
+                "产品"
+            ],
+            "content": "这是内容",
+            "replies": [
+                {
+                    "id": 1,
+                    "author": "郝广博",
+                    "time": "字符串时间1",
+                    "upvoters": [
+                        "秦泽浩"
+                    ]
+                    "downvoters": [
+                        "冯秋实"
+                    ],
+                    "content": "test123"
+                },
+                {
+                    "id": 2,
+                    "author": "冯秋实",
+                    "time": "字符串时间2",
+                    "upvoters": [
+                        "郝广博"
+                    ]
+                    "downvoters": [
+                        "秦泽浩"
+                    ],
+                    "content": "test123"
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "title": "后端要炸了",
+            "author": "冯秋实",
+            "time": "字符串时间S",
+            "tag": [
+                "技术",
+                "困难"
+            ],
+            "content": "这是内容",
+            "replies": [
+                {
+                    "id": 1,
+                    "author": "郝广博",
+                    "time": "字符串时间1",
+                    "upvoters": [
+                        "秦泽浩"
+                    ]
+                    "downvoters": [
+                        "冯秋实"
+                    ],
+                    "content": "你这错误明显得我都看出来了……"
+                },
+                {
+                    "id": 2,
+                    "author": "冯秋实",
+                    "time": "字符串时间2",
+                    "upvoters": [
+                        "郝广博"
+                    ]
+                    "downvoters": [
+                        "秦泽浩"
+                    ],
+                    "content": "已解决……"
+                }
+            ]
+        }
+    ]
 });

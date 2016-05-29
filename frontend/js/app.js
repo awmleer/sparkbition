@@ -47,6 +47,11 @@ app.config(function($stateProvider, $urlRouterProvider){
             url: "/changepwd",
             templateUrl: "partials/changepwd.html",
             controller:'ctrl_changepwd'
+        })
+        .state('BBSlist', {
+            url: "/BBS",
+            templateUrl: "partials/BBSlist.html",
+            controller: 'ctrl_BBS'
         });
 
 
