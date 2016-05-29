@@ -555,7 +555,7 @@ app.controller('ctrl_userinfo',function($scope,$rootScope,$location,$http){
 app.controller("ctrl_BBS",function($scope,$rootScope,$location,$http) {
     $scope.getPostList = function () {
         $http({
-            url:'api/post',
+            url:'api/bbs_thread',
             method:'get',
             params:{}
         }).success(function(data){
@@ -564,15 +564,32 @@ app.controller("ctrl_BBS",function($scope,$rootScope,$location,$http) {
             alert("获取帖子列表失败，请稍后再试");
         });
     }
-    $scope.PostVisible = function (posttaglist) {
-        for (var posttag in posttaglist) {
-            for (var tag in $rootScope.taglist) {
-                if ($rootScope.taglist[tag].looking == true && $rootScope.taglist[tag].label == posttaglist[posttag]) {
-                    return true;
-                }
-            }
-        }
-        return false;
+    // $scope.PostVisible = function (posttaglist) {
+    //     for (var posttag in posttaglist) {
+    //         for (var tag in $rootScope.taglist) {
+    //             if ($rootScope.taglist[tag].looking == true && $rootScope.taglist[tag].label == posttaglist[posttag]) {
+    //                 return true;
+    //             }
+    //         }
+    //     }
+    //     return false;
+    // }
+    $scope.getTagList = function () {
+        $http({
+            url:'api/bbs_tags',
+            method:'get',
+            params:{}
+        }).success(function(data){
+            $rootScope.taglist=[];
+            angular.forEach(data,function (taglabel) {
+                $rootScope.taglist.push({
+                    "label": taglabel,
+                    "looking": true
+                });
+            });
+        }).error(function(){
+            alert("获取标签列表失败，请稍后再试");
+        });
     }
     // $scope.getPostList();
     // $scope.getTagList();
@@ -690,93 +707,27 @@ app.controller("ctrl_BBS",function($scope,$rootScope,$location,$http) {
 
 
 app.controller("ctrl_newpost",function($scope,$rootScope,$location,$http) {
-    $scope.getPostList = function () {
+    $scope.newpost = {
+        "title": "",
+        "tag": [],
+        "raw_tag": "",
+        "content": ""
+    };
+    $scope.sendPostList = function () {
+        $scope.tag = $scope.raw_tag.split(" ");
         $http({
-            url:'api/post',
-            method:'get',
-            params:{}
+            url:'api/bbs_thread',
+            method:'post',
+            headers: {'Content-Type': 'application/json'},
+            data: JSON.stringify($rootScope.newpost)
         }).success(function(data){
-            $rootScope.postlist=data;
+            alert("发布讨论成功");
+            location.hash='#/BBS';
         }).error(function(){
-            alert("获取帖子列表失败，请稍后再试");
+            alert("发布失败！");
         });
     }
-    $rootScope.postlist = [
-        {
-            "id": 3,
-            "title": "我们的下一个产品是什么？",
-            "author": "郝广博",
-            "time": "字符串时间S",
-            "tags": [
-                "目标",
-                "产品"
-            ],
-            "content": "这是内容",
-            "replies": [
-                {
-                    "id": 1,
-                    "author": "郝广博",
-                    "time": "字符串时间1",
-                    "upvoters": [
-                        "秦泽浩"
-                    ],
-                    "downvoters": [
-                        "冯秋实"
-                    ],
-                    "content": "test123"
-                },
-                {
-                    "id": 2,
-                    "author": "冯秋实",
-                    "time": "字符串时间2",
-                    "upvoters": [
-                        "郝广博"
-                    ],
-                    "downvoters": [
-                        "秦泽浩"
-                    ],
-                    "content": "test123"
-                }
-            ]
-        },
-        {
-            "id": 4,
-            "title": "后端要炸了",
-            "author": "冯秋实",
-            "time": "字符串时间S",
-            "tags": [
-                "技术",
-                "困难"
-            ],
-            "content": "这是内容",
-            "replies": [
-                {
-                    "id": 1,
-                    "author": "郝广博",
-                    "time": "字符串时间1",
-                    "upvoters": [
-                        "秦泽浩"
-                    ],
-                    "downvoters": [
-                        "冯秋实"
-                    ],
-                    "content": "你这错误明显得我都看出来了……"
-                },
-                {
-                    "id": 2,
-                    "author": "冯秋实",
-                    "time": "字符串时间2",
-                    "upvoters": [
-                        "郝广博"
-                    ],
-                    "downvoters": [
-                        "秦泽浩"
-                    ],
-                    "content": "已解决……"
-                }
-            ]
-        }
-    ]
+
 });
 
 
