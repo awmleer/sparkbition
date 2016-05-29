@@ -57,6 +57,11 @@ app.config(function($stateProvider, $urlRouterProvider){
             url: "/newpost",
             templateUrl: "partials/newpost.html",
             controller: 'ctrl_newpost'
+        })
+        .state('BBSViewThread', {
+            url: "/BBS/:postid",
+            templateUrl: "partials/viewthread.html",
+            controller: 'ctrl_BBS_ViewThread'
         });
 
 

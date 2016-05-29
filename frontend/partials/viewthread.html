@@ -1,0 +1,47 @@
+<style>
+    .item .label{
+        float: right;
+        margin-top: 0.5rem
+    }
+    .panel_wrapper{
+        display: inline;
+    }
+
+    .table_task{
+        width:100%;
+    }
+    .table_task td{
+        vertical-align: top;
+    }
+    .td_task{
+        cursor: pointer;
+    }
+    .td_right{
+        text-align: right;
+    }
+    .img_checkbox{
+        cursor: pointer;
+    }
+
+    .tr_task_completed{
+        background-color: #d0e9c6 !important;
+    }
+    .tr_task_completed h4{
+        text-decoration:line-through;
+    }
+
+    .tr_task_closed{
+        background-color: #dddddd !important;
+    }
+    .tr_task_closed h4{
+        text-decoration:line-through;
+    }
+</style>
+
+<div class="panel_wrapper col-sm-12 col-md-10 col-lg-8 col-md-offset-1 col-lg-offset-2">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">{{postnow.title}}</h3>
+        </div>
+    </div>
+</div>

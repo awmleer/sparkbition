@@ -731,3 +731,8 @@ app.controller("ctrl_newpost",function($scope,$rootScope,$location,$http) {
 });
 
 
+app.controller("ctrl_BBS_ViewThread",function($scope,$stateParams,$rootScope,$location,$http) {
+    angular.forEach($rootScope.postlist,function (post) {
+        if (post.id == $stateParams.postid) $scope.postnow = post;
+    });
+}
