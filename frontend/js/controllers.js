@@ -243,6 +243,8 @@ app.controller("ctrl_task",function($scope,$rootScope,$location,$http) {
                 alert("现在还不能支持或您没有支持的权限");
             }else if (data == 'already') {
                 alert("您已经支持过了");
+            }else if (data == 'times up') {
+                alert("您本周不能再支持任务了");
             }
         }).error(function () {
             alert("操作失败，请稍后再试");
