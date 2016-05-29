@@ -735,4 +735,4 @@ app.controller("ctrl_BBS_ViewThread",function($scope,$stateParams,$rootScope,$lo
     angular.forEach($rootScope.postlist,function (post) {
         if (post.id == $stateParams.postid) $scope.postnow = post;
     });
-}
+})
