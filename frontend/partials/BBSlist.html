@@ -39,7 +39,7 @@
 </style>
 
 
-<div class="panel_wrapper col-sm-12 col-md-4 col-lg-4">
+<div class="panel_wrapper col-sm-12 col-md-3 col-lg-3 col-md-offset-1 col-lg-offset-1">
     <div class="panel panel-primary">
         <div class="panel-heading">
             <h3 class="panel-title">工具栏</h3>
@@ -48,15 +48,15 @@
             <div class="col-sm-8 col-md-8 col-lg-8 col-sm-offset-2 col-md-offset-2 col-lg-offset-2">
                 <a ui-sref="newpost" class="btn btn-primary btn-raised btn-block">发布讨论</a>
             </div>
-            <div class="col-sm-12 col-md-12 col-lg-12">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <h5 class="panel-title">标签过滤</h5>
-                <span ng-repeat="tag in taglist" class="label col-sm-2 col-md-2 col-lg-2" style="cursor: pointer;font-size: 1.5rem;margin-top: 0.25rem;margin-bottom: 0.25rem;display: block" ng-click="tag.looking=!tag.looking" ng-class="{'label-primary':tag.looking == true}">{{tag.label}}</span>
+                <span ng-repeat="tag in taglist" class="label col-xs-6 col-sm-3 col-md-6 col-lg-3" style="cursor: pointer;font-size: 1.5rem;margin-top: 0.25rem;margin-bottom: 0.25rem;display: block" ng-click="tag.looking=!tag.looking" ng-class="{'label-primary':tag.looking == true}">{{tag.label}}</span>
             </div>
         </div>
     </div>
 </div>
 
-<div class="panel_wrapper col-sm-12 col-md-8 col-lg-8">
+<div class="panel_wrapper col-sm-12 col-md-7 col-lg-7">
     <div class="panel panel-primary">
         <div class="panel-heading">
             <h3 class="panel-title">帖子列表</h3>
