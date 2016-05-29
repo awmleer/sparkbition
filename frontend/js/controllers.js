@@ -784,13 +784,15 @@ app.filter("filter_tag",function () {
     return function (input,taglist) {
         var rtnarray = [];
         angular.forEach (input,function (thread) {
+            var flag = false;
             angular.forEach (thread.tags,function (threadtag) {
                 angular.forEach (taglist,function (alltag) {
                     if (alltag.looking == true && alltag.label == threadtag) {
-                        rtnarray.push(thread);
+                        flag = true;
                     }
                 })
             })
+            if (flag == true) rtnarray.push(thread);
         })
         return rtnarray;
     }
