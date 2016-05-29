@@ -25,7 +25,7 @@
         <div class="form-group">
             <label for="title" class="col-md-2 control-label">标签（英文逗号分隔）</label>
             <div class="col-md-10">
-                <input type="text" class="form-control" id="rawtag" ng-model="newpost.rawtag" required>
+                <input type="text" class="form-control" id="rawtag" ng-model="newpost.raw_tag" required>
             </div>
         </div>
 
@@ -39,7 +39,7 @@
         <div class="form-group">
             <div class="col-md-10 col-md-offset-2">
                 <button onclick="history.go(-1)" type="button" class="btn btn-default">取消</button>
-                <button type="submit" class="btn btn-primary" ng-click="new_task()">提交</button>
+                <button type="submit" class="btn btn-primary" ng-click="sendPostList()">提交</button>
                 <button ng-click="mdpreview()" type="button" class="btn btn-default">预览</button>
             </div>
         </div>
