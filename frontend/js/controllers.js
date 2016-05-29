@@ -778,3 +778,20 @@ app.controller("ctrl_newpost",function($scope,$rootScope,$location,$http) {
         }
     ]
 });
+
+
+app.filter("filter_tag",function () {
+    return function (input,taglist) {
+        var rtnarray = [];
+        angular.forEach (input,function (thread) {
+            angular.forEach (thread.tags,function (threadtag) {
+                angular.forEach (taglist,function (alltag) {
+                    if (alltag.looking == true && alltag.label == threadtag) {
+                        rtnarray.push(thread);
+                    }
+                })
+            })
+        })
+        return rtnarray;
+    }
+})
