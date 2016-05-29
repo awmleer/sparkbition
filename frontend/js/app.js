@@ -72,15 +72,22 @@ app.filter("filter_tag",function () {
     return function (input,taglist) {
         var rtnarray = [];
         angular.forEach (input,function (thread) {
+            var flag = true;
             angular.forEach (taglist,function (alltag) {
-                if (!alltag.looking) continue;
-                var flag = true;
-                angular.forEach (thread.tags,function (threadtag) {
-                    if (alltag.label != threadtag) {
-                        flag = false;
-                    }
-                });
-                if (flag) break;
+                if (alltag.looking) {
+                    angular.forEach (thread.tags,function (threadtag) {
+                        flag = true;
+                        console.log(alltag);
+                        console.log(threadtag);
+                        if (alltag.label != threadtag) {
+                            flag = false;
+                        }
+                        console.log(flag);
+                        console.log("——————————————————————————————————————————————————————————————————————————————");
+                        if (flag) return;
+                    });
+                }
+                if (flag) return;
             });
             if (flag) rtnarray.push(thread);
         });
