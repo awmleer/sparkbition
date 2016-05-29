@@ -780,20 +780,3 @@ app.controller("ctrl_newpost",function($scope,$rootScope,$location,$http) {
 });
 
 
-app.filter("filter_tag",function () {
-    return function (input,taglist) {
-        var rtnarray = [];
-        angular.forEach (input,function (thread) {
-            var flag = false;
-            angular.forEach (thread.tags,function (threadtag) {
-                angular.forEach (taglist,function (alltag) {
-                    if (alltag.looking == true && alltag.label == threadtag) {
-                        flag = true;
-                    }
-                })
-            })
-            if (flag == true) rtnarray.push(thread);
-        })
-        return rtnarray;
-    }
-})
