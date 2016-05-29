@@ -379,8 +379,6 @@ app.controller('ctrl_modifytask',function($scope,$rootScope,$location,$http){
 
 
 
-
-
 app.controller('ctrl_mytask',function($scope,$rootScope,$location,$http){
     $http({
         url: 'api/mytask',
@@ -585,7 +583,7 @@ app.controller("ctrl_BBS",function($scope,$rootScope,$location,$http) {
                     "time": "字符串时间1",
                     "upvoters": [
                         "秦泽浩"
-                    ]
+                    ],
                     "downvoters": [
                         "冯秋实"
                     ],
@@ -597,7 +595,7 @@ app.controller("ctrl_BBS",function($scope,$rootScope,$location,$http) {
                     "time": "字符串时间2",
                     "upvoters": [
                         "郝广博"
-                    ]
+                    ],
                     "downvoters": [
                         "秦泽浩"
                     ],
@@ -622,7 +620,7 @@ app.controller("ctrl_BBS",function($scope,$rootScope,$location,$http) {
                     "time": "字符串时间1",
                     "upvoters": [
                         "秦泽浩"
-                    ]
+                    ],
                     "downvoters": [
                         "冯秋实"
                     ],
@@ -634,7 +632,7 @@ app.controller("ctrl_BBS",function($scope,$rootScope,$location,$http) {
                     "time": "字符串时间2",
                     "upvoters": [
                         "郝广博"
-                    ]
+                    ],
                     "downvoters": [
                         "秦泽浩"
                     ],
