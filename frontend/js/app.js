@@ -81,13 +81,9 @@ app.filter("filter_tag",function () {
                         if (tcontinueflg) {
                             tdid = true;
                             flag = true;
-                            console.log(alltag);
-                            console.log(threadtag);
                             if (alltag.label != threadtag) {
                                 flag = false;
                             }
-                            console.log(flag);
-                            console.log("——————————————————————————————————————————————————————————————————————————————");
                             if (flag) tcontinueflg = false;
                         }
                         if (!tdid) tcontinueflg = true;
