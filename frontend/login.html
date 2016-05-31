@@ -62,6 +62,19 @@
         }
     });
 
+    //自动登录
+    $.ajax({
+        url: "api/userinfo",
+        type: "get",
+        data: {}
+    }).done(function (data) {
+        //请求成功表示登录过，直接跳转即可
+        location.href='index.html';
+    }).fail(function () {
+        //请求失败表示是未登录的
+    });
+
+
     function login() {
         //判断如果不是Firefox
         if (navigator.userAgent.indexOf("Firefox") <= 0) {

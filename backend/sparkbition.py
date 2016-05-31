@@ -328,7 +328,12 @@ def upvote():
 
     db = client['sparkbition']
     coll_tasks = db['tasks']
+    coll_users = db['users']
     task_id = request.args.get('task_id')
+    upvotetimes = coll_users.find_one({'username': usernam})['upvotetimes']
+    if upvotetimes <= 0:
+        resp = make_response('times up',200)
+        return resp
     if (coll_tasks.find_one({'id': int(task_id)})['status'] != 1):
         resp = make_response('not allowed', 200)
         return resp
@@ -339,6 +344,8 @@ def upvote():
             return resp
     upvoters.append(usernam)
     coll_tasks.update({'id': int(task_id), 'status': 1}, {'$set': {'upvoters': upvoters}})
+    upvotetimes -= 1
+    coll_users.update({'username': usernam},{"$set":{'upvotetimes': upvotetimes}})
     resp = make_response('success', 200)
     return resp
 
@@ -357,6 +364,7 @@ def modify_task():
     publisher = coll_tasks.find_one({'id': text['id']})['publisher']
     usertype = coll_users.find_one({'username': usernam})['type']
     if (usertype == 'admin') or (usertype == 'root') or (usernam == publisher.encode('utf-8')):
+        if(modify['ddl']):modify['ddl'] = int(modify['ddl'])
         coll_tasks.update({'id': text['id']}, {'$set': modify})
         resp = make_response('success', 200)
     else:

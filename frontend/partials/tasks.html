@@ -54,7 +54,7 @@
             <tbody>
             <tr ng-repeat="task in group.tasks | orderBy:'status'" ng-class="{'tr_task_completed':task.status==1,'tr_task_closed':task.status==2}">
                 <td style="padding-top: 18px">
-                    <img class="img_checkbox" ng-show="task.status>0" src="static/checkbox/checkbox-checked.svg" style="width: 3rem;height: 3rem;">
+                    <img class="img_checkbox" ng-click="redo_task(task.id)" ng-show="task.status>0" src="static/checkbox/checkbox-checked.svg" style="width: 3rem;height: 3rem;">
                     <img class="img_checkbox" ng-click="complete_task(task.id)" ng-show="task.status==0" src="static/checkbox/checkbox-unchecked.svg" style="width: 3rem;height: 3rem;">
                 </td>
                 <td ng-click="show_task_info()" class="td_task">
@@ -63,16 +63,18 @@
                     <span class="label" ng-if="task.status==2">已关闭</span>
                     <!--tasker_main-->
                     <span class="label">{{ task.tasker_main }}</span>
+                    <!--DDL-->
+                    <span class="label" ng-if="task.status==0" ng-class="{'label-warning':now>task.ddl && task.status==0,'label-info':now<=task.ddl && now>task.ddl-86400000 && task.status==0}"><span class="glyphicon glyphicon-calendar"></span> {{ task.ddl | date:'M-d' }}</span>
                     <!--紧急程度-->
                     <span ng-if="task.urgency!='正常' && task.status==0" class="label" ng-class="{'label-primary':task.urgency=='正常','label-warning':task.urgency=='紧急','label-danger':task.urgency=='火急'}">{{ task.urgency }}</span>
-                    <!--DDL-->
-                    <span class="label" ng-if="task.status==0" ng-class="{'label-warning':now>task.ddl && task.status==0}"><span class="glyphicon glyphicon-calendar"></span> {{ task.ddl | date:'M-d' }}</span>
                     <!--完成日期-->
                     <span ng-if="task.status>0" class="label" ng-class="{'label-danger':task.finishtime>task.ddl}"><span class="glyphicon glyphicon-ok"></span> {{ task.finishtime | date:'M-d' }}</span>
                     <!--点赞量-->
                     <span ng-if="task.status>0" class="label label-success"><span class="glyphicon glyphicon-thumbs-up"></span> {{ task.upvoters.length }}</span>
+                    <!--有备注-->
+                    <span ng-if="task.remark" class="label"><span class="glyphicon glyphicon-paperclip"></span> 有备注</span>
                     <!--得分-->
-                    <span ng-if="task.base_score!=0" class="label label-info"><span class="glyphicon glyphicon glyphicon-star"></span> {{ task.base_score*(1+0.1*task.upvoters.length) | number:1 }}</span>
+                    <span ng-if="task.base_score!=0" class="label"><span class="glyphicon glyphicon glyphicon-star"></span> {{ task.base_score*(1+0.1*task.upvoters.length) | number:1 }}</span>
                 </td>
             </tr>
             </tbody>
@@ -125,6 +127,7 @@
 
             </div>
             <div class="modal-footer">
+                <strong>您本周还能支持{{userinfo.upvotetimes}}项任务。</strong>
                 <button ng-if="(userinfo.type=='root'||userinfo.type=='admin')&&(task_looking.status==0||task_looking.status==1)" ng-click="show_set_base_score()" class="btn btn-primary">设置基础分</button>
                 <button ng-if="task_looking.status==1" ng-click="upvote(task_looking.id)" class="btn btn-default">支持</button>
                 <button ng-if="task_looking.status==0" ng-click="complete_task(task_looking.id)" class="btn btn-default">完成</button>

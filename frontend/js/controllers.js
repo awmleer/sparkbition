@@ -171,6 +171,7 @@ app.controller("ctrl_task",function($scope,$rootScope,$location,$http) {
                         for(var j=0;j<$rootScope.groups[i].tasks.length;j++){
                             if($rootScope.groups[i].tasks[j]['id'] ==task_id){
                                 $rootScope.groups[i].tasks.splice(j);//删除该task
+                                break;
                             }
                         }
                     }
@@ -229,6 +230,7 @@ app.controller("ctrl_task",function($scope,$rootScope,$location,$http) {
         }).success(function (data) {
             if (data == 'success') {
                 //点赞成功
+                $rootScope.userinfo.upvotetimes--;//剩余点赞次数减一
                 for(var i=0;i<$rootScope.groups.length;i++){
                     for(var j=0;j<$rootScope.groups[i].tasks.length;j++){
                         if($rootScope.groups[i].tasks[j]['id'] ==task_id){
@@ -241,6 +243,8 @@ app.controller("ctrl_task",function($scope,$rootScope,$location,$http) {
                 alert("现在还不能支持或您没有支持的权限");
             }else if (data == 'already') {
                 alert("您已经支持过了");
+            }else if (data == 'times up') {
+                alert("您本周不能再支持任务了");
             }
         }).error(function () {
             alert("操作失败，请稍后再试");
