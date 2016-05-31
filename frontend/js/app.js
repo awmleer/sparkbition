@@ -75,16 +75,22 @@ app.filter("filter_tag",function () {
             var flag = true;
             angular.forEach (taglist,function (alltag) {
                 if (alltag.looking) {
+                    var tcontinueflg = true;
                     angular.forEach (thread.tags,function (threadtag) {
-                        flag = true;
-                        console.log(alltag);
-                        console.log(threadtag);
-                        if (alltag.label != threadtag) {
-                            flag = false;
+                        var tdid = false;
+                        if (tcontinueflg) {
+                            tdid = true;
+                            flag = true;
+                            console.log(alltag);
+                            console.log(threadtag);
+                            if (alltag.label != threadtag) {
+                                flag = false;
+                            }
+                            console.log(flag);
+                            console.log("——————————————————————————————————————————————————————————————————————————————");
+                            if (flag) tcontinueflg = false;
                         }
-                        console.log(flag);
-                        console.log("——————————————————————————————————————————————————————————————————————————————");
-                        if (flag) return;
+                        if (!tdid) tcontinueflg = true;
                     });
                 }
                 if (flag) return;
