@@ -55,7 +55,7 @@ def sendsms2(title, tasker_main, person, mobile):
     finalstr += '发送给%s的短信的发送结果：%s\n' % (person, result['reason'].encode('utf-8'))
     return finalstr
 
-def sendsms3(title, how, tasker_main, person, mobile):
+def sendsms3(title, how,  tasker_main, person, mobile):
     d = {'#title#': title, '#how#': how, '#tasker_main#': tasker_main}
     tpl_value = urllib.urlencode(d)
     finalstr = ''
@@ -225,9 +225,13 @@ def new_task():
     print sendsms1(usernam, text['title'].encode('utf-8'), tasker.encode('utf-8'),
                    coll_users.find_one({'username': tasker})['mobile'])
     for tasker in text['tasker_other']:
+        if publisher ==tasker :
+            continue
         print sendsms1(usernam, text['title'].encode('utf-8'), tasker.encode('utf-8'),
                        coll_users.find_one({'username': tasker})['mobile'])
     for tasker in text['participators']:
+        if  publisher==tasker:
+            continue
         print sendsms1(usernam, text['title'].encode('utf-8'), tasker.encode('utf-8'),
                        coll_users.find_one({'username': tasker})['mobile'])
     return resp
