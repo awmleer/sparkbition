@@ -753,8 +753,9 @@ app.controller("ctrl_BBS_ViewThread",function($scope,$stateParams,$rootScope,$lo
             params:{'id': $stateParams.postid}
         }).success(function(data){
             $rootScope.postnow=data;
-        }).error(function(){
-            alert("获取帖子列表失败，请稍后再试");
+        }).error(function(data,status){
+            if (status == 404) location.hash='#/BBS404';
+            else alert("获取帖子列表失败，请稍后再试");
         });
     };
     // $scope.getpostnow();
@@ -828,4 +829,11 @@ app.controller("ctrl_BBS_ViewThread",function($scope,$stateParams,$rootScope,$lo
     };
     
     
-})
+});
+
+
+app.controller("ctrl_BBS_404",function($scope,$rootScope,$location,$http){
+    $scope.returntobbs = function () {
+        location.hash='#/BBS';
+    };
+});
