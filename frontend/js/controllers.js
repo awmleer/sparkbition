@@ -759,6 +759,25 @@ app.controller("ctrl_BBS_ViewThread",function($scope,$stateParams,$rootScope,$lo
     };
     // $scope.getpostnow();
 
+    $scope.sendreply = function () {
+        $http({
+            url:'api/bbs_reply',
+            method:'post',
+            params:{'id': $stateParams.postid}
+            data: JSON.stringify($scope.newreply)
+        }).success(function(data){
+            alert("回复成功！");
+        }).error(function(){
+            alert("获取帖子列表失败，请稍后再试");
+        });
+    };
+
+    $scope.replyto = function (id) {
+        angular.forEach ($scope.postnow.replies, function (reply) {
+            if (reply.id == id) $scope.newreply.content = "> 回复" + reply.author + "在" + reply.time + "写下的：\n" + reply.content + "\n\n" + $scope.newreply.content;
+        })
+    };
+
     //测试用数据模型
     $scope.postnow = {
         "id":3,
@@ -769,7 +788,7 @@ app.controller("ctrl_BBS_ViewThread",function($scope,$stateParams,$rootScope,$lo
             "目标",
             "产品"
         ],
-        "content":" #测试标题  `代码` ",
+        "content":" # 测试标题  `代码` ",
         "replies":[
             {
                 "id":1,
