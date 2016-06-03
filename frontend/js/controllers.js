@@ -739,7 +739,7 @@ app.controller("ctrl_newpost",function($scope,$rootScope,$location,$http) {
 
 
 app.controller("ctrl_BBS_ViewThread",function($scope,$stateParams,$rootScope,$location,$http,$anchorScroll) {
-    if (locationg.hash == '#/BBS/') location.hash='#/BBS';
+    if ($stateParams.postid == '') location.hash='#/BBS';
     // 初始化回复数据模型
     $scope.newreply = {"content": ""};
     // angular.forEach($rootScope.postlist,function (post) {
