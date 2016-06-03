@@ -1,4 +1,4 @@
-var app = angular.module('myApp', ['ui.router','chart.js']);
+var app = angular.module('myApp', ['ui.router','chart.js', 'hc.marked']);
 
 
 app.config(function($stateProvider, $urlRouterProvider){
