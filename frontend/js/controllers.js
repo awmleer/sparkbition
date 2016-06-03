@@ -610,7 +610,7 @@ app.controller("ctrl_BBS",function($scope,$rootScope,$location,$http) {
                 "目标",
                 "产品"
             ],
-            "content": "这是内容",
+            "content": " #测试标题  `代码` ",
             "replies": [
                 {
                     "id": 1,
@@ -739,9 +739,64 @@ app.controller("ctrl_newpost",function($scope,$rootScope,$location,$http) {
 
 
 app.controller("ctrl_BBS_ViewThread",function($scope,$stateParams,$rootScope,$location,$http) {
-    if ($rootScope.postlist == undefined) location.hash='#/BBS';
+    // if ($rootScope.postlist == undefined) location.hash='#/BBS';
+    // 初始化回复数据模型
     $scope.newreply = {"content": ""};
-    angular.forEach($rootScope.postlist,function (post) {
-        if (post.id == $stateParams.postid) $scope.postnow = post;
-    });// 从数据中找到正确的文档（由于数据模型在另一个控制器中获取，所以直接进来是得不到任何数据的）
+    // angular.forEach($rootScope.postlist,function (post) {
+    //     if (post.id == $stateParams.postid) $scope.postnow = post;
+    // });// 从数据中找到正确的文档（由于数据模型在另一个控制器中获取，所以直接进来是得不到任何数据的）
+    // 给postnow解析markdown
+    $scope.getpostnow = function () {
+        $http({
+            url:'api/bbs_thread',
+            method:'get',
+            params:{'id': $stateParams.postid}
+        }).success(function(data){
+            $rootScope.postnow=data;
+        }).error(function(){
+            alert("获取帖子列表失败，请稍后再试");
+        });
+    };
+    // $scope.getpostnow();
+
+    //测试用数据模型
+    $scope.postnow = {
+        "id":3,
+        "title":"我们的下一个产品是什么？",
+        "author":"郝广博",
+        "time":"2016-00-00 18:27:36",
+        "tags":[
+            "目标",
+            "产品"
+        ],
+        "content":" #测试标题  `代码` ",
+        "replies":[
+            {
+                "id":1,
+                "author":"郝广博",
+                "time":"2016-00-00 18:27:36",
+                "upvoters":[
+                    "秦泽浩"
+                ],
+                "downvoters":[
+                    "冯秋实"
+                ],
+                "content":"test123"
+            },
+            {
+                "id":2,
+                "author":"冯秋实",
+                "time":"2016-00-00 18:27:36",
+                "upvoters":[
+                    "郝广博"
+                ],
+                "downvoters":[
+                    "秦泽浩"
+                ],
+                "content":"test123"
+            }
+        ]
+    };
+    
+    
 })
