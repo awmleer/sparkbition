@@ -62,7 +62,8 @@ app.config(function($stateProvider, $urlRouterProvider){
             url: "/BBS/:postid",
             templateUrl: "partials/viewthread.html",
             controller: 'ctrl_BBS_ViewThread'
-        });
+        })
+        ;
 
 
 });

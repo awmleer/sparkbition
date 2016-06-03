@@ -40,7 +40,7 @@
 
 <div class="row">
     <div class="col-xs-12 col-md-3 col-lg-2 col-md-offset-1 col-lg-offset-2">
-        <button onclick="history.go(-1)" type="button" class="btn btn-primary btn-raised btn-block">返回</button>
+        <button ng-click="backtoBBS()" type="button" class="btn btn-primary btn-raised btn-block">返回</button>
     </div>
 </div>
 
@@ -61,7 +61,7 @@
                     <div marked="postnow.content"></div>
                 </div>
                 <div class="col-xs-2 col-xs-offset-10">
-                    <button class="btn">回复</button>
+                    <button class="btn" ng-click="gotoreply()">回复</button>
                 </div>
             </div>
         </div>
@@ -84,6 +84,8 @@
                 </div>
             </div>
         </div>
+
+        <a id="reply"></a>
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <h3 class="panel-title">添加回复</h3>
@@ -98,7 +100,7 @@
                     <div marked="newreply.content"></div>
                 </div>
                 <div class="col-md-2 col-md-offset-5">
-                    <button type="submit" class="btn btn-primary" ng-click="sendPostList()">提交</button>
+                    <button type="submit" class="btn btn-primary" ng-click="sendreply()">提交</button>
                 </div>
             </div>
         </div>

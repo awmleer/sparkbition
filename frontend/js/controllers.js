@@ -721,7 +721,7 @@ app.controller("ctrl_newpost",function($scope,$rootScope,$location,$http) {
         "content": ""
     };
     $scope.sendPostList = function () {
-        $scope.tag = $scope.raw_tag.split(" ");
+        $scope.tag = $scope.newpost.raw_tag.split(" ");
         $http({
             url:'api/bbs_thread',
             method:'post',
@@ -738,7 +738,7 @@ app.controller("ctrl_newpost",function($scope,$rootScope,$location,$http) {
 });
 
 
-app.controller("ctrl_BBS_ViewThread",function($scope,$stateParams,$rootScope,$location,$http) {
+app.controller("ctrl_BBS_ViewThread",function($scope,$stateParams,$rootScope,$location,$http,$anchorScroll) {
     // if ($rootScope.postlist == undefined) location.hash='#/BBS';
     // 初始化回复数据模型
     $scope.newreply = {"content": ""};
@@ -763,19 +763,29 @@ app.controller("ctrl_BBS_ViewThread",function($scope,$stateParams,$rootScope,$lo
         $http({
             url:'api/bbs_reply',
             method:'post',
-            params:{'id': $stateParams.postid}
+            params:{'id': $stateParams.postid},
             data: JSON.stringify($scope.newreply)
         }).success(function(data){
             alert("回复成功！");
         }).error(function(){
-            alert("获取帖子列表失败，请稍后再试");
+            alert("回复失败，请稍后再试");
         });
     };
 
     $scope.replyto = function (id) {
         angular.forEach ($scope.postnow.replies, function (reply) {
-            if (reply.id == id) $scope.newreply.content = "> 回复" + reply.author + "在" + reply.time + "写下的：\n" + reply.content + "\n\n" + $scope.newreply.content;
-        })
+            if (reply.id == id) $scope.newreply.content = "> 回复" + reply.author + "在" + reply.time + "写下的：\n" + reply.content + "\n\n" + ($scope.newreply.content ? $scope.newreply.content:"");
+        });
+        $scope.gotoreply();
+    };
+    
+    $scope.gotoreply = function () {
+        $location.hash('reply');
+        $anchorScroll();
+    };
+    
+    $scope.backtoBBS = function () {
+        location.hash='#/BBS';
     };
 
     //测试用数据模型
