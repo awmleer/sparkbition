@@ -44,7 +44,7 @@
             <h3 class="panel-title">工具栏</h3>
         </div>
         <div class="panel-body">
-            <div class="col-sm-8 col-md-8 col-lg-8 col-sm-offset-2 col-md-offset-2 col-lg-offset-2">
+            <div class="col-xs-8 col-xs-offset-2">
                 <a ui-sref="newpost" class="btn btn-primary btn-raised btn-block">发布讨论</a>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -67,7 +67,7 @@
                     <h4>{{ post.title }}</h4>
                     {{ post.author }}&nbsp;
                     <!--标签-->
-                    <span ng-repeat="tag in post.tags" class="label">{{tag}}</span>
+                    <span ng-repeat="tag in post.tags" class="label label-primary">{{tag}}</span>
                 </td>
                 <td>
                     最后回复：{{post.replies[post.replies.length-1].author}}<br>
