@@ -63,7 +63,12 @@ app.config(function($stateProvider, $urlRouterProvider){
             templateUrl: "partials/viewthread.html",
             controller: 'ctrl_BBS_ViewThread'
         })
-        ;
+        .state('BBS404', {
+            url: "/BBS404",
+            templateUrl: "partials/BBS404.html",
+            controller: 'ctrl_BBS_404'
+        })
+    ;
 
 
 });

@@ -32,6 +32,7 @@
         <div class="form-group">
             <label for="title" class="col-md-2 control-label">内容（MarkDown）</label>
             <div class="col-md-10">
+                <button class="btn btn-raised" onclick="tietuku_upload()">上传图片（外部）</button>
                 <textarea type="text" class="form-control" rows="6" id="content" ng-model="newpost.content" required></textarea>
             </div>
         </div>
@@ -52,3 +53,12 @@
     </fieldset>
 </form>
 </div>
+
+<script language = "javascript" type = "text/javascript"  src="http://static.kekaoyun.com/static/open/tietuku.dialog.js"></script>
+<script>
+    var jq=jQuery.noConflict();
+    function tietuku_upload(){
+        jq.dialog.showIframeDialog(850, '', '<iframe frameborder="0" width="824" height="460" marginheight="0" marginwidth="0"  src="http://static.kekaoyun.com/upByPlugn?token=1ef5103746a67abc357a8e38128589b24a15dc3d:U0trTTViMFlRaFBfMS1hejd1ZzdBRDJlRUdvPQ==:eyJkZWFkbGluZSI6MTQ2NTAzODI3NCwiYWN0aW9uIjoiZ2V0IiwidWlkIjoiNTY2MTc4IiwiYWlkIjoiMTIyMzUxNSJ9&ifr=1&"></iframe>');
+    }
+    var $=jQuery.noConflict();
+</script>

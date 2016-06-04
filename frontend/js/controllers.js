@@ -598,12 +598,6 @@ app.controller("ctrl_BBS",function($scope,$rootScope,$location,$http) {
     $scope.show_detail = function (id) {
         location.hash='#/BBS/' + String(id);
     }
-
-    $scope.tietuku_upload = function (){
-        jQuery.dialog.showIframeDialog(850, '', 
-            '<iframe frameborder="0" width="824" height="460" marginheight="0" marginwidth="0"  src="http://static.kekaoyun.com/upByPlugn?token=1ef5103746a67abc357a8e38128589b24a15dc3d:U0trTTViMFlRaFBfMS1hejd1ZzdBRDJlRUdvPQ==:eyJkZWFkbGluZSI6MTQ2NTAzODI3NCwiYWN0aW9uIjoiZ2V0IiwidWlkIjoiNTY2MTc4IiwiYWlkIjoiMTIyMzUxNSJ9&ifr=1&"></iframe>'
-        );
-    }
     // $scope.getPostList();
     // $scope.getTagList();
     $rootScope.postlist = [
