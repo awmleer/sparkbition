@@ -91,13 +91,15 @@
                 <h3 class="panel-title">添加回复</h3>
             </div>
             <div class="panel-body">
-                <div class="col-xs-12 col-md-6">
-                    编辑区
-                    <textarea type="text" class="form-control" rows="6" id="content" ng-model="newreply.content" required></textarea>
-                </div>
-                <div class="col-xs-12 col-md-6">
-                    预览区
-                    <div marked="newreply.content"></div>
+                <div class="row">
+                    <div class="col-xs-12 col-md-6">
+                        编辑区
+                        <textarea type="text" class="form-control" id="replycontent" rows="6" id="content" ng-model="newreply.content" required></textarea>
+                    </div>
+                    <div class="col-xs-12 col-md-6">
+                        预览区
+                        <div marked="newreply.content" id="markedreply"></div>
+                    </div>
                 </div>
                 <div class="col-md-2 col-md-offset-5">
                     <button type="submit" class="btn btn-primary" ng-click="sendreply()">提交</button>
@@ -106,3 +108,13 @@
         </div>
     </div>
 </div>
+
+
+<!--jquery监听编辑区和预览区的高度使得高度一致-->
+<script>
+    $('#replycontent').bind('input', function () {
+        if (parseInt($(this).css('height')) < parseInt($('#markedreply').css('height'))) {
+            $(this).height($('#markedreply').css('height'));
+        }
+    });
+</script>
