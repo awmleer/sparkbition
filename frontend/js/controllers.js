@@ -598,8 +598,7 @@ app.controller("ctrl_BBS",function($scope,$rootScope,$location,$http) {
     $scope.show_detail = function (id) {
         location.hash='#/BBS/' + String(id);
     }
-    // $scope.getPostList();
-    // $scope.getTagList();
+
     $rootScope.postlist = [
         {
             "id": 3,
@@ -710,6 +709,8 @@ app.controller("ctrl_BBS",function($scope,$rootScope,$location,$http) {
             "looking": false
         },
     ];
+    $scope.getPostList();
+    $scope.getTagList();
 });
 
 
@@ -758,7 +759,6 @@ app.controller("ctrl_BBS_ViewThread",function($scope,$stateParams,$rootScope,$lo
             else alert("获取帖子列表失败，请稍后再试");
         });
     };
-    // $scope.getpostnow();
 
     $scope.sendreply = function () {
         $http({
@@ -827,7 +827,7 @@ app.controller("ctrl_BBS_ViewThread",function($scope,$stateParams,$rootScope,$lo
             }
         ]
     };
-    
+    $scope.getpostnow();
     
 });
 
