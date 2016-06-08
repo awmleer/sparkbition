@@ -727,7 +727,7 @@ app.controller("ctrl_newpost",function($scope,$rootScope,$location,$http) {
             url:'api/bbs_thread',
             method:'post',
             headers: {'Content-Type': 'application/json'},
-            data: JSON.stringify($rootScope.newpost)
+            data: JSON.stringify($scope.newpost)
         }).success(function(data){
             alert("发布讨论成功");
             location.hash='#/BBS';
