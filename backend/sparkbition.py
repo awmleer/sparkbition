@@ -625,7 +625,7 @@ def show_all_card():
 def show_card(id):
     db = client['sparkbition']
     coll_card = db['card']
-    card=coll_card.find({'id': id})
+    card=coll_card.find_one({'id': id})
     return dumps(card)
 
 @app.route('/sparkbition/api/bbs_thread', methods=['POST'])
