@@ -749,14 +749,14 @@ app.controller("ctrl_BBS_ViewThread",function($scope,$stateParams,$rootScope,$lo
     // 给postnow解析markdown
     $scope.getpostnow = function () {
         $http({
-            url:'api/bbs_thread',
+            url:'api/bbs_thread/'+$stateParams.postid,
             method:'get',
-            params:{'id': $stateParams.postid}
+            // params:{'id': $stateParams.postid}
         }).success(function(data){
-            $rootScope.postnow=data;
+            $scope.postnow=data;
         }).error(function(data,status){
             if (status == 404) location.hash='#/BBS404';
-            else alert("获取帖子列表失败，请稍后再试");
+            else alert("获取帖子内容失败，请稍后再试");
         });
     };
 
