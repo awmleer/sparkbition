@@ -599,116 +599,116 @@ app.controller("ctrl_BBS",function($scope,$rootScope,$location,$http) {
         location.hash='#/BBS/' + String(id);
     }
 
-    $rootScope.postlist = [
-        {
-            "id": 3,
-            "title": "我们的下一个产品是什么？",
-            "author": "郝广博",
-            "time": "字符串时间S",
-            "tags": [
-                "目标",
-                "产品"
-            ],
-            "content": " #测试标题  `代码` ",
-            "replies": [
-                {
-                    "id": 1,
-                    "author": "郝广博",
-                    "time": "字符串时间1",
-                    "upvoters": [
-                        "秦泽浩"
-                    ],
-                    "downvoters": [
-                        "冯秋实"
-                    ],
-                    "content": "test123"
-                },
-                {
-                    "id": 2,
-                    "author": "冯秋实",
-                    "time": "字符串时间2",
-                    "upvoters": [
-                        "郝广博"
-                    ],
-                    "downvoters": [
-                        "秦泽浩"
-                    ],
-                    "content": "test123"
-                }
-            ]
-        },
-        {
-            "id": 4,
-            "title": "后端要炸了",
-            "author": "冯秋实",
-            "time": "字符串时间S",
-            "tags": [
-                "技术",
-                "困难"
-            ],
-            "content": "这是内容",
-            "replies": [
-                {
-                    "id": 1,
-                    "author": "郝广博",
-                    "time": "字符串时间1",
-                    "upvoters": [
-                        "秦泽浩"
-                    ],
-                    "downvoters": [
-                        "冯秋实"
-                    ],
-                    "content": "你这错误明显得我都看出来了……"
-                },
-                {
-                    "id": 2,
-                    "author": "冯秋实",
-                    "time": "字符串时间2",
-                    "upvoters": [
-                        "郝广博"
-                    ],
-                    "downvoters": [
-                        "秦泽浩"
-                    ],
-                    "content": "已解决……"
-                }
-            ]
-        }
-    ];
-    $rootScope.taglist = [
-        {
-           "label": "tag1",
-            "looking": false
-        },
-        {
-            "label": "tag2",
-            "looking": false
-        },
-        {
-            "label": "tag3",
-            "looking": false
-        },
-        {
-            "label": "tag4",
-            "looking": false
-        },
-        {
-            "label": "目标",
-            "looking": false
-        },
-        {
-            "label": "产品",
-            "looking": false
-        },
-        {
-            "label": "技术",
-            "looking": false
-        },
-        {
-            "label": "困难",
-            "looking": false
-        },
-    ];
+    // $rootScope.postlist = [
+    //     {
+    //         "id": 3,
+    //         "title": "我们的下一个产品是什么？",
+    //         "author": "郝广博",
+    //         "time": "字符串时间S",
+    //         "tags": [
+    //             "目标",
+    //             "产品"
+    //         ],
+    //         "content": " #测试标题  `代码` ",
+    //         "replies": [
+    //             {
+    //                 "id": 1,
+    //                 "author": "郝广博",
+    //                 "time": "字符串时间1",
+    //                 "upvoters": [
+    //                     "秦泽浩"
+    //                 ],
+    //                 "downvoters": [
+    //                     "冯秋实"
+    //                 ],
+    //                 "content": "test123"
+    //             },
+    //             {
+    //                 "id": 2,
+    //                 "author": "冯秋实",
+    //                 "time": "字符串时间2",
+    //                 "upvoters": [
+    //                     "郝广博"
+    //                 ],
+    //                 "downvoters": [
+    //                     "秦泽浩"
+    //                 ],
+    //                 "content": "test123"
+    //             }
+    //         ]
+    //     },
+    //     {
+    //         "id": 4,
+    //         "title": "后端要炸了",
+    //         "author": "冯秋实",
+    //         "time": "字符串时间S",
+    //         "tags": [
+    //             "技术",
+    //             "困难"
+    //         ],
+    //         "content": "这是内容",
+    //         "replies": [
+    //             {
+    //                 "id": 1,
+    //                 "author": "郝广博",
+    //                 "time": "字符串时间1",
+    //                 "upvoters": [
+    //                     "秦泽浩"
+    //                 ],
+    //                 "downvoters": [
+    //                     "冯秋实"
+    //                 ],
+    //                 "content": "你这错误明显得我都看出来了……"
+    //             },
+    //             {
+    //                 "id": 2,
+    //                 "author": "冯秋实",
+    //                 "time": "字符串时间2",
+    //                 "upvoters": [
+    //                     "郝广博"
+    //                 ],
+    //                 "downvoters": [
+    //                     "秦泽浩"
+    //                 ],
+    //                 "content": "已解决……"
+    //             }
+    //         ]
+    //     }
+    // ];
+    // $rootScope.taglist = [
+    //     {
+    //        "label": "tag1",
+    //         "looking": false
+    //     },
+    //     {
+    //         "label": "tag2",
+    //         "looking": false
+    //     },
+    //     {
+    //         "label": "tag3",
+    //         "looking": false
+    //     },
+    //     {
+    //         "label": "tag4",
+    //         "looking": false
+    //     },
+    //     {
+    //         "label": "目标",
+    //         "looking": false
+    //     },
+    //     {
+    //         "label": "产品",
+    //         "looking": false
+    //     },
+    //     {
+    //         "label": "技术",
+    //         "looking": false
+    //     },
+    //     {
+    //         "label": "困难",
+    //         "looking": false
+    //     },
+    // ];
     $scope.getPostList();
     $scope.getTagList();
 });
@@ -790,44 +790,44 @@ app.controller("ctrl_BBS_ViewThread",function($scope,$stateParams,$rootScope,$lo
         location.hash='#/BBS';
     };
 
-    //测试用数据模型
-    $scope.postnow = {
-        "id":3,
-        "title":"我们的下一个产品是什么？",
-        "author":"郝广博",
-        "time":"2016-00-00 18:27:36",
-        "tags":[
-            "目标",
-            "产品"
-        ],
-        "content":" # 测试标题  `代码` ",
-        "replies":[
-            {
-                "id":1,
-                "author":"郝广博",
-                "time":"2016-00-00 18:27:36",
-                "upvoters":[
-                    "秦泽浩"
-                ],
-                "downvoters":[
-                    "冯秋实"
-                ],
-                "content":"test123"
-            },
-            {
-                "id":2,
-                "author":"冯秋实",
-                "time":"2016-00-00 18:27:36",
-                "upvoters":[
-                    "郝广博"
-                ],
-                "downvoters":[
-                    "秦泽浩"
-                ],
-                "content":"test123"
-            }
-        ]
-    };
+    // //测试用数据模型
+    // $scope.postnow = {
+    //     "id":3,
+    //     "title":"我们的下一个产品是什么？",
+    //     "author":"郝广博",
+    //     "time":"2016-00-00 18:27:36",
+    //     "tags":[
+    //         "目标",
+    //         "产品"
+    //     ],
+    //     "content":" # 测试标题  `代码` ",
+    //     "replies":[
+    //         {
+    //             "id":1,
+    //             "author":"郝广博",
+    //             "time":"2016-00-00 18:27:36",
+    //             "upvoters":[
+    //                 "秦泽浩"
+    //             ],
+    //             "downvoters":[
+    //                 "冯秋实"
+    //             ],
+    //             "content":"test123"
+    //         },
+    //         {
+    //             "id":2,
+    //             "author":"冯秋实",
+    //             "time":"2016-00-00 18:27:36",
+    //             "upvoters":[
+    //                 "郝广博"
+    //             ],
+    //             "downvoters":[
+    //                 "秦泽浩"
+    //             ],
+    //             "content":"test123"
+    //         }
+    //     ]
+    // };
     $scope.getpostnow();
     
 });
