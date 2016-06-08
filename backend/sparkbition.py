@@ -18,6 +18,7 @@ from bson.json_util import dumps, loads
 from flask.ext.cors import CORS  # 跨域访问
 
 app = Flask(__name__)
+app.debug=True
 CORS(app)  # 跨域访问
 
 # 登录及用户认证
@@ -608,28 +609,30 @@ def dumps_rank():
     return dumps(ret)
 
 
-# @app.route('/sparkbition/api/bbs_thread', methods=['GET'])
-# @login_required
-# def show_all_card():
-#     db = client['sparkbition']
-#     coll_card = db['card']
-#     ret = []
-#     for card in coll_card.find({}):
-#         del card['replies']
-#         ret.append(card)
-#     return dumps(ret)
-#
-# @app.route('/sparkbition/api/bbs_thread/<id>', methods=['GET'])
-# @login_required
-# def show_card(id):
-#     db = client['sparkbition']
-#     coll_card = db['card']
-#     card=coll_card.find({'id':id})
-#     return dumps(card)
+@app.route('/sparkbition/api/bbs_thread', methods=['GET'])
+@login_required
+def show_all_card():
+    db = client['sparkbition']
+    coll_card = db['card']
+    ret = []
+    for card in coll_card.find({}):
+        del card['replies']
+        ret.append(card)
+    return dumps(ret)
+
+@app.route('/sparkbition/api/bbs_thread/<id>', methods=['GET'])
+@login_required
+def show_card(id):
+    db = client['sparkbition']
+    coll_card = db['card']
+    card=coll_card.find({'id': id})
+    return dumps(card)
 
 @app.route('/sparkbition/api/bbs_thread', methods=['POST'])
-# @login_required
+@login_required
 def create_card():
+    usernam = g.usernam
+
     db = client['sparkbition']
     coll_meta = db['meta']
     id_count=coll_meta.find_one({'meta':"card"})["id_count"]
@@ -639,12 +642,14 @@ def create_card():
     coll_card = db['card']
 
     text = request.json
-    # text['replies']=[]
-    print text
+    text['id'] = str(id_count)
+    text['replies']=[]
+    text['author'] = usernam
+    text['time'] = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))
     coll_tags = db['tags']
     for tag in text['tags']:
-        tag=coll_tags.find({'name':tag})
-        if(not tag):
+        tagexsist=coll_tags.find_one({'name':tag})
+        if(not tagexsist):
             coll_tags.insert({"name":tag})
     coll_card.insert(text)
 
@@ -652,14 +657,19 @@ def create_card():
     return resp
 
 @app.route('/sparkbition/api/bbs_reply',methods=['POST'])
+@login_required
 def bbs_reply():
+    usernam = g.usernam
+
     db = client['sparkbition']
     coll_card = db['card']
     id=request.args.get('id')
 
-    content=coll_card.find({'id':id})['content']
-    ret_json={'content':content}
-    return dumps(ret_json)
+    text = request.json
+    replies=coll_card.find_one({'id':id})['replies']
+    replies.append({'id': len(replies) + 1, 'author': usernam, 'time': time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time())), 'content': text['content'], 'upvoters': [], 'downvoters': []})
+    coll_card.update({'id': id}, {'$set': {'replies': replies}})
+    return 'success'
 
 @app.route('/sparkbition/api/bbs_tags')
 def bbs_tags():
@@ -674,5 +684,4 @@ def bbs_tags():
 
 if __name__ == '__main__':
     app.debug = True
-    # app.run(host='0.0.0.0', port= 5001)
-    app.run()
+    app.run(host='0.0.0.0', port= 5001)
