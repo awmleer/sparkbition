@@ -722,7 +722,7 @@ app.controller("ctrl_newpost",function($scope,$rootScope,$location,$http) {
         "content": ""
     };
     $scope.sendPostList = function () {
-        $scope.tag = $scope.newpost.raw_tag.split(" ");
+        $scope.newpost.tags = $scope.newpost.raw_tag.split(" ");
         $http({
             url:'api/bbs_thread',
             method:'post',
@@ -771,6 +771,7 @@ app.controller("ctrl_BBS_ViewThread",function($scope,$stateParams,$rootScope,$lo
         }).error(function(){
             alert("回复失败，请稍后再试");
         });
+        location.reload();
     };
 
     $scope.replyto = function (id) {
