@@ -65,24 +65,28 @@ app.controller("ctrl_task",function($scope,$rootScope,$location,$http) {
 
 
     /*获取任务*/
-    //获取任务前，先清空数据模型
-    $rootScope.groups=[];
-    //先判断是任务板状态还是我的任务状态
-    var request_url;
-    if ($location.path().substr(0, 6) == '/tasks') {
-        request_url='api/task';
-    }else if ($location.path().substr(0, 7) == '/mytask') {
-        request_url='api/mytask';
+    $scope.gettask = function () {
+        //获取任务前，先清空数据模型
+        $rootScope.groups=[];
+        //先判断是任务板状态还是我的任务状态
+        var request_url;
+        if ($location.path().substr(0, 6) == '/tasks') {
+            request_url='api/task';
+        }else if ($location.path().substr(0, 7) == '/mytask') {
+            request_url='api/mytask';
+        }
+        $http({
+            url: request_url,
+            method: 'get',
+            params: {}
+        }).success(function (data) {
+            $rootScope.groups=data;
+        }).error(function () {
+            alert("获取任务信息失败，请稍后再试");
+        });
     }
-    $http({
-        url: request_url,
-        method: 'get',
-        params: {}
-    }).success(function (data) {
-        $rootScope.groups=data;
-    }).error(function () {
-        alert("获取任务信息失败，请稍后再试");
-    });
+    $scope.gettask();
+
 
 
     //初始化模型-正在查看的task
@@ -109,15 +113,16 @@ app.controller("ctrl_task",function($scope,$rootScope,$location,$http) {
                 if (data == "not allowed") {
                     alert("您没有权限完成该任务");
                 }else {
-                    //查找这个任务
-                    for(var i=0;i<$rootScope.groups.length;i++){
-                        for(var j=0;j<$rootScope.groups[i].tasks.length;j++){
-                            if($rootScope.groups[i].tasks[j]['id'] ==task_id){
-                                $rootScope.groups[i].tasks[j]['status'] = 1;//把status改成1
-                                $rootScope.groups[i].tasks[j]['finishtime'] = data.finishtime;//设置finishtime
-                            }
-                        }
-                    }
+                    // //查找这个任务
+                    // for(var i=0;i<$rootScope.groups.length;i++){
+                    //     for(var j=0;j<$rootScope.groups[i].tasks.length;j++){
+                    //         if($rootScope.groups[i].tasks[j]['id'] ==task_id){
+                    //             $rootScope.groups[i].tasks[j]['status'] = 1;//把status改成1
+                    //             $rootScope.groups[i].tasks[j]['finishtime'] = data.finishtime;//设置finishtime
+                    //         }
+                    //     }
+                    // }
+                    $scope.gettask();
                 }
                 $("#modal_task").modal('hide');//关闭模态框
             }).error(function () {
