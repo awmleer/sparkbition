@@ -17,22 +17,75 @@ from bson import Binary, Code
 from bson.json_util import dumps, loads
 from flask.ext.cors import CORS  # 跨域访问
 
+from mongoengine import *
+
+
 app = Flask(__name__)
-app.debug=True
 CORS(app)  # 跨域访问
 
+# models
+class users(Document):
+    username = StringField(required=True)
+    password = StringField(required=True)
+    type = StringField(required=True)
+    gender = StringField(required=True)
+    points = StringField(required=True)
+    last_login = DateTimeField(required=True,default=datetime.datetime.now())
+    login_count = IntField(required=True,default=0)
+    mobile = IntField(required=True)
+    def __str__(self):
+        return self.username
+
+
+#----- meta ------
+class groups(EmbeddedDocument):
+    groupname=StringField(required=True)
+    index=IntField(required=True)
+
+class topics(EmbeddedDocument):
+    topicname=StringField(required=True)
+    index=IntField(required=True)
+
+class metas(Document):
+    name = StringField(required=True)
+    id_count = IntField(required=True)
+    groups = ListField(EmbeddedDocumentField(groups),required=True)
+    topics = ListField(EmbeddedDocumentField(topics),required=True)
+#----- meta end------
+
+class tasks(Document):
+    status=IntField(required=True)
+    finishtime=StringField(required=True)
+    remark=StringField(required=True)
+    group=StringField(required=True)
+    upvoters=ListField(StringField())
+    title=StringField(required=True)
+    publisher=StringField(required=True)
+    base_score=IntField(required=True)
+    participators=ListField(StringField())
+    tasker_other=ListField(StringField())
+    tasker_main=StringField(required=True)
+    ddl=IntField(required=True)
+    # id=IntField(required=True)
+    urgency=StringField(required=True)
+
 # 登录及用户认证
-client = MongoClient('120.27.123.112', 27017)
-client.admin.authenticate('fqs', '123456', mechanism='MONGODB-CR')
-uri = "mongodb://fqs:123456@120.27.123.112/admin?authMechanism=MONGODB-CR"
-client = MongoClient(uri)
+# client = MongoClient('120.27.123.112', 27017)
+# client.admin.authenticate('fqs', '123456', mechanism='MONGODB-CR')
+# uri = "mongodb://fqs:123456@120.27.123.112/admin?authMechanism=MONGODB-CR"
+# client = MongoClient(uri)
+
+connect('sparkbition', host='120.27.123.112', username='fqs1', password='123456')
 
 salt = '5aWZak2n35Wk fqsws'
-tasks_modify = ['publisher', 'remark', 'group', 'upvoters', 'title', 'participators', 'tasker_other', 'tasker_main',
-                'ddl', 'urgency']
+tasks_modify = ['publisher', 'remark', 'group', 'upvoters', 'title', 'participators', 'tasker_other', 'tasker_main','ddl', 'urgency']
 
 
-def sendsms1(publisher, title, person, mobile):
+user=users.objects.first()
+print user
+
+
+def sendsms(publisher, title, person, mobile,tpl_id):
     d = {'#publisher#': publisher, '#title#': title}
     tpl_value = urllib.urlencode(d)
     finalstr = ''
@@ -44,126 +97,66 @@ def sendsms1(publisher, title, person, mobile):
     finalstr += '发送给%s的短信的发送结果：%s\n' %(person, result['reason'].encode('utf-8'))
     return finalstr
 
-def sendsms2(title, tasker_main, person, mobile):
-    d = {'#title#': title, '#tasker_main#': tasker_main}
-    tpl_value = urllib.urlencode(d)
-    finalstr = ''
-    getdata = urllib.urlencode(
-        {'mobile': mobile, 'tpl_id': 13215, 'tpl_value': tpl_value, 'key': 'b32c625ffb38e4ad07f86bb1101548e1'})
-    url = 'http://v.juhe.cn/sms/send?%s' % getdata
-    req = urllib.urlopen(url)
-    result = json.loads(req.read())
-    finalstr += '发送给%s的短信的发送结果：%s\n' % (person, result['reason'].encode('utf-8'))
-    return finalstr
-
-def sendsms3(title, how, tasker_main, person, mobile):
-    d = {'#title#': title, '#how#': how, '#tasker_main#': tasker_main}
-    tpl_value = urllib.urlencode(d)
-    finalstr = ''
-    getdata = urllib.urlencode(
-        {'mobile': mobile, 'tpl_id': 13214, 'tpl_value': tpl_value, 'key': 'b32c625ffb38e4ad07f86bb1101548e1'})
-    url = 'http://v.juhe.cn/sms/send?%s' % getdata
-    req = urllib.urlopen(url)
-    result = json.loads(req.read())
-    finalstr += '发送给%s的短信的发送结果：%s\n' % (person, result['reason'].encode('utf-8'))
-    return finalstr
-
-
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        flag = False
-        username = request.cookies.get('All_Hail_Fqs')
-        if (username == None) or (username == ''):
-            resp = make_response('no login', 401)
-            return resp
-        usernam = base64.b64decode(username)
-        usernam = usernam[18:]
-
-        for user in client['sparkbition']['users'].find():
-            if (user['username'].encode('utf-8') == usernam):
-                g.usernam=usernam
-
-                db = client['sparkbition']
-                coll_users = db['users']
-                coll_users.update({'username': usernam}, {'$set': {'last_login': datetime.datetime.now()}})
-                return f(*args, **kwargs)
-        if (not flag):
-            resp = make_response('wrong cookies', 401)
-            return resp
+        username="任意"
+        user=users.objects(username=username).first()
+        if user:
+            g.username=username
+            user.last_login=datetime.datetime.now()
+            return f(*args, **kwargs)
+        resp = make_response('wrong cookies', 401)
+        return resp
     return decorated_function
 
 def changestatus(task_id,status):
-    db = client['sparkbition']
-    coll_tasks = db['tasks']
-    tasker_main = coll_tasks.find_one({'id': int(task_id)})['tasker_main']
-    coll_users = db['users']
-    usertype = coll_users.find_one({'username': g.usernam})['type']
-    if (usertype == 'admin') or (usertype == 'root') or (g.usernam == tasker_main.encode('utf-8')):
+    task=tasks.objects(id=task_id).first()
+    user=tasks.objects(username=g.username).first()
+    if (user.type == 'admin') or (user.type == 'root') or (g.username == task.tasker_main.encode('utf-8')):
         timestamp = int(time.time() * 1000)
-        coll_tasks.update({'id': int(task_id)}, {'$set': {'status': status, 'finishtime': timestamp}})
+        task.status=status
+        task.finishtime=timestamp
+        task.save()
         return (True,timestamp)
     else:
         return (False,'not allowed')
 
-@app.route('/sparkbition/api/checklogin')
-
-# db = client['sparkbition']
-# coll = db['users']
-# aa = '6546'
-# bb = hashlib.md5(aa + salt)
-# abc = {'password': bb.hexdigest()}
-# coll.insert_one(abc)
-
-# bb = base64.b64encode(salt + aa)
-# db = client['sparkbition']
-# coll = db['tasks']
-# abc = coll.find({'group': '主要任务'})
-# aaa = []
-# for i in abc:
-#     aaa.append(i)
-# print aaa
 
 @app.route('/sparkbition/api/task')
 @login_required
 def task():
-    db = client['sparkbition']
-    coll_meta = db['meta']
-    groupinfo = coll_meta.find_one({'meta': 'groupinfo'})
-
-    coll_tasks = db['tasks']
+    groupinfo=metas.objects(name='groupinfo').first()
     result = []
-    for group in groupinfo['groups']:
-        temp = coll_tasks.find({'group': group['groupname'], 'status': {'$gte': 0, '$lte': 2}})
-        tasks = []
-        for i in temp:
-            tasks.append(i)
-        group.update({'tasks': tasks})
+    for group in groupinfo.groups:
+        obj_tasks=tasks.objects(group=group.groupname,status__gte=0,status__lte=2)
+        ret_tasks=[]
+        for task in obj_tasks:
+            ret_tasks.append(dict(task.to_mongo()))
+        print ret_tasks
+        group=dict(group.to_mongo())
+        group['tasks']=ret_tasks
         result.append(group)
-    aaa = dumps(result)
-    resp = make_response(aaa, 200)
+    resp = make_response(dumps(result), 200)
     return resp
 
 @app.route('/sparkbition/api/login')
 def login():
     username = request.args.get('username')
     password = request.args.get('password')
-    db = client['sparkbition']
-    coll_users = db['users']
-    usernam = coll_users.find_one({'username': username})
-    if (usernam == None):
+    user=users.objects(username=username).first()
+    if (user == None):
         resp = make_response('wrong username')
         return resp
-    passwo = usernam['password']
-    password_hash = hashlib.md5(password + salt).hexdigest()
-    if passwo == password_hash:
+    if hashlib.md5(password + salt).hexdigest() == user.password:
         resp = make_response('success', 200)
-        if usernam['login_count']=='':
-            login_count=1
+        if user.login_count=='':
+            user.login_count=1
         else:
-            login_count=usernam['login_count']+1
-        coll_users.update({'username': username},{'$set':{'login_count':login_count,'last_login': datetime.datetime.now()}})
-        resp.set_cookie('All_Hail_Fqs', base64.b64encode(salt + username.encode('utf-8')))
+            user.login_count=user.login_count+1
+        user.last_login=datetime.datetime.now()
+        user.save()
+        resp.set_cookie('All_Hail_Fqs', base64.b64encode(salt + username.encode('utf-8')),max_age=100000)
     else:
         resp = make_response('wrong password', 200)
     return resp
@@ -178,61 +171,37 @@ def logout():
 @app.route('/sparkbition/api/userinfo')
 @login_required
 def userinfo():
-    usernam = g.usernam
-    db = client['sparkbition']
-    coll = db['users']
-    a1 = coll.find_one({'username': usernam})
-    del a1['password']
-    a1['last_login'] = a1['last_login'].isoformat()
-    aaa = dumps(a1)
-    resp = make_response(aaa, 200)
+    user_name = g.username
+    user=users.objects(username=user_name).exclude('password').first().to_mongo()
+    user['last_login']= user['last_login'].isoformat()
+    resp = make_response(dumps(user), 200)
     return resp
-
-# @app.route('/sparkbition/api/func1')
-# def func1():
-#     username = request.cookies.get('All_Hail_Fqs')
-#     usernam = base64.b64decode(username)
-#     usernam = usernam[18:]
-#
-#     if (username == None) or (username == ''):
-#         resp = make_response('failed', 401)
-#     else:
-#         resp = make_response('success', 200)
-#
-#     return resp
 
 @app.route('/sparkbition/api/new_task', methods=['POST'])
 @login_required
 def new_task():
-    usernam = g.usernam
+    user_name = g.username
 
-    db = client['sparkbition']
-    coll_meta = db['meta']
-    groupinfo = coll_meta.find_one({'meta': 'groupinfo'})
-    sum = groupinfo['id_count']
-    sum = sum + 1
-    coll_meta.update({'meta': 'groupinfo'}, {'$set': {'id_count': sum}})
+    meta = metas.objects(name='groupinfo').first()
+    meta.id_count+=1
+    meta.save()
 
     text = request.json
-    coll_tasks = db['tasks']
-    text.update({'id': sum, 'status': 0, 'finishtime': '', 'publisher': usernam, 'base_score': 0, 'upvoters': []})
+    text.update({'id': sum, 'status': 0, 'finishtime': '', 'publisher': user_name, 'base_score': 0, 'upvoters': []})
     timestamp = int(text['ddl'])
     text['ddl'] = timestamp
-    coll_tasks.insert(text)
+    del text['id']
+    v_new_task=tasks.from_json(json.dumps(text))
+    v_new_task.save()
     resp = make_response('success', 200)
-
-    coll_users = db['users']
     tasker = text['tasker_main']
-    print sendsms1(usernam, text['title'].encode('utf-8'), tasker.encode('utf-8'),
-                   coll_users.find_one({'username': tasker})['mobile'])
+    mobile=users.objects(username=tasker).first()['mobile']
+    print sendsms(user_name, text['title'].encode('utf-8'), tasker.encode('utf-8'),mobile,13216)
     for tasker in text['tasker_other']:
-        print sendsms1(usernam, text['title'].encode('utf-8'), tasker.encode('utf-8'),
-                       coll_users.find_one({'username': tasker})['mobile'])
+        print sendsms(user_name, text['title'].encode('utf-8'), tasker.encode('utf-8'),mobile,13216)
     for tasker in text['participators']:
-        print sendsms1(usernam, text['title'].encode('utf-8'), tasker.encode('utf-8'),
-                       coll_users.find_one({'username': tasker})['mobile'])
+        print sendsms(user_name, text['title'].encode('utf-8'), tasker.encode('utf-8'),mobile,13216)
     return resp
-
 
 @app.route('/sparkbition/api/complete_task')
 @login_required
@@ -244,11 +213,6 @@ def complete_task():
     else:
         resp = make_response(result[1],403)
     return resp
-
-    # coll_users = db['users']
-    # for tasker in coll_users.find():
-    #     print sendsms2(coll_tasks.find_one({'id': int(task_id)})['title'].encode('utf-8'), coll_tasks.find_one({'id': int(task_id)})['tasker_main'].encode('utf-8'), tasker['username'].encode('utf-8'), tasker['mobile'])
-
 
 @app.route('/sparkbition/api/redo_task')
 @login_required
@@ -265,7 +229,9 @@ def redo_task():
 @app.route('/sparkbition/api/delete_task')
 @login_required
 def delete_task():
-    usernam = g.usernam
+    user_name = g.username
+
+    tasks
 
     db = client['sparkbition']
     coll_tasks = db['tasks']
@@ -282,24 +248,24 @@ def delete_task():
 
     task = coll_tasks.find_one({'id': int(task_id)})
     tasker = task['publisher']
-    print sendsms3(task['title'].encode('utf-8'), '已经被删除', task['tasker_main'].encode('utf-8'), tasker.encode('utf-8'),
-                   coll_users.find_one({'username': tasker})['mobile'])
+    print sendsms(task['title'].encode('utf-8'), '已经被删除', task['tasker_main'].encode('utf-8'), tasker.encode('utf-8'),
+                   coll_users.find_one({'username': tasker})['mobile'],13214)
     tasker = task['tasker_main']
-    print sendsms3(task['title'].encode('utf-8'), '已经被删除', task['tasker_main'].encode('utf-8'), tasker.encode('utf-8'),
-                   coll_users.find_one({'username': tasker})['mobile'])
+    print sendsms(task['title'].encode('utf-8'), '已经被删除', task['tasker_main'].encode('utf-8'), tasker.encode('utf-8'),
+                   coll_users.find_one({'username': tasker})['mobile'],13214)
     for tasker in task['tasker_other']:
-        print sendsms3(task['title'].encode('utf-8'), '已经被删除', task['tasker_main'].encode('utf-8'),
-                       tasker.encode('utf-8'), coll_users.find_one({'username': tasker})['mobile'])
+        print sendsms(task['title'].encode('utf-8'), '已经被删除', task['tasker_main'].encode('utf-8'),
+                       tasker.encode('utf-8'), coll_users.find_one({'username': tasker})['mobile'],13214)
     for tasker in task['participators']:
-        print sendsms3(task['title'].encode('utf-8'), '已经被删除', task['tasker_main'].encode('utf-8'),
-                       tasker.encode('utf-8'), coll_users.find_one({'username': tasker})['mobile'])
+        print sendsms(task['title'].encode('utf-8'), '已经被删除', task['tasker_main'].encode('utf-8'),
+                       tasker.encode('utf-8'), coll_users.find_one({'username': tasker})['mobile'],13214)
     return resp
 
 @app.route('/sparkbition/api/crew_list')
 @login_required
 
 def crew_list():
-    usernam = g.usernam
+    usernam = g.username
 
     db = client['sparkbition']
     coll_users = db['users']
@@ -311,6 +277,7 @@ def crew_list():
     return resp
 
 @app.route('/sparkbition/api/group_list')
+@login_required
 def group_list():
     db = client['sparkbition']
     coll_meta = db['meta']
@@ -324,16 +291,11 @@ def group_list():
 @app.route('/sparkbition/api/upvote')
 @login_required
 def upvote():
-    usernam = g.usernam
+    usernam = g.username
 
     db = client['sparkbition']
     coll_tasks = db['tasks']
-    coll_users = db['users']
     task_id = request.args.get('task_id')
-    upvotetimes = coll_users.find_one({'username': usernam})['upvotetimes']
-    if upvotetimes <= 0:
-        resp = make_response('times up',200)
-        return resp
     if (coll_tasks.find_one({'id': int(task_id)})['status'] != 1):
         resp = make_response('not allowed', 200)
         return resp
@@ -344,15 +306,13 @@ def upvote():
             return resp
     upvoters.append(usernam)
     coll_tasks.update({'id': int(task_id), 'status': 1}, {'$set': {'upvoters': upvoters}})
-    upvotetimes -= 1
-    coll_users.update({'username': usernam},{"$set":{'upvotetimes': upvotetimes}})
     resp = make_response('success', 200)
     return resp
 
 @app.route('/sparkbition/api/modify_task', methods=['POST'])
 @login_required
 def modify_task():
-    usernam = g.usernam
+    usernam = g.username
 
     db = client['sparkbition']
     coll_tasks = db['tasks']
@@ -373,23 +333,23 @@ def modify_task():
 
     task = coll_tasks.find_one({'id': text['id']})
     tasker = task['publisher']
-    print sendsms3(task['title'].encode('utf-8'), '已经被修改', task['tasker_main'].encode('utf-8'), tasker.encode('utf-8'),
+    print sendsms(task['title'].encode('utf-8'), '已经被修改', task['tasker_main'].encode('utf-8'), tasker.encode('utf-8'),
                    coll_users.find_one({'username': tasker})['mobile'])
     tasker = task['tasker_main']
-    print sendsms3(task['title'].encode('utf-8'), '已经被修改', task['tasker_main'].encode('utf-8'), tasker.encode('utf-8'),
+    print sendsms(task['title'].encode('utf-8'), '已经被修改', task['tasker_main'].encode('utf-8'), tasker.encode('utf-8'),
                    coll_users.find_one({'username': tasker})['mobile'])
     for tasker in task['tasker_other']:
-        print sendsms3(task['title'].encode('utf-8'), '已经被修改', task['tasker_main'].encode('utf-8'),
+        print sendsms(task['title'].encode('utf-8'), '已经被修改', task['tasker_main'].encode('utf-8'),
                        tasker.encode('utf-8'), coll_users.find_one({'username': tasker})['mobile'])
     for tasker in task['participators']:
-        print sendsms3(task['title'].encode('utf-8'), '已经被修改', task['tasker_main'].encode('utf-8'),
+        print sendsms(task['title'].encode('utf-8'), '已经被修改', task['tasker_main'].encode('utf-8'),
                        tasker.encode('utf-8'), coll_users.find_one({'username': tasker})['mobile'])
     return resp
 
 @app.route('/sparkbition/api/archive_task')
 @login_required
 def archive_task():
-    usernam = g.usernam
+    usernam = g.username
 
     task_id = request.args.get('task_id')
     db = client['sparkbition']
@@ -410,7 +370,7 @@ def archive_task():
 @app.route('/sparkbition/api/mytask')
 @login_required
 def mytask():
-    usernam = g.usernam
+    usernam = g.username
 
     db = client['sparkbition']
     coll_tasks = db['tasks']
@@ -435,7 +395,7 @@ def mytask():
 @app.route('/sparkbition/api/set_base_score')
 @login_required
 def set_base_score():
-    usernam = g.usernam
+    usernam = g.username
 
     task_id = request.args.get('task_id')
     base_score = request.args.get('base_score')
@@ -457,7 +417,7 @@ def set_base_score():
 @app.route('/sparkbition/api/change_password')
 @login_required
 def change_password():
-    usernam = g.usernam
+    usernam = g.username
 
     old_password = request.args.get('old_password')
     new_password = request.args.get('new_password')
@@ -555,13 +515,14 @@ def personal_number(usernam):
 @app.route('/sparkbition/api/statistic/personal')
 @login_required
 def dumps_personal():
-    usernam = g.usernam
+    usernam = g.username
     ret={}
     ret['score']=personal_score(usernam)
     ret['number']=personal_number(usernam)
     ret['average']=personal_average(ret['score'],ret['number'])
 
     return dumps(ret)
+
 
 
 # rank
@@ -616,79 +577,7 @@ def dumps_rank():
     return dumps(ret)
 
 
-@app.route('/sparkbition/api/bbs_thread', methods=['GET'])
-@login_required
-def show_all_card():
-    db = client['sparkbition']
-    coll_card = db['card']
-    ret = []
-    for card in coll_card.find({}):
-        del card['replies']
-        ret.append(card)
-    return dumps(ret)
-
-@app.route('/sparkbition/api/bbs_thread/<id>', methods=['GET'])
-@login_required
-def show_card(id):
-    db = client['sparkbition']
-    coll_card = db['card']
-    card=coll_card.find_one({'id': id})
-    return dumps(card)
-
-@app.route('/sparkbition/api/bbs_thread', methods=['POST'])
-@login_required
-def create_card():
-    usernam = g.usernam
-
-    db = client['sparkbition']
-    coll_meta = db['meta']
-    id_count=coll_meta.find_one({'meta':"card"})["id_count"]
-    id_count+=1
-
-    coll_meta.update({'meta':'card'},{"$set":{"id_count":id_count}})
-    coll_card = db['card']
-
-    text = request.json
-    text['id'] = str(id_count)
-    text['replies']=[]
-    text['author'] = usernam
-    text['time'] = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))
-    coll_tags = db['tags']
-    for tag in text['tags']:
-        tagexsist=coll_tags.find_one({'name':tag})
-        if(not tagexsist):
-            coll_tags.insert({"name":tag})
-    coll_card.insert(text)
-
-    resp = make_response('success', 200)
-    return resp
-
-@app.route('/sparkbition/api/bbs_reply',methods=['POST'])
-@login_required
-def bbs_reply():
-    usernam = g.usernam
-
-    db = client['sparkbition']
-    coll_card = db['card']
-    id=request.args.get('id')
-
-    text = request.json
-    replies=coll_card.find_one({'id':id})['replies']
-    replies.append({'id': len(replies) + 1, 'author': usernam, 'time': time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time())), 'content': text['content'], 'upvoters': [], 'downvoters': []})
-    coll_card.update({'id': id}, {'$set': {'replies': replies}})
-    return 'success'
-
-@app.route('/sparkbition/api/bbs_tags')
-def bbs_tags():
-    db = client['sparkbition']
-    coll_tags = db['tags']
-    tags=coll_tags.find({})
-    ret=[]
-    for tag in tags:
-        ret.append(tag['name'])
-    return dumps(ret)
-
-
 if __name__ == '__main__':
     app.debug = True
-    app.run(host='0.0.0.0', port= 5001)
+    app.run()
+    # app.run(host='0.0.0.0', port= 5001)
