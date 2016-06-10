@@ -773,10 +773,10 @@ app.controller("ctrl_BBS_ViewThread",function($scope,$stateParams,$rootScope,$lo
             data: JSON.stringify($scope.newreply)
         }).success(function(data){
             alert("回复成功！");
+            location.reload();
         }).error(function(){
             alert("回复失败，请稍后再试");
         });
-        location.reload();
     };
 
     $scope.replyto = function (id) {
