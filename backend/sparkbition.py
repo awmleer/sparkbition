@@ -635,7 +635,7 @@ def show_card(id):
     db = client['sparkbition']
     coll_card = db['card']
     card=coll_card.find_one({'id': id})
-    if (!card): abort(404)
+    if (not card): abort(404)
     return dumps(card)
 
 @app.route('/sparkbition/api/bbs_thread', methods=['POST'])
