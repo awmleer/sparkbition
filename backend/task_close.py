@@ -16,7 +16,7 @@ def sendsms3(title, how, tasker_main, person, mobile):
     finalstr += '发送给%s的短信结果如下：%s\n' % (person, result['reason'].encode('utf-8'))
     return finalstr
 
-#鏁版嵁搴撹繛鎺�
+#连接数据库
 client = MongoClient('120.27.123.112', 27017)
 client.admin.authenticate('fqs', '123456', mechanism='MONGODB-CR')
 uri = "mongodb://fqs:123456@120.27.123.112/admin?authMechanism=MONGODB-CR"
