@@ -49,8 +49,7 @@
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <h5 class="panel-title">标签过滤</h5>
-                <!--TODO:这里的外观美化-->
-                <span ng-repeat="tag in taglist" class="label" style="cursor: pointer;font-size: 1.6rem;margin-top: 0.5rem;margin-bottom: 0.5rem;padding-left: 0.5rem;padding-right: 0.5rem;display: block" ng-click="tag.looking=!tag.looking" ng-class="{'label-primary':tag.looking == true}">{{tag.label}}&nbsp;</span>
+                <span ng-repeat="tag in taglist" class="label" style="cursor: pointer;font-size: 1.3rem;margin-top: 0.5rem;margin-bottom: 0.5rem;margin-right:0.5rem;padding: 0.5rem;display: inline-block" ng-click="tag.looking=!tag.looking" ng-class="{'label-primary':tag.looking == true}">{{tag.label}}</span>
             </div>
         </div>
     </div>
@@ -67,9 +66,7 @@
                 <td ng-click="show_detail(post.id)" class="td_post" style="cursor: pointer;">
                     <h4>{{ post.title }}</h4>
                     {{ post.author }}&nbsp;
-                    <!--标签-->
-                    <!--TODO:这里的外观美化-->
-                    <span ng-repeat="tag in post.tags" class="label label-primary">{{tag}}&nbsp;</span>
+                    <span ng-repeat="tag in post.tags" class="label label-primary" style="margin-right: 0.5rem">{{tag}}</span>
                 </td>
                 <td>
                     最后回复：{{post.replies[post.replies.length-1].author}}<br>
