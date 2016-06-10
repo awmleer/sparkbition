@@ -776,7 +776,13 @@ app.controller("ctrl_BBS_ViewThread",function($scope,$stateParams,$rootScope,$lo
 
     $scope.replyto = function (id) {
         angular.forEach ($scope.postnow.replies, function (reply) {
-            if (reply.id == id) $scope.newreply.content = "> 回复" + reply.author + "在" + reply.time + "写下的：\n" + reply.content + "\n\n" + ($scope.newreply.content ? $scope.newreply.content:"");
+            if (reply.id == id) {
+                var finalcontent="";
+                angular.forEach (reply.content.split("\n"), function (row) {
+                   finalcontent += "\n> " + row; 
+                });
+                $scope.newreply.content = "> 回复" + reply.author + "在" + reply.time + "写下的：\n" + finalcontent + "\n\n" + ($scope.newreply.content ? $scope.newreply.content:"");
+            }
         });
         $scope.gotoreply();
     };
