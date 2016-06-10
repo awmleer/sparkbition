@@ -29,7 +29,7 @@ while True:
         if 1000*time.time()-i['finishtime']>604800000:
             tasks_file.update({'id':i['id']},{'$set':{'status':2}})
             task_score = int(i['base_score']) * (1 + 0.1 * len(i['upvoters']))
-            sendsms3(i['title'],"已经超过评审期并关闭，您的最终得分为" + str(task_score).encode('utf-8'),i['tasker_main'].encode('utf-8'),i['tasker_main'].encode('utf-8'),users_db.find_one({'username': i['tasker_main']})['mobile'].encode('utf-8')) #主负责人
+            sendsms3(i['title'],"已经超过评审期并关闭，您的最终得分为" + str(task_score).encode('utf-8'),i['tasker_main'].encode('utf-8'),i['tasker_main'].encode('utf-8'),users_db.find_one({'username': i['tasker_main']})['mobile']) #主负责人
             for tasker in i['task_other']:
-                sendsms3(i['title'], "已经超过评审期并关闭，您的最终得分为" + str(task_score * 0.5).encode('utf-8'), i['tasker_main'].encode('utf-8'), tasker.encode('utf-8'), users_db.find_one({'username': tasker})['mobile'].encode('utf-8'))  # 其他负责人
+                sendsms3(i['title'], "已经超过评审期并关闭，您的最终得分为" + str(task_score * 0.5).encode('utf-8'), i['tasker_main'].encode('utf-8'), tasker.encode('utf-8'), users_db.find_one({'username': tasker})['mobile'])  # 其他负责人
     time.sleep(1200)
