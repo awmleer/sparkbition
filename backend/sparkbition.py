@@ -623,7 +623,8 @@ def show_all_card():
     coll_card = db['card']
     ret = []
     for card in coll_card.find({}):
-        card['lastreply'] = {'author': card['replies'][-1]['author'], 'time': card['replies'][-1]['time']}
+        if card['replies']: card['lastreply'] = {'author': card['replies'][-1]['author'], 'time': card['replies'][-1]['time']}
+        else: card['lastreply'] = {'author': '无', 'time': ''}
         del card['replies']
         ret.append(card)
     return dumps(ret)
