@@ -364,7 +364,7 @@ def modify_task():
     publisher = coll_tasks.find_one({'id': text['id']})['publisher']
     TaskerMain = coll_tasks.find_one({'id': text['id']})['tasker_main']
     usertype = coll_users.find_one({'username': usernam})['type']
-    if (usertype == 'admin') or (usertype == 'root') or (usernam == publisher.encode('utf-8') or (usernam == TaskerMain.encode('utf-8')):
+    if (usertype == 'admin') or (usertype == 'root') or (usernam == publisher.encode('utf-8')) or (usernam == TaskerMain.encode('utf-8')):
         if(modify['ddl']):modify['ddl'] = int(modify['ddl'])
         coll_tasks.update({'id': text['id']}, {'$set': modify})
         resp = make_response('success', 200)
